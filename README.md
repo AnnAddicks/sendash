@@ -2,6 +2,7 @@
 Super Awesome way to manage health checks for VMWare, Palo Alto, network config, etc. and display captured data over time
 
 
+# Notes
 
 request from service includes:
 * node identifier string (unique api key)
@@ -16,10 +17,14 @@ response from server includes an array of objects that were updated since the ti
 
 in a limited configuration such as what we are building, there's really just two jobs to speak of:
 
-1 the initial configuration job that handles node setup and deployment. this job's schedule is "asap" or "now," and fires as soon as it's received.
-1 the worker job, which has a defined schedule (every weekday at 7pm, or somesuch), and is the one that kicks off the actual work on a regular basis.
+1. the initial configuration job that handles node setup and deployment. this job's schedule is "asap" or "now," and fires as soon as it's received.
+2. the worker job, which has a defined schedule (every weekday at 7pm, or somesuch), and is the one that kicks off the actual work on a regular basis.
 
 it's not strictly necessary to go any further than this, but this sort of mechanism could be used, for instance, to granularize the checks themselves. say, we set up a schedule to ring checks 1-10 daily at 7pm, but check 11 runs once every two hours, and check 12 runs every half hour. or we could set up a separate daily task to run a backup report.
 
 
-in what format/method does the service need to send the response data back to the server? (edited)
+in what format/method does the service need to send the response data back to the server?
+
+# Jobs vs Checks
+Job: something that the client's service runs
+Check: something that the client's powershell runs
