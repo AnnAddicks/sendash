@@ -16,6 +16,6 @@ public class WebSocketStatusController {
     @SendTo("/topic/status")
     public Status getUpdateStatus() {
 
-        return new Status(Boolean.FALSE);
+        return new Status(Boolean.TRUE);
     }
 }
