@@ -7,6 +7,8 @@ public class Status {
 
     private final Boolean isUpdateNeeded;
 
+
+
     public Status(Boolean isUpdateNeeded) {
         this.isUpdateNeeded = isUpdateNeeded;
     }
