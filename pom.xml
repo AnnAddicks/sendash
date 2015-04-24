@@ -119,6 +119,13 @@
             <artifactId>spring-integration-websocket</artifactId>
             <scope>compile</scope>
         </dependency>
+        <!-- Use Flyway for testing -->
+        <dependency>
+            <groupId>org.flywaydb.flyway-test-extensions</groupId>
+            <artifactId>flyway-spring-test</artifactId>
+            <version>3.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -153,7 +160,7 @@
                 <version>3.2.1</version>
                 <configuration>
                     <url>jdbc:h2:file:target/foobar</url>
-                    <user>sa</user>
+                    <appUser>sa</appUser>
                 </configuration>
                 <dependencies>
                     <dependency>

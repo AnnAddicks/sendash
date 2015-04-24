@@ -48,10 +48,17 @@ spring:
   profiles: test
 
 spring.jpa:
-    hibernate.ddl-auto: create-drop
+    hibernate.ddl-auto: create-drop #validate
 
 hotel.service:
   name: 'test profile:'
+
+flyway:
+  driver:  org.h2.Driver
+  url:jdbc:h2:nio:${project.build.directory}/db/flywaytest.db
+  appUser:  h2_test
+  password:  h2_test
+  locations: sampletest3
 
 
 
