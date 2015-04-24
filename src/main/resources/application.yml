@@ -55,7 +55,7 @@ hotel.service:
 
 flyway:
   driver:  org.h2.Driver
-  url:jdbc:h2:nio:${project.build.directory}/db/flywaytest.db
+  url:  jdbc:h2:mem:bootexample;MODE=MySQL
   appUser:  h2_test
   password:  h2_test
   locations: sampletest3
