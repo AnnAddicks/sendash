@@ -1,4 +1,8 @@
 CREATE table Client(
-    id CHAR(36) PRIMARY KEY,
-    name varchar(255) UNIQUE NOT NULL
+    id CHAR(36) UNIQUE NOT NULL,
+    name varchar(255),
+    PRIMARY KEY(name)
 );
+
+CREATE INDEX clientId
+    ON Client(id);
