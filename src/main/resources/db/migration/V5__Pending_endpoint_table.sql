@@ -3,6 +3,8 @@ CREATE table PendingEndpoint(
      hostName varchar(255) NOT NULL,
      apiKey varchar(255) NOT NULL,
      PRIMARY KEY(clientId, hostName),
+     FOREIGN KEY (clientId)
+        REFERENCES Client(id)
 );
 
 CREATE INDEX pendingEndPointApiAndClientId

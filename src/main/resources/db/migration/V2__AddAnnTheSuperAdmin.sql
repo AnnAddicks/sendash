@@ -1,1 +1,1 @@
-insert into PERSON(email, first_name, last_name) values('ann.addicks@test.com', 'ann', 'addicks');
+insert into PERSON( email, first_name, last_name) values( 'ann.addicks@test.com', 'ann', 'addicks');

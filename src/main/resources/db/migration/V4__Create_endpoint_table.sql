@@ -5,6 +5,8 @@ CREATE table EndPoint(
     apiKey varchar(255) UNIQUE,
     forceUpdate TINYINT(1) DEFAULT 0,
     PRIMARY KEY(clientId, hostName),
+    FOREIGN KEY (clientId)
+        REFERENCES Client(id)
 );
 
 CREATE INDEX endPointId
