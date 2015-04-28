@@ -3,6 +3,7 @@ package com.khoubyari.example.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.UUID;
 
 /**
  * Created by ann on 4/23/15.
@@ -11,7 +12,7 @@ import javax.persistence.Id;
 public class Person {
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
     private String firstName;
     private String lastName;
 
