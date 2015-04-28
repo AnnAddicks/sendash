@@ -1,5 +1,9 @@
 CREATE table PendingEndpoint(
-    clientId BIGINT,
-    apiKey varchar(255),
-    hostName varchar(255) NOT NULL
+     clientId CHAR(36) NOT Null,
+     hostName varchar(255) NOT NULL,
+     apiKey varchar(255) NOT NULL,
+     PRIMARY KEY(clientId, hostName),
 );
+
+CREATE INDEX pendingEndPointApiAndClientId
+    ON EndPoint(clientId, apiKey);
