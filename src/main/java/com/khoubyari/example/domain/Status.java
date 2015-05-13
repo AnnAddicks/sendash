@@ -26,6 +26,10 @@ public class Status {
     }
 
     public LocalDateTime getTimestamp() {
+
+        /*TODO LocalDateTime time = ...;
+        ZoneId zoneId = ZoneId.systemDefault(); // or: ZoneId.of("Europe/Oslo");
+        long epoch = time.atZone(zoneId).toEpochSecond();*/
         return timestamp;
     }
 
