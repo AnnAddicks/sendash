@@ -15,17 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping(value = "/github")
 @Api(value = "github", description = "Destination for a github web hook for when a repository has had a push event.")
-public class GithubHookController {
+public class GithubHookController extends AbstractRestHandler {
 
 
     @RequestMapping(value = "",
             method = RequestMethod.POST,
+            consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Check if an update is needed.", notes = "Returns the Status of the scripts:  update or no update.")
     //TODO Does github require a response?
-    public
-    void checkStatus(HttpServletRequest request, HttpServletResponse response) {
+    public void pushEvent(HttpServletRequest request, HttpServletResponse response) {
 
         System.out.println("\n\n\n\n\n\n\n*******************************************\n: ");
         System.out.println("Request: " + request);
