@@ -24,8 +24,7 @@ public class GithubHookController extends AbstractRestHandler {
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Check if an update is needed.", notes = "Returns the Status of the scripts:  update or no update.")
-    //TODO Does github require a response?
+    @ApiOperation(value = "Listens for a github webhook to say an update is needed.", notes = "When a github payload is received, we need to update the powershell scripts. ")
     public void pushEvent(@RequestBody Payload payload, HttpServletRequest request, HttpServletResponse response) {
 
         System.out.println("\n\n\n\n\n\n\n*******************************************\n: ");

@@ -11,6 +11,7 @@ public class Commit {
     private String timestamp;
     private List<String> added;
     private List<String> modified;
+    private List<String> removed;
 
     public Commit() {
 
@@ -48,6 +49,14 @@ public class Commit {
         this.modified = modified;
     }
 
+    public List<String> getRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(List<String> removed) {
+        this.removed = removed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,7 +67,8 @@ public class Commit {
         if (message != null ? !message.equals(commit.message) : commit.message != null) return false;
         if (timestamp != null ? !timestamp.equals(commit.timestamp) : commit.timestamp != null) return false;
         if (added != null ? !added.equals(commit.added) : commit.added != null) return false;
-        return !(modified != null ? !modified.equals(commit.modified) : commit.modified != null);
+        if (modified != null ? !modified.equals(commit.modified) : commit.modified != null) return false;
+        return !(removed != null ? !removed.equals(commit.removed) : commit.removed != null);
 
     }
 
@@ -68,6 +78,7 @@ public class Commit {
         result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
         result = 31 * result + (added != null ? added.hashCode() : 0);
         result = 31 * result + (modified != null ? modified.hashCode() : 0);
+        result = 31 * result + (removed != null ? removed.hashCode() : 0);
         return result;
     }
 
@@ -78,6 +89,7 @@ public class Commit {
                 ", timestamp='" + timestamp + '\'' +
                 ", added=" + added +
                 ", modified=" + modified +
+                ", removed=" + removed +
                 '}';
     }
 }
