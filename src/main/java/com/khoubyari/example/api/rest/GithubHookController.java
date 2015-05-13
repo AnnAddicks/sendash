@@ -1,5 +1,6 @@
 package com.khoubyari.example.api.rest;
 
+import com.khoubyari.example.domain.Payload;
 import com.khoubyari.example.domain.Status;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -25,7 +26,7 @@ public class GithubHookController extends AbstractRestHandler {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Check if an update is needed.", notes = "Returns the Status of the scripts:  update or no update.")
     //TODO Does github require a response?
-    public void pushEvent(HttpServletRequest request, HttpServletResponse response) {
+    public void pushEvent(@RequestBody Payload payload, HttpServletRequest request, HttpServletResponse response) {
 
         System.out.println("\n\n\n\n\n\n\n*******************************************\n: ");
         System.out.println("Request: " + request);
