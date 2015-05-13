@@ -29,9 +29,7 @@ public class GithubHookController extends AbstractRestHandler {
     public void pushEvent(@RequestBody Payload payload, HttpServletRequest request, HttpServletResponse response) {
 
         System.out.println("\n\n\n\n\n\n\n*******************************************\n: ");
-        System.out.println("Request: " + request);
-        System.out.println("Headers: " + request.getHeaderNames());
-        System.out.println("Attributes: " + request.getAttributeNames());
+        System.out.println("Payload: " + payload);
         System.out.println("\n\n\n\n\n\n\n*******************************************\n: ");
     }
 }
