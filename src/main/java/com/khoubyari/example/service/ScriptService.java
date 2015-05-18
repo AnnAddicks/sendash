@@ -31,14 +31,10 @@ public class ScriptService {
     public boolean isUpdateNeeded(EndpointStatus endpointStatus) {
 
         Date lastUpdated = endpointStatus.getLastUpdatedScripts();
-
         Endpoint endpoint = endpointRepository.findByapiKey(endpointStatus.getApiKey());
 
-        if(lastUpdated.before(endpoint.getUpdateScriptRequest())) {
-            return true;
-        }
+        return lastUpdated.before(endpoint.getUpdateScriptRequest());
 
-        return false;
     }
-    
+
 }
