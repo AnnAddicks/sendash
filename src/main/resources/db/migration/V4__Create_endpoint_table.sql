@@ -3,7 +3,7 @@ CREATE table EndPoint(
     clientId CHAR(36) NOT Null,
     hostName varchar(255),
     apiKey varchar(255) UNIQUE,
-    forceUpdate TINYINT(1) DEFAULT 0,
+    updateScriptRequest DATETIME,
     PRIMARY KEY(clientId, hostName),
     FOREIGN KEY (clientId)
         REFERENCES Client(id)

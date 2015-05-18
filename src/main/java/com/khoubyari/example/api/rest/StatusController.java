@@ -1,5 +1,6 @@
 package com.khoubyari.example.api.rest;
 
+import com.khoubyari.example.domain.EndpointStatus;
 import com.khoubyari.example.domain.Hotel;
 import com.khoubyari.example.domain.Status;
 import com.wordnik.swagger.annotations.Api;
@@ -25,7 +26,7 @@ public class StatusController  extends AbstractRestHandler {
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Check if an update is needed.", notes = "Returns the Status of the scripts:  update or no update.")
+    @ApiOperation(value = "Stub that mocks if an update is needed.", notes = "Returns the Status of the scripts:  update or no update.")
     public @ResponseBody
     Status checkStatus(@RequestHeader(value = "API_KEY") String apiKey, HttpServletRequest request, HttpServletResponse response) {
 
@@ -34,6 +35,20 @@ public class StatusController  extends AbstractRestHandler {
         }
 
         return new Status(Boolean.FALSE);
+    }
+
+
+    @RequestMapping(value = "",
+            method = RequestMethod.GET,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Check if an update is needed.", notes = "Returns the Status of the scripts:  update or no update.")
+    public @ResponseBody
+    Status checkStatus(EndpointStatus endpointStatus, HttpServletRequest request, HttpServletResponse response) {
+
+        return null;
+
+
     }
 
 
