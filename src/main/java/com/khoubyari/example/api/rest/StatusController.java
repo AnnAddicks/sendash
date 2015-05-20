@@ -45,6 +45,7 @@ public class StatusController  extends AbstractRestHandler {
     public @ResponseBody
     Status checkStatus(@RequestBody EndpointStatus endpointStatus, HttpServletRequest request, HttpServletResponse response) {
 
+        //TODO get a status
         return null;
 
 
