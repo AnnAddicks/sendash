@@ -1,12 +1,14 @@
 package com.khoubyari.example.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
 /**
  * Created by ann on 5/18/15.
  */
+@Entity
 public class Endpoint {
 
     @Id
