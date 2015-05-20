@@ -1,12 +1,23 @@
 package com.khoubyari.example.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import javax.persistence.*;
 
 /**
  * Created by ann on 5/18/15.
  */
+@Entity
+@Table(name = "hotel")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EndpointStatus {
 
+    @Id
     private String id;
     private String apiKey;
     private Date lastUpdatedScripts;

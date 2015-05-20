@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "status", description = "Status update for health check scripts")
 public class StatusController  extends AbstractRestHandler {
 
-    @RequestMapping(value = "",
+    @RequestMapping(value = "/stub",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
@@ -37,19 +37,19 @@ public class StatusController  extends AbstractRestHandler {
         return new Status(Boolean.FALSE);
     }
 
-
     @RequestMapping(value = "",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Check if an update is needed.", notes = "Returns the Status of the scripts:  update or no update.")
     public @ResponseBody
-    Status checkStatus(EndpointStatus endpointStatus, HttpServletRequest request, HttpServletResponse response) {
+    Status checkStatus(@RequestBody EndpointStatus endpointStatus, HttpServletRequest request, HttpServletResponse response) {
 
         return null;
 
 
     }
+
 
 
 }
