@@ -28,7 +28,7 @@ public class StatusController  extends AbstractRestHandler {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Stub that mocks if an update is needed.", notes = "Returns the Status of the scripts:  update or no update.")
     public @ResponseBody
-    Status checkStatus(@RequestHeader(value = "API_KEY") String apiKey, HttpServletRequest request, HttpServletResponse response) {
+    Status checkStatusStub(@RequestHeader(value = "API_KEY") String apiKey, HttpServletRequest request, HttpServletResponse response) {
 
         if(apiKey.equalsIgnoreCase("update")) {
             return new Status(Boolean.TRUE);
