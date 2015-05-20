@@ -2,8 +2,10 @@ package com.khoubyari.example.api.rest;
 
 import com.khoubyari.example.domain.Payload;
 import com.khoubyari.example.domain.Status;
+import com.khoubyari.example.service.GithubService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "github", description = "Destination for a github web hook for when a repository has had a push event.")
 public class GithubHookController extends AbstractRestHandler {
 
+    @Autowired
+    private GithubService githubService;
 
     @RequestMapping(value = "",
             method = RequestMethod.POST,
@@ -30,5 +34,8 @@ public class GithubHookController extends AbstractRestHandler {
         System.out.println("\n\n\n\n\n\n\n*******************************************\n: ");
         System.out.println("Payload: " + payload);
         System.out.println("\n\n\n\n\n\n\n*******************************************\n: ");
+
+        githubService.updateGithubData(payload);
+
     }
 }
