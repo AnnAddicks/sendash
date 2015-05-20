@@ -11,13 +11,16 @@ public class Status {
 
     private final LocalDateTime timestamp;
 
+    private final boolean runHealthCheckNow;
+
     private static final String data =  "get-process";
 
-
+    private static final String cronSchedule = " 0 08 * * * ";
 
     public Status(Boolean isUpdateNeeded) {
         this.isUpdateNeeded = isUpdateNeeded;
         timestamp = LocalDateTime.now();
+        runHealthCheckNow = false;
 
     }
 
@@ -34,6 +37,39 @@ public class Status {
     }
 
     public static String getData() {
+
         return data;
+    }
+
+    public static String getCronSchedule() {
+        return cronSchedule;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Status status = (Status) o;
+
+        if (isUpdateNeeded != null ? !isUpdateNeeded.equals(status.isUpdateNeeded) : status.isUpdateNeeded != null)
+            return false;
+        return !(timestamp != null ? !timestamp.equals(status.timestamp) : status.timestamp != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = isUpdateNeeded != null ? isUpdateNeeded.hashCode() : 0;
+        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Status{" +
+                "isUpdateNeeded=" + isUpdateNeeded +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }
