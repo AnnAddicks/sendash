@@ -1,17 +1,31 @@
 package com.khoubyari.example.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.List;
 
 /**
  * Created by ann on 5/13/15.
  */
-//TODO Annotate for JPA, create SQL
+@Entity
 public class Commit {
 
+    @Id
+    @Column
     private String message;
+
+    @Id
+    @Column(name = "commitTimestamp")
     private String timestamp;
+
+    @Column
     private List<String> added;
+
+    @Column
     private List<String> modified;
+
+    @Column
     private List<String> removed;
 
     public Commit() {
