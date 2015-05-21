@@ -10,6 +10,7 @@ public class Payload {
     private String ref;
     private String before;
     private String after;
+    private String secret;
     private List<Commit> commits;
 
     public Payload() {
@@ -39,6 +40,14 @@ public class Payload {
 
     public void setAfter(String after) {
         this.after = after;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 
     public List<Commit> getCommits() {
@@ -78,6 +87,7 @@ public class Payload {
                 "ref='" + ref + '\'' +
                 ", before='" + before + '\'' +
                 ", after='" + after + '\'' +
+                ", secret='" + secret + '\'' +
                 ", commits=" + commits +
                 '}';
     }
