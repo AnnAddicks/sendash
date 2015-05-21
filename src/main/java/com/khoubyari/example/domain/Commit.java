@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * Created by ann on 5/13/15.
  */
+//TODO Annotate for JPA, create SQL
 public class Commit {
 
     private String message;

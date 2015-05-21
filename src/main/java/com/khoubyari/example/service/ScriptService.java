@@ -5,6 +5,7 @@ import com.khoubyari.example.dao.jpa.HotelRepository;
 import com.khoubyari.example.dao.jpa.ScriptRepository;
 import com.khoubyari.example.domain.Endpoint;
 import com.khoubyari.example.domain.EndpointStatus;
+import com.khoubyari.example.domain.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,14 @@ public class ScriptService {
 
         return lastUpdated.before(endpoint.getUpdateScriptRequest());
 
+    }
+
+    public Script getScriptByName(String name) {
+        return scriptRepository.findByScriptName(name);
+    }
+    
+    public void saveScripts(Iterable<Script> scripts) {
+        scriptRepository.save(scripts);
     }
 
 }

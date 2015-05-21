@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
 
 /**
  * Created by ann on 5/8/15.
@@ -31,10 +32,11 @@ public class GithubHookController extends AbstractRestHandler {
     @ApiOperation(value = "Listens for a github webhook to say an update is needed.", notes = "When a github payload is received, we need to update the powershell scripts. ")
     public void pushEvent(@RequestBody Payload payload, HttpServletRequest request, HttpServletResponse response) {
 
-        System.out.println("\n\n\n\n\n\n\n*******************************************\n: ");
+        System.out.println("\n\n\n\n\n\n\n*******************************************\n ");
         System.out.println("Payload: " + payload);
-        System.out.println("\n\n\n\n\n\n\n*******************************************\n: ");
-        
+        System.out.println("\n\n\n\n\n\n\n*******************************************\n ");
+
+        payload.setReceivedTimestamp(Calendar.getInstance().getTime());
         githubService.updateGithubData(payload);
 
     }
