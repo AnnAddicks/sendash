@@ -1,17 +1,22 @@
 package com.khoubyari.example.domain;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by ann on 5/13/15.
  */
 @Entity
-public class Commit {
+public class Commit implements Serializable {
 
     @Id
+    private Integer id;
+
     @Column
     private String message;
 
@@ -20,13 +25,17 @@ public class Commit {
     private String timestamp;
 
     @Column
-    private List<String> added;
+    @ElementCollection
+    private Collection<String> added;
 
     @Column
-    private List<String> modified;
+    @ElementCollection
+    private Collection<String> modified;
 
+
+    @ElementCollection
     @Column
-    private List<String> removed;
+    private Collection<String> removed;
 
     public Commit() {
 
@@ -48,7 +57,7 @@ public class Commit {
         this.timestamp = timestamp;
     }
 
-    public List<String> getAdded() {
+    public Collection<String> getAdded() {
         return added;
     }
 
@@ -56,7 +65,7 @@ public class Commit {
         this.added = added;
     }
 
-    public List<String> getModified() {
+    public Collection<String> getModified() {
         return modified;
     }
 
@@ -64,7 +73,7 @@ public class Commit {
         this.modified = modified;
     }
 
-    public List<String> getRemoved() {
+    public Collection<String> getRemoved() {
         return removed;
     }
 

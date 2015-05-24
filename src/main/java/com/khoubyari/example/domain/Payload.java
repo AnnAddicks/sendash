@@ -1,5 +1,6 @@
 package com.khoubyari.example.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,14 +8,32 @@ import java.util.List;
 /**
  * Created by ann on 5/13/15.
  */
-//TODO Annotate for JPA, create SQL
+@Entity
 public class Payload {
 
-    private String ref;
-    private String before;
-    private String after;
-    private List<Commit> commits;
+    @Id
+    private Integer id;
+
+    @Column
     private Date receivedTimestamp;
+
+    @Column
+    private String ref;
+
+    @Column
+    private String before;
+
+    @Column
+    private String after;
+
+    @OneToMany
+    @JoinTable(
+            name="PayloadCommitJoin",
+            joinColumns = @JoinColumn( name="id"),
+            inverseJoinColumns = @JoinColumn( name="payloadId")
+    )
+    private List<Commit> commits;
+
 
 
     public Payload() {
