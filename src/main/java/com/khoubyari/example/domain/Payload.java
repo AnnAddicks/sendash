@@ -26,6 +26,7 @@ public class Payload {
     @Column
     private String after;
 
+    //TODO: write a test to populate the objects from database to test the for referencial correctness
     @OneToMany
     @JoinColumn(name="payloadId")
     private List<Commit> commits;
