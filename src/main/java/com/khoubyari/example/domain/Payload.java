@@ -27,11 +27,7 @@ public class Payload {
     private String after;
 
     @OneToMany
-    @JoinTable(
-            name="PayloadCommitJoin",
-            joinColumns = @JoinColumn( name="id"),
-            inverseJoinColumns = @JoinColumn( name="payloadId")
-    )
+    @JoinColumn(name="payloadId")
     private List<Commit> commits;
 
 
