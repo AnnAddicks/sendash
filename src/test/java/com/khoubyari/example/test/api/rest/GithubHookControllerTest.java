@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.File;
 import java.util.regex.Pattern;
 
 import static org.hamcrest.Matchers.*;
@@ -52,7 +53,10 @@ public class GithubHookControllerTest {
     private static final String RESOURCE_LOCATION_PATTERN = "http://localhost/example/v1/hotels/[0-9]+";
 
     @Test
-    public void shouldCreateAndUpdateAndDelete() throws Exception {
+    public void shouldCreate() throws Exception {
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("json/githubPayload.json").getFile());
 
         //CREATE
         MvcResult result = mvc.perform(post("/example/v1/hotels")
