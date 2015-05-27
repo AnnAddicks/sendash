@@ -17,9 +17,11 @@ import java.util.Calendar;
  * Created by ann on 5/8/15.
  */
 @RestController
-@RequestMapping(value = "/github")
+@RequestMapping(value = GithubHookController.REQUEST_MAPPING)
 @Api(value = "github", description = "Destination for a github web hook for when a repository has had a push event.")
 public class GithubHookController extends AbstractRestHandler {
+
+    public static final String REQUEST_MAPPING = "/github";
 
     @Autowired
     private GithubService githubService;
