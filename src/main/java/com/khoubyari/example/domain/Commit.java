@@ -42,6 +42,10 @@ public class Commit implements Serializable {
 
     }
 
+    public void setPayload(Payload payload) {
+        this.payload = payload;
+    }
+
     public String getMessage() {
         return message;
     }

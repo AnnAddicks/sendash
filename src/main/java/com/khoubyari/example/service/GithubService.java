@@ -57,12 +57,9 @@ public class GithubService {
         }
 
 
-        System.out.println("********");
-        System.out.println("saving payload: " + payload);
+        payload.prepareCommitsForSave();
         githubPayloadDao.save(payload);
 
-        System.out.println("********");
-        System.out.println("Saving scripts:" + scripts);
         scriptService.saveScripts(scripts);
 
 

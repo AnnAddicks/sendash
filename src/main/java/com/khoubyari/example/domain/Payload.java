@@ -90,6 +90,13 @@ public class Payload {
         return filesModified;
     }
 
+
+    public void prepareCommitsForSave() {
+        for(Commit commit : commits) {
+            commit.setPayload(this);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
