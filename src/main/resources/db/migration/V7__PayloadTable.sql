@@ -1,5 +1,5 @@
 CREATE TABLE Payload (
-	id BIGINT NOT Null,
+	id BIGINT NOT Null AUTO_INCREMENT,
 	receivedTimestamp DATETIME NOT NULL,
 	ref varchar(255),
 	before varchar(255),

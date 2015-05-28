@@ -77,7 +77,6 @@ public class GithubHookControllerTest {
         byte[] json = toJson(file);
 
 
-        //CREATE
        /* MvcResult result = mvc.perform(post(GithubHookController.REQUEST_MAPPING)
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -85,8 +84,8 @@ public class GithubHookControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(redirectedUrlPattern(RESOURCE_LOCATION_PATTERN))
                 .andReturn();
+        */
 
-*/
     }
 
 

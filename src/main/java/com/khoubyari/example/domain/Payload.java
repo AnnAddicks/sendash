@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 public class Payload {
 
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Id
     private Integer id;
 

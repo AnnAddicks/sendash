@@ -43,7 +43,8 @@ public class ScriptService {
     }
     
     public void saveScripts(Iterable<Script> scripts) {
-        scriptRepository.save(scripts);
+        if(scripts != null)
+            scriptRepository.save(scripts);
     }
 
 }

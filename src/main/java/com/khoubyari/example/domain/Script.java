@@ -1,9 +1,6 @@
 package com.khoubyari.example.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,8 +15,11 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Script {
 
-
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Id
+    private Integer id;
+
+    @Column
     private String scriptName;
 
     @Column

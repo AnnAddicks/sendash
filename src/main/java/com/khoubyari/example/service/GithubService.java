@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,7 @@ public class GithubService {
     }
 
 
+    @Transactional
     public void updateGithubData(Payload payload) {
         //TODO Service check the secret, update the database, and pull the repo
         List<Script> scripts = new ArrayList<>();
@@ -39,10 +41,18 @@ public class GithubService {
         Date lastUpdated = payload.getReceivedTimestamp();
         for(String scriptName : payload.getAllFilesModified()) {
             script = scriptService.getScriptByName(scriptName);
-            script.setScriptLastUpdated(lastUpdated);
-            scripts.add(script);
-        }
 
+            if(script != null) {
+                script.setScriptLastUpdated(lastUpdated);
+                scripts.add(script);
+            }
+            else {
+                script = new Script();
+                script.setScriptName(scriptName);
+                script.setScriptLastUpdated(lastUpdated);
+                scripts.add(script);
+            }
+        }
 
         scriptService.saveScripts(scripts);
         githubPayloadDao.save(payload);

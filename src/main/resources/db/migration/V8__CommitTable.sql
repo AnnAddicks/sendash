@@ -1,5 +1,5 @@
 CREATE TABLE Commit (
-	id BIGINT NOT Null,
+	id BIGINT NOT Null AUTO_INCREMENT,
 	payloadId BIGINT Not Null,
 	message varchar(255),
 	commitTimestamp DATETIME NOT NULL,
