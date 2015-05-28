@@ -18,6 +18,8 @@ spring.datasource:
 server:
   port: 8090
 
+logging.level.org.hibernate.SQL:  DEBUG
+
 #todo: make sure to always enable security in production
 security:
   basic:

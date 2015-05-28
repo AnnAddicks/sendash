@@ -1,9 +1,6 @@
 package com.khoubyari.example.domain;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -14,13 +11,17 @@ import java.util.List;
 @Entity
 public class Commit implements Serializable {
 
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Id
     private Integer id;
+
+    @ManyToOne( fetch = FetchType.EAGER )
+    @JoinColumn(name="payloadId", nullable = false )
+    private Payload payload;
 
     @Column
     private String message;
 
-    @Id
     @Column(name = "commitTimestamp")
     private String timestamp;
 
@@ -109,7 +110,9 @@ public class Commit implements Serializable {
     @Override
     public String toString() {
         return "Commit{" +
-                "message='" + message + '\'' +
+                "id=" + id +
+                ", payload=" + payload +
+                ", message='" + message + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 ", added=" + added +
                 ", modified=" + modified +

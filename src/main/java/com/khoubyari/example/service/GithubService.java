@@ -41,7 +41,9 @@ public class GithubService {
         Date lastUpdated = payload.getReceivedTimestamp();
         for(String scriptName : payload.getAllFilesModified()) {
             script = scriptService.getScriptByName(scriptName);
-
+            System.out.println("********");
+            System.out.println("script name: " + scriptName);
+            System.out.println("Script: " + script);
             if(script != null) {
                 script.setScriptLastUpdated(lastUpdated);
                 scripts.add(script);
@@ -54,8 +56,14 @@ public class GithubService {
             }
         }
 
-        scriptService.saveScripts(scripts);
+
+        System.out.println("********");
+        System.out.println("saving payload: " + payload);
         githubPayloadDao.save(payload);
+
+        System.out.println("********");
+        System.out.println("Saving scripts:" + scripts);
+        scriptService.saveScripts(scripts);
 
 
 

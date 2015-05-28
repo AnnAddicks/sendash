@@ -28,14 +28,13 @@ public class Payload {
     private String after;
 
     //TODO: write a test to populate the objects from database to test the for referencial correctness
-    @OneToMany
-    @JoinColumn(name="payloadId")
+    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL,CascadeType.PERSIST,CascadeType.MERGE }, mappedBy = "payload")
+    @Column(nullable = false)
     private List<Commit> commits;
 
 
 
     public Payload() {
-
 
     }
 
