@@ -1,9 +1,9 @@
 package com.khoubyari.example.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by ann on 5/18/15.
@@ -26,6 +26,11 @@ public class Endpoint {
     @Column
     private Date updateScriptRequest;
 
+    @OneToMany
+    @JoinTable(name="EndpointScript",  joinColumns={@JoinColumn(name="endpointId", referencedColumnName="id")},
+            inverseJoinColumns={@JoinColumn(name="scriptId", referencedColumnName="id")})
+    private Set<Script> scripts;
+
     public Endpoint() { }
 
     public Endpoint(String id, String clientId, String hostName, String apiKey, Date updateScriptRequest) {
@@ -34,6 +39,7 @@ public class Endpoint {
         this.hostName = hostName;
         this.apiKey = apiKey;
         this.updateScriptRequest = updateScriptRequest;
+        scripts = new HashSet<>();
     }
 
     public String getId() {
@@ -74,6 +80,14 @@ public class Endpoint {
 
     public void setUpdateScriptRequest(Date updateScriptRequest) {
         this.updateScriptRequest = updateScriptRequest;
+    }
+
+    public Set<Script> getScripts() {
+        return scripts;
+    }
+
+    public void setScripts(Set<Script> scripts) {
+        this.scripts = scripts;
     }
 
     @Override
