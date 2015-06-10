@@ -25,6 +25,11 @@ public class StatusService {
 
     public Status getStatus(EndpointStatus endpointStatus) {
         //TODO populate a status - get data from db, use script service to determine if the script needs updating.
+
+        if(endpointStatus == null) {
+            return null;
+        }
+
         return null;
     }
 }
