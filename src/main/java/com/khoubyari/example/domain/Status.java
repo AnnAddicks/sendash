@@ -17,6 +17,8 @@ public class Status {
 
     private static final String cronSchedule = " 0 08 * * * ";
 
+
+
     public Status(Boolean isUpdateNeeded) {
         this.isUpdateNeeded = isUpdateNeeded;
         timestamp = LocalDateTime.now();
