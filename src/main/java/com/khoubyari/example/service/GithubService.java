@@ -40,10 +40,11 @@ public class GithubService {
         Script script;
         Date lastUpdated = payload.getReceivedTimestamp();
         for(String scriptName : payload.getAllFilesModified()) {
+            log.debug("*******************************************");
+            log.debug("script name: " + scriptName);
             script = scriptService.getScriptByName(scriptName);
-            System.out.println("********");
-            System.out.println("script name: " + scriptName);
-            System.out.println("Script: " + script);
+
+            log.debug("Script: " + script);
             if(script != null) {
                 script.setScriptLastUpdated(lastUpdated);
                 scripts.add(script);

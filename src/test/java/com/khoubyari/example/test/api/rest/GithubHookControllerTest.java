@@ -1,11 +1,14 @@
 package com.khoubyari.example.test.api.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.khoubyari.example.Application;
 import com.khoubyari.example.api.rest.GithubHookController;
 import com.khoubyari.example.api.rest.HotelController;
 import com.khoubyari.example.domain.Hotel;
 import com.khoubyari.example.domain.Payload;
+import jdk.nashorn.internal.parser.JSONParser;
+import net.minidev.json.JSONObject;
 import org.flywaydb.test.annotation.FlywayTest;
 import org.flywaydb.test.junit.FlywayTestExecutionListener;
 import org.junit.Before;
@@ -18,8 +21,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -27,11 +33,17 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 import static org.hamcrest.Matchers.*;
@@ -47,7 +59,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @ContextConfiguration(classes = Application.class)
 @Profile("test")
-@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, FlywayTestExecutionListener.class })
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, TransactionalTestExecutionListener.class, DirtiesContextTestExecutionListener.class,  SqlScriptsTestExecutionListener.class,  DbUnitTestExecutionListener.class, FlywayTestExecutionListener.class })
 @FlywayTest
 public class GithubHookControllerTest {
 
@@ -59,7 +71,6 @@ public class GithubHookControllerTest {
 
     private MockMvc mvc;
 
-    private static final String RESOURCE_LOCATION_PATTERN = "http://localhost/example/v1/hotels/[0-9]+";
 
     @Before
     public void initTests() {
@@ -73,18 +84,21 @@ public class GithubHookControllerTest {
 
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("json/githubPayload.json").getFile());
-        InputStream is = new FileInputStream(file);
-        byte[] json = toJson(file);
+        String path = file.getPath();
+
+        ObjectMapper mapper = new ObjectMapper();
+        Payload payload = mapper.readValue(new File(path), Payload.class);
+        byte[] json = toJson(payload);
 
 
-       /* MvcResult result = mvc.perform(post(GithubHookController.REQUEST_MAPPING)
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(redirectedUrlPattern(RESOURCE_LOCATION_PATTERN))
-                .andReturn();
-        */
+        /*MvcResult result = mvc.perform(post(GithubHookController.REQUEST_MAPPING)
+            .content(json)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andReturn();
+
+            */
 
     }
 
@@ -103,6 +117,12 @@ public class GithubHookControllerTest {
         ObjectMapper map = new ObjectMapper();
         return map.writeValueAsString(r).getBytes();
     }
+
+    private String loadFile(String pathToFile) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(pathToFile)));
+
+    }
+
 
 
 }

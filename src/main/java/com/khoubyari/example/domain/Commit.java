@@ -1,5 +1,7 @@
 package com.khoubyari.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
@@ -8,7 +10,9 @@ import java.util.List;
 /**
  * Created by ann on 5/13/15.
  */
+
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Commit implements Serializable {
 
     @GeneratedValue(strategy=GenerationType.IDENTITY)

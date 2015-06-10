@@ -5,6 +5,8 @@ import com.khoubyari.example.domain.Status;
 import com.khoubyari.example.service.GithubService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.util.Calendar;
 public class GithubHookController extends AbstractRestHandler {
 
     public static final String REQUEST_MAPPING = "/github";
+    private static final Logger log = LoggerFactory.getLogger(GithubHookController.class);
 
     @Autowired
     private GithubService githubService;
@@ -34,9 +37,9 @@ public class GithubHookController extends AbstractRestHandler {
     @ApiOperation(value = "Listens for a github webhook to say an update is needed.", notes = "When a github payload is received, we need to update the powershell scripts. ")
     public void pushEvent(@RequestBody Payload payload, HttpServletRequest request, HttpServletResponse response) {
 
-        System.out.println("\n\n\n\n\n\n\n*******************************************\n ");
-        System.out.println("Payload: " + payload);
-        System.out.println("\n\n\n\n\n\n\n*******************************************\n ");
+        log.debug("*******************************************");
+        log.debug("Payload: " + payload);
+        log.debug("*******************************************");
 
         payload.setReceivedTimestamp(Calendar.getInstance().getTime());
         githubService.updateGithubData(payload);

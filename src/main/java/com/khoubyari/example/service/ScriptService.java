@@ -39,6 +39,9 @@ public class ScriptService {
     }
 
     public Script getScriptByName(String name) {
+        if(name == null || name.isEmpty())
+            return null;
+
         return scriptRepository.findByScriptName(name);
     }
     
