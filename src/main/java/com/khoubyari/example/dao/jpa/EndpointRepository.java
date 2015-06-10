@@ -16,4 +16,6 @@ public interface EndpointRepository extends PagingAndSortingRepository<Endpoint,
 
     Endpoint findByapiKey(String apiKey);
 
+    Endpoint findByIdAndApiKey(String id, String apiKey);
+
 }

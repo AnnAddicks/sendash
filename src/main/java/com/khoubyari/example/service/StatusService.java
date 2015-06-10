@@ -1,5 +1,6 @@
 package com.khoubyari.example.service;
 
+import com.khoubyari.example.domain.Endpoint;
 import com.khoubyari.example.domain.EndpointStatus;
 import com.khoubyari.example.domain.Status;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ public class StatusService {
     private static final Logger log = LoggerFactory.getLogger(StatusService.class);
 
     @Autowired
-    private ScriptService scriptService;
+    private EndpointService endpointService;
 
     public StatusService() {
 
@@ -30,6 +31,8 @@ public class StatusService {
             return null;
         }
 
+
+        Endpoint endpoint = endpointService.getEndpoint(endpointStatus.getId(), endpointStatus.getApiKey());
         return null;
     }
 }
