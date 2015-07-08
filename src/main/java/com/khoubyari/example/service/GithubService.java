@@ -40,11 +40,8 @@ public class GithubService {
         Script script;
         Date lastUpdated = payload.getReceivedTimestamp();
         for(String scriptName : payload.getAllFilesModified()) {
-            log.debug("*******************************************");
-            log.debug("script name: " + scriptName);
             script = scriptService.getScriptByName(scriptName);
 
-            log.debug("Script: " + script);
             if(script != null) {
                 script.setScriptLastUpdated(lastUpdated);
                 scripts.add(script);
@@ -63,10 +60,10 @@ public class GithubService {
 
         scriptService.saveScripts(scripts);
 
+    }
 
-
-
-
+    public Iterable<Payload> getPayloadHistory() {
+        return githubPayloadDao.findAll();
     }
 
 

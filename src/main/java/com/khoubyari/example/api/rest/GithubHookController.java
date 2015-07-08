@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by ann on 5/8/15.
@@ -44,5 +45,22 @@ public class GithubHookController extends AbstractRestHandler {
         payload.setReceivedTimestamp(Calendar.getInstance().getTime());
         githubService.updateGithubData(payload);
 
+    }
+
+
+    @RequestMapping(value = "",
+            method = RequestMethod.GET,
+            consumes = {"application/json", "application/xml"},
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "returns all the payloads from github.", notes = " ")
+    public Iterable<Payload> getLog() {
+
+        Iterable<Payload> payloads = githubService.getPayloadHistory();
+        log.debug("*******************************************");
+        log.debug("Payloads: " + payloads);
+        log.debug("*******************************************");
+
+        return payloads;
     }
 }

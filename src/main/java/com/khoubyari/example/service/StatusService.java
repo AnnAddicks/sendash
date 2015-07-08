@@ -28,11 +28,10 @@ public class StatusService {
     }
 
     public Status getStatus(EndpointStatus endpointStatus) {
-        
+
         if(endpointStatus == null) {
             return null;
         }
-
 
         Endpoint endpoint = endpointService.getEndpoint(endpointStatus.getId(), endpointStatus.getApiKey());
         Date lastUpdatedScriptsOnEndpoint = endpointStatus.getLastUpdatedScripts();
