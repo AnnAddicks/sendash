@@ -18,7 +18,7 @@ spring.datasource:
 server:
   port: 8090
 
-logging.level.org.hibernate.SQL:  DEBUG
+
 
 #todo: make sure to always enable security in production
 security:
@@ -45,6 +45,12 @@ info:
 
 hotel.service:
   name: 'default profile:'
+
+# LOGGING
+logging:
+  path: /var/log
+  file: sendash.log
+  level.org.hibernate.SQL: DEBUG
 ---
 spring:
   profiles: test

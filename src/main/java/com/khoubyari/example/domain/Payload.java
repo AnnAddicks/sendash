@@ -1,8 +1,11 @@
 package com.khoubyari.example.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,14 +35,19 @@ public class Payload {
     private String after;
 
     //TODO: write a test to populate the objects from database to test the for referencial correctness
-    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL,CascadeType.PERSIST,CascadeType.MERGE }, mappedBy = "payload")
-    @Column(nullable = false)
+    @OneToMany(mappedBy = "payload")
+    @Cascade(CascadeType.ALL)
     private List<Commit> commits;
 
 
 
     public Payload() {
+        commits = new ArrayList<>();
+    }
 
+
+    public Integer getId() {
+        return id;
     }
 
     public String getRef() {
@@ -129,11 +137,12 @@ public class Payload {
     @Override
     public String toString() {
         return "Payload{" +
-                "ref='" + ref + '\'' +
+                "id=" + id +
+                ", receivedTimestamp=" + receivedTimestamp +
+                ", ref='" + ref + '\'' +
                 ", before='" + before + '\'' +
                 ", after='" + after + '\'' +
                 ", commits=" + commits +
-                ", receivedTimestamp=" + receivedTimestamp +
                 '}';
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,7 +44,9 @@ public class Commit implements Serializable {
     private Collection<String> removed;
 
     public Commit() {
-
+        added = new ArrayList<>();
+        modified = new ArrayList<>();
+        removed = new ArrayList<>();
     }
 
     public void setPayload(Payload payload) {
@@ -119,7 +122,6 @@ public class Commit implements Serializable {
     public String toString() {
         return "Commit{" +
                 "id=" + id +
-                ", payload=" + payload +
                 ", message='" + message + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 ", added=" + added +

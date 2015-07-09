@@ -1,6 +1,7 @@
 package com.khoubyari.example.service;
 
 import com.khoubyari.example.dao.jpa.GithubPayloadDao;
+import com.khoubyari.example.domain.Commit;
 import com.khoubyari.example.domain.Payload;
 import com.khoubyari.example.domain.Script;
 import org.slf4j.Logger;
@@ -35,7 +36,6 @@ public class GithubService {
 
     @Transactional
     public void updateGithubData(Payload payload) {
-        //TODO Service check the secret, update the database, and pull the repo
         List<Script> scripts = new ArrayList<>();
         Script script;
         Date lastUpdated = payload.getReceivedTimestamp();
@@ -59,11 +59,17 @@ public class GithubService {
         githubPayloadDao.save(payload);
 
         scriptService.saveScripts(scripts);
-
     }
 
+    @Transactional
     public Iterable<Payload> getPayloadHistory() {
-        return githubPayloadDao.findAll();
+        Iterable<Payload> payloads = githubPayloadDao.findAll();
+
+        for(Payload payload : payloads) {
+            payload.getCommits();
+        }
+
+        return payloads;
     }
 
 
