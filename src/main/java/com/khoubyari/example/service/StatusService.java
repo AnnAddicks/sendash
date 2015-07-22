@@ -36,14 +36,12 @@ public class StatusService {
 
     Endpoint endpoint = endpointService.getEndpoint(endpointStatus.getId(),
         endpointStatus.getApiKey());
-
-    // Integer dateInt =
-    // Integer.parseInt(endpointStatus.getLastUpdatedScripts());
-    // Date lastUpdatedScriptsOnEndpoint = new Date(dateInt);
-    Date lastUpdatedScriptsOnEndpoint = endpointStatus.getLastUpdatedScripts();
+    log.error("**********************\n" + endpoint);
     Status status = null;
 
     if (endpoint != null) {
+      Date lastUpdatedScriptsOnEndpoint = endpointStatus.getLastUpdatedScripts();
+
       for (Script script : endpoint.getScripts()) {
         if (script.getScriptLastUpdated().after(lastUpdatedScriptsOnEndpoint)) {
           status = new Status(Boolean.TRUE);
