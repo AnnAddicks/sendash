@@ -11,3 +11,4 @@ dependency-reduced-pom.xml
 *.iws
 *.idea
 Thumbs.db
+sendash.log

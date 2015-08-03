@@ -36,7 +36,7 @@ public class StatusService {
 
     Endpoint endpoint = endpointService.getEndpoint(endpointStatus.getId(),
         endpointStatus.getApiKey());
-    log.error("**********************\n" + endpoint);
+    log.error("**********************\n" + endpointService.findAll());
     Status status = null;
 
     if (endpoint != null) {

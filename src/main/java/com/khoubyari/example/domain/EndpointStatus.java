@@ -2,9 +2,6 @@ package com.khoubyari.example.domain;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,20 +11,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * Created by ann on 5/18/15.
  */
-@Entity
+// @Entity
 /// @Table(name = "hotel")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EndpointStatus {
 
-  @Id
+  // @Id
   private String id;
 
-  @Column
+  // @Column
   private String apiKey;
 
-  @Column
+  // @Column
   private Date lastUpdatedScripts;
 
   public EndpointStatus() {
