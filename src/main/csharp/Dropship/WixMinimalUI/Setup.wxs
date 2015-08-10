@@ -1,0 +1,95 @@
+﻿<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+	<Product Id="*"
+		Name="Dropship"
+		Language="1033"
+		Version="1.0.2.0"
+		UpgradeCode="7744D03E-C9FB-4838-AF93-298F802B0977"
+		Manufacturer="Sendash">
+		<Package Description="#Description"
+			Comments="Comments"
+			InstallerVersion="200"
+			Compressed="yes"/>
+		
+		<MajorUpgrade
+			AllowDowngrades="no"
+			AllowSameVersionUpgrades="no"
+			IgnoreRemoveFailure="no"
+			DowngradeErrorMessage="loc.NewerVersionInstalled"
+			Schedule="afterInstallInitialize"/>
+		<!--
+			Source media for the installation. 
+ 			Specifies a single cab file to be embedded in the installer's .msi. 
+		-->
+		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
+
+		<!-- Supposed to check for .net installed status
+		<PropertyRef Id="NETFRAMEWORK40FULL"/>
+<Condition Message="This application requires Microsoft .NET Framework 4.0 Runtime in order to run. Please install the .NET Framework and then run this installer again.">
+  <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+</Condition> -->
+		
+		<!-- Installation directory and files are defined in Files.wxs -->
+		<Directory Id="TARGETDIR" Name="SourceDir"/>
+		
+		<!-- Install NCrontab.dll in GAC -->
+		<DirectoryRef Id="INSTALLDIR">
+				<Component Id="NCrontabLibrary" Guid="3BE1773C-4CA0-48B3-ABCC-AAA8AEF98606"> 
+					<!-- Registering assembly in GAC -->
+					<File Id="NCrontabDll" Source="..\Dropship\bin\Debug\NCrontab.dll" KeyPath="yes" Vital="yes"/> 
+				</Component>
+		</DirectoryRef>
+		
+		<DirectoryRef Id="INSTALLDIR">
+	    	<!-- Create a single component which is the TestService.exe file -->
+	        <Component Id="DropshipExe" Guid="78FD11C0-A3DB-4051-B850-08E906F1CA63">
+		        <!-- Copies the TestService.exe file using the project reference preprocessor variables -->
+		        <File Id="Dropship.exe" Name="Dropship.exe" Source="..\Dropship\bin\Debug\Dropship.exe" KeyPath="yes" />
+		        <!-- Remove all files from the INSTALLFOLDER on uninstall -->
+		        <RemoveFile Id="ALLFILES" Name="*.*" On="both" />
+		        <!-- Tell WiX to install the Service -->
+		        <ServiceInstall Id="ServiceInstaller" 
+		                        Type="ownProcess" 
+		                        Name="Dropship" 
+		                        DisplayName="Dropship" 
+		                        Description="Sendash delivery service" 
+		                        Start="auto" 
+		                        ErrorControl="normal" />
+		        <!-- Tell WiX to start the Service -->
+		        <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="Dropship" Wait="yes" />
+	        	<!-- Add Event Source -->
+				<util:EventSource
+			      Name="Dropship"
+			      Log="Application"
+			      EventMessageFile="[NETFRAMEWORK40FULLINSTALLROOTDIR]EventLogMessages.dll"
+			    />
+				<!-- Create Registry Keys -->
+				<RegistryKey Id='DropshipRegRoot' Root='HKLM' Key='Software\Sendash\Dropship' Action='createAndRemoveOnUninstall'>
+				    <RegistryValue Type='string' Name='SendashUrl' Value='https://sendash.com/status/stub'/>
+	        		<RegistryValue Type='string' Name='ApiKey' Value='123456'/>
+	        		<RegistryValue Type='string' Name='CurrentSchedule' Value='*/2 * * * *'/>
+				</RegistryKey>
+	        </Component>
+	    </DirectoryRef>
+
+
+		<Feature Id="Complete"
+		         Title="Dropship"
+		         Description="Your description"
+		         Level="1">
+			<ComponentRef Id="NCrontabLibrary"/>
+			<ComponentRef Id="DropshipExe"/>
+		</Feature>
+		
+		<!--
+ 			Using the Wix UI library.
+
+			WixUI_Minimal is the most basic of the WixUI stock dialog sets.
+ 			Its sole dialog combines the welcome and license-agreement 
+			dialogs and omits the feature customization dialog. 
+			WixUI_Minimal is appropriate when your product has no optional 
+			features.
+ 		-->
+		<UIRef Id="WixUI_Minimal"/>
+	</Product>
+</Wix>

@@ -1,0 +1,7 @@
+c:\dev\Dropship\WixMinimalUI\bin\Debug\WixMinimalUI.msi
+c:\dev\Dropship\WixMinimalUI\bin\Debug\WixMinimalUI.wixpdb
+obj\\Debug\Files.wixobj
+obj\\Debug\Setup.wixobj
+obj\\Debug\WixMinimalUI.wixproj.BindContentsFileListnull.txt
+obj\\Debug\WixMinimalUI.wixproj.BindOutputsFileListnull.txt
+obj\\Debug\WixMinimalUI.wixproj.BindBuiltOutputsFileListnull.txt

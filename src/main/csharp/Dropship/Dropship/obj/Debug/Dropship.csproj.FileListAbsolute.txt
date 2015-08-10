@@ -1,0 +1,13 @@
+c:\dev\Dropship\Dropship\bin\Debug\Dropship.exe.config
+c:\dev\Dropship\Dropship\bin\Debug\Dropship.exe
+c:\dev\Dropship\Dropship\bin\Debug\Dropship.pdb
+c:\dev\Dropship\Dropship\obj\Debug\Dropship.csprojResolveAssemblyReference.cache
+c:\dev\Dropship\Dropship\obj\Debug\Dropship.exe
+c:\dev\Dropship\Dropship\obj\Debug\Dropship.pdb
+c:\dev\Dropship\Dropship\bin\Debug\Common.Logging.Core.dll
+c:\dev\Dropship\Dropship\bin\Debug\Common.Logging.dll
+c:\dev\Dropship\Dropship\bin\Debug\Common.Logging.pdb
+c:\dev\Dropship\Dropship\bin\Debug\Common.Logging.xml
+c:\dev\Dropship\Dropship\bin\Debug\Common.Logging.Core.pdb
+c:\dev\Dropship\Dropship\bin\Debug\Common.Logging.Core.xml
+c:\dev\Dropship\Dropship\bin\Debug\NCrontab.dll

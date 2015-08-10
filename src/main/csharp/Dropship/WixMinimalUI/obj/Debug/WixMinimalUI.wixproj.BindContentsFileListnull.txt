@@ -1,0 +1,2 @@
+..\Dropship\bin\Debug\Dropship.exe
+..\Dropship\bin\Debug\NCrontab.dll
