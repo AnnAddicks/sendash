@@ -1,0 +1,2 @@
+c:\dev\Dropship\WixMinimalUI\bin\Debug\WixMinimalUI.msi
+c:\dev\Dropship\WixMinimalUI\bin\Debug\WixMinimalUI.wixpdb
