@@ -1,6 +1,7 @@
 package com.khoubyari.example.domain;
 
-import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -12,7 +13,7 @@ public class Status {
   private final Boolean isUpdateNeeded;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "EST")
-  private final LocalDateTime timestamp;
+  private final Date timestamp;
 
   private final boolean runHealthCheckNow;
 
@@ -22,7 +23,7 @@ public class Status {
 
   public Status(Boolean isUpdateNeeded) {
     this.isUpdateNeeded = isUpdateNeeded;
-    timestamp = LocalDateTime.now();
+    timestamp = Calendar.getInstance().getTime();
     runHealthCheckNow = false;
 
   }
@@ -31,13 +32,7 @@ public class Status {
     return isUpdateNeeded;
   }
 
-  public LocalDateTime getTimestamp() {
-
-    /*
-     * TODO LocalDateTime time = ...; ZoneId zoneId = ZoneId.systemDefault(); //
-     * or: ZoneId.of("Europe/Oslo"); long epoch =
-     * time.atZone(zoneId).toEpochSecond();
-     */
+  public Date getTimestamp() {
     return timestamp;
   }
 
