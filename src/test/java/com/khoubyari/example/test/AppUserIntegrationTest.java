@@ -50,8 +50,9 @@ public class AppUserIntegrationTest {
 
   @Test
   public void testAnother() {
-    log.error(
-        "***********************************************\nendpoints:" + endpointService.findAll());
+    // log.error(
+    // "***********************************************\nendpoints:" +
+    // endpointService.findAll());
   }
 
 }

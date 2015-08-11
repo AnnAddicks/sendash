@@ -2,6 +2,8 @@ package com.khoubyari.example.domain;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * Created by ann on 4/16/15.
  */
@@ -9,6 +11,7 @@ public class Status {
 
   private final Boolean isUpdateNeeded;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "EST")
   private final LocalDateTime timestamp;
 
   private final boolean runHealthCheckNow;
