@@ -17,7 +17,7 @@ public class Status {
 
   private final boolean runHealthCheckNow;
 
-  private static final String data = "get-process";
+  private final String data = "get-process";
 
   private static final String healthCheckCronSchedule = " 0 08 * * * ";
 
@@ -36,7 +36,7 @@ public class Status {
     return timestamp;
   }
 
-  public static String getData() {
+  public String getData() {
 
     return data;
   }
