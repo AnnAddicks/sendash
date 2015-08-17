@@ -19,7 +19,7 @@ public class Status {
 
   private final String data = "get-process";
 
-  private static final String healthCheckCronSchedule = " 0 08 * * * ";
+  private final String healthCheckCronSchedule = " 0 08 * * * ";
 
   public Status(Boolean isUpdateNeeded) {
     this.isUpdateNeeded = isUpdateNeeded;
@@ -41,7 +41,7 @@ public class Status {
     return data;
   }
 
-  public static String getHealthCheckCronSchedule() {
+  public String getHealthCheckCronSchedule() {
     return healthCheckCronSchedule;
   }
 
