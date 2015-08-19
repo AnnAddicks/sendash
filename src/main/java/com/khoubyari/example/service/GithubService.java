@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 /**
  * Created by ann on 5/20/15.
  */
@@ -21,58 +21,53 @@ import java.util.List;
 @Service
 public class GithubService {
 
-    private static final Logger log = LoggerFactory.getLogger(GithubService.class);
+	private static final Logger log = LoggerFactory.getLogger(GithubService.class);
 
-    @Autowired
-    private GithubPayloadDao githubPayloadDao;
+	@Autowired
+	private GithubPayloadDao githubPayloadDao;
 
-    @Autowired
-    private ScriptService scriptService;
+	@Autowired
+	private ScriptService scriptService;
 
-    public GithubService() {
+	public GithubService() {
+		FileRepositoryBuilder builder = new FileRepositoryBuilder();
+		
+	}
 
-    }
+	@Transactional
+	public void updateGithubData(Payload payload) {
+		List<Script> scripts = new ArrayList<>();
+		Script script;
+		Date lastUpdated = payload.getReceivedTimestamp();
+		for (String scriptName : payload.getAllFilesModified()) {
+			script = scriptService.getScriptByName(scriptName);
 
+			if (script != null) {
+				script.setScriptLastUpdated(lastUpdated);
+				scripts.add(script);
+			} else {
+				script = new Script();
+				script.setScriptName(scriptName);
+				script.setScriptLastUpdated(lastUpdated);
+				scripts.add(script);
+			}
+		}
 
-    @Transactional
-    public void updateGithubData(Payload payload) {
-        List<Script> scripts = new ArrayList<>();
-        Script script;
-        Date lastUpdated = payload.getReceivedTimestamp();
-        for(String scriptName : payload.getAllFilesModified()) {
-            script = scriptService.getScriptByName(scriptName);
+		payload.prepareCommitsForSave();
+		githubPayloadDao.save(payload);
 
-            if(script != null) {
-                script.setScriptLastUpdated(lastUpdated);
-                scripts.add(script);
-            }
-            else {
-                script = new Script();
-                script.setScriptName(scriptName);
-                script.setScriptLastUpdated(lastUpdated);
-                scripts.add(script);
-            }
-        }
+		scriptService.saveScripts(scripts);
+	}
 
+	@Transactional
+	public Iterable<Payload> getPayloadHistory() {
+		Iterable<Payload> payloads = githubPayloadDao.findAll();
 
-        payload.prepareCommitsForSave();
-        githubPayloadDao.save(payload);
+		for (Payload payload : payloads) {
+			payload.getCommits();
+		}
 
-        scriptService.saveScripts(scripts);
-    }
-
-    @Transactional
-    public Iterable<Payload> getPayloadHistory() {
-        Iterable<Payload> payloads = githubPayloadDao.findAll();
-
-        for(Payload payload : payloads) {
-            payload.getCommits();
-        }
-
-        return payloads;
-    }
-
-
-
+		return payloads;
+	}
 
 }
