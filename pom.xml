@@ -21,10 +21,15 @@
 
 	<repositories>
 		<repository>
+			<id>jgit-repository</id>
+			<url>https://repo.eclipse.org/content/groups/releases/</url>
+		</repository>
+		<repository>
 			<id>repo.spring.io.milestone</id>
 			<name>Spring Framework Maven Milestone Repository</name>
 			<url>https://repo.spring.io/libs-milestone</url>
 		</repository>
+		
 	</repositories>
 
 	<dependencies>
@@ -50,6 +55,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
+		</dependency>
+
+		<!-- Manage a git repo from Java -->
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit</artifactId>
+			<version>4.0.1.201506240215-r</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit.archive</artifactId>
+			<version>4.0.1.201506240215-r</version>
 		</dependency>
 
 		<!-- spring-data-jpa, spring-orm and Hibernate -->
@@ -131,12 +148,6 @@
 			<artifactId>spring-test-dbunit</artifactId>
 			<version>1.0.0</version>
 			<scope>test</scope>
-		</dependency>
-		<!-- Manage a git repo from Java -->
-		<dependency>
-			<groupId>org.eclipse.jgit</groupId>
-			<artifactId>org.eclipse.jgit</artifactId>
-			<version>4.0.1.201506240215-r</version>
 		</dependency>
 	</dependencies>
 
