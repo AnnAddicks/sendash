@@ -46,6 +46,9 @@ info:
 hotel.service:
   name: 'default profile:'
 
+git:
+  local-repo: './powershell-status-scripts/'
+
 # LOGGING
 logging:
   path: /var/log
