@@ -43,9 +43,6 @@ info:
     description: ${project.description}
     version: ${project.version}
 
-hotel.service:
-  name: 'default profile:'
-
 git:
   localRepo: './powershell-status-scripts/'
   remoteRepo: ''
@@ -61,9 +58,6 @@ spring:
 
 spring.jpa:
     hibernate.ddl-auto: create-drop #validate
-
-hotel.service:
-  name: 'test profile:'
 
 flyway:
   driver:  org.h2.Driver
