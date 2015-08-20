@@ -1,9 +1,10 @@
 package com.khoubyari.example.service;
 
 import com.khoubyari.example.dao.jpa.GithubPayloadDao;
-import com.khoubyari.example.domain.Commit;
 import com.khoubyari.example.domain.Payload;
 import com.khoubyari.example.domain.Script;
+import com.khoubyari.example.git.GitManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 /**
  * Created by ann on 5/20/15.
  */
@@ -28,14 +28,19 @@ public class GithubService {
 
 	@Autowired
 	private ScriptService scriptService;
+	
+	@Autowired
+	private GitManager gitmanager;
 
 	public GithubService() {
-		FileRepositoryBuilder builder = new FileRepositoryBuilder();
+		
 		
 	}
 
 	@Transactional
 	public void updateGithubData(Payload payload) {
+		gitmanager.updateLocalRepository();
+		
 		List<Script> scripts = new ArrayList<>();
 		Script script;
 		Date lastUpdated = payload.getReceivedTimestamp();
