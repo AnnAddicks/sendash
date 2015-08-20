@@ -45,7 +45,7 @@ info:
 
 git:
   localRepo: './powershell-status-scripts/'
-  remoteRepo: ''
+  remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
   
 # LOGGING
 logging:
