@@ -67,7 +67,7 @@ public class GitManager {
                 .setURI(repositoryProperties.getRemoteRepo())
                 .setDirectory(gitDirectory)
                 .call()) {
-	        // Note: the call() returns an opened repository already which needs to be closed to avoid file handle leaks!
+	        
 	        log.debug("Having repository: " + result.getRepository().getDirectory());
 	        return result;
         }
