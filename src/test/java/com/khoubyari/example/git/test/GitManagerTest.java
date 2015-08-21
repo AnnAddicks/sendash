@@ -1,12 +1,15 @@
 package com.khoubyari.example.git.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,43 +22,58 @@ import com.khoubyari.example.Application;
 import com.khoubyari.example.git.GitManager;
 import com.khoubyari.example.git.RepositoryProperties;
 
-import static org.junit.Assert.*;
-
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = Application.class)
 @Profile("test")
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class})
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class })
 public class GitManagerTest {
-	
+
 	@Autowired
-	GitManager manager;
-	
+	private GitManager manager;
+
 	@Autowired
-	RepositoryProperties properties;
+	private static RepositoryProperties properties;
+
+	private static final String localRepoLocation = properties.getLocalRepo();
+	
+	private static final Logger log = LoggerFactory.getLogger(GitManager.class);
 
 	@BeforeClass
-	public void setUp() {
-		File gitDirectory = new File(properties.getLocalRepo());
+	public static void setUp() {
+		log.warn("Properties: " + properties);
+		log.warn("Repo Location: " + localRepoLocation);
+		
+		
+		File gitDirectory = new File(localRepoLocation);
 		gitDirectory.delete();
 	}
-	
+
 	@Test
 	public void shouldCreateLocalRepo() {
 		manager.updateLocalRepository();
-		
-		File gitDirectory = new File(properties.getLocalRepo() + "/.git");
-		
+
+		File gitDirectory = new File(localRepoLocation + "/.git");
+
 		assertNotNull(gitDirectory);
+		log.error("*********************************");
+		log.error("File: " + gitDirectory);
+		log.error("*********************************");
+		
 		assertTrue(gitDirectory.isDirectory());
 		assertTrue(gitDirectory.list().length > 1);
 	}
-	
+
 	@Test
 	public void shouldUpdateExistingLocalRepo() {
 		manager.updateLocalRepository();
+
+		File gitDirectory = new File(localRepoLocation + "/.git");
+
+		assertNotNull(gitDirectory);
+		assertTrue(gitDirectory.isDirectory());
+		assertTrue(gitDirectory.list().length > 1);
 	}
 
 }

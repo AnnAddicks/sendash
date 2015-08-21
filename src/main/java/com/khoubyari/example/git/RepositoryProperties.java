@@ -3,16 +3,16 @@ package com.khoubyari.example.git;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@ConfigurationProperties(prefix = "git", ignoreUnknownFields = false)
-@Component
+@Configuration
+@ConfigurationProperties(locations = "classpath:application.yml", prefix = "git", ignoreUnknownFields = false)
 public class RepositoryProperties {
 	@NotNull
-	private String localRepo = "localRepo";
+	private String localRepo;
 	
 	@NotNull
-	private String remoteRepo ="remoteRepo";
+	private String remoteRepo;
 
 	public String getLocalRepo() {
 		return localRepo;

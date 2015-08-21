@@ -9,24 +9,12 @@ import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.FetchResult;
-import org.flywaydb.test.junit.FlywayTestExecutionListener;
-import org.junit.runner.RunWith;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.stereotype.Service;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.khoubyari.example.Application;
-
-import org.slf4j.Logger;
-
+@Service
 public class GitManager {
 
 	@Autowired
@@ -43,7 +31,10 @@ public class GitManager {
 		try {
 		    git = openRepository();
 			FetchResult result = git.fetch().setCheckFetchedObjects(true).call();
-			log.debug("The result of fetching the repo:" + result);
+			
+			log.error("*********************************");
+			log.error("The result of fetching the repo:" + result);
+			log.error("*********************************");
 		}
 		catch(IOException | IllegalStateException | GitAPIException ex) {
 			log.error("An exception occured while updating the local repo:", ex);
@@ -74,7 +65,9 @@ public class GitManager {
 	private Git cloneRepository(File gitDirectory) throws InvalidRemoteException, TransportException, GitAPIException {
 		gitDirectory.delete();
        
-       log.debug("Cloning from " + repositoryProperties.getRemoteRepo() + " to " + gitDirectory);
+	    log.error("*********************************");
+        log.error("Cloning from " + repositoryProperties.getRemoteRepo() + " to " + gitDirectory);
+        log.error("*********************************");
         try (Git result = Git.cloneRepository()
                 .setURI(repositoryProperties.getRemoteRepo())
                 .setDirectory(gitDirectory)
