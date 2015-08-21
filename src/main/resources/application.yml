@@ -59,6 +59,10 @@ spring:
 spring.jpa:
     hibernate.ddl-auto: create-drop #validate
 
+git:
+  localRepo: './powershell-status-scripts/'
+  remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
+
 flyway:
   driver:  org.h2.Driver
   url:  jdbc:h2:mem:bootexample;MODE=MySQL
