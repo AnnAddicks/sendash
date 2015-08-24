@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.flywaydb.test.junit.FlywayTestExecutionListener;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -37,31 +36,18 @@ import com.khoubyari.example.service.GitService;
 public class GitServiceTest {
 
 	@Autowired
-	private static GitService manager;
+	private GitService gitService;
 
 	@Autowired
-	private static RepositoryProperties properties;
+	private RepositoryProperties properties;
 
-	private static final String localRepoLocation = properties.getLocalRepo();
 	
 	private static final Logger log = LoggerFactory.getLogger(GitService.class);
-
-	@BeforeClass
-	public static void setUp() {
-		log.warn("GitManager: " + manager);
-		log.warn("Properties: " + properties);
-		log.warn("Repo Location: " + localRepoLocation);
-		
-		
-		File gitDirectory = new File(localRepoLocation);
-		gitDirectory.delete();
-	}
-
 	@Test
 	public void shouldCreateLocalRepo() {
-		manager.updateLocalRepository();
-
-		File gitDirectory = new File(localRepoLocation + "/.git");
+		File gitDirectory = new File(properties.getLocalRepo());
+		gitDirectory.delete();
+		gitService.updateLocalRepository();
 
 		assertNotNull(gitDirectory);
 		log.error("*********************************");
@@ -74,9 +60,9 @@ public class GitServiceTest {
 
 	@Test
 	public void shouldUpdateExistingLocalRepo() {
-		manager.updateLocalRepository();
+		gitService.updateLocalRepository();
 
-		File gitDirectory = new File(localRepoLocation + "/.git");
+		File gitDirectory = new File(properties.getLocalRepo() + "/.git");
 
 		assertNotNull(gitDirectory);
 		assertTrue(gitDirectory.isDirectory());
