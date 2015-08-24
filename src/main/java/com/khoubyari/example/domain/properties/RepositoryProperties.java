@@ -1,15 +1,19 @@
 package com.khoubyari.example.domain.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 @ConfigurationProperties(locations = "classpath:application.yml", prefix = "git", ignoreUnknownFields = false)
 public class RepositoryProperties {
 	
 	private String localRepo;
 	
 	private String remoteRepo;
+	
+	public RepositoryProperties() {
+		
+	}
 
 	public String getLocalRepo() {
 		return localRepo;
