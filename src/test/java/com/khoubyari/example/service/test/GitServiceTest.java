@@ -5,35 +5,29 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.flywaydb.test.junit.FlywayTestExecutionListener;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.khoubyari.example.Application;
 import com.khoubyari.example.domain.properties.RepositoryProperties;
 import com.khoubyari.example.service.GitService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
+@SpringApplicationConfiguration
 @ContextConfiguration(classes = Application.class)
 @Profile("test")
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-    TransactionalTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
-    DbUnitTestExecutionListener.class, FlywayTestExecutionListener.class })
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class })
 
 public class GitServiceTest {
 
