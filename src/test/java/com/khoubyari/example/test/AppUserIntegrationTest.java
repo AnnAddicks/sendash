@@ -45,7 +45,7 @@ public class AppUserIntegrationTest {
 
   @Test
   public void testFlywayAddingUser() {
-    log.debug("\n\n\n\n***************************\nusers:" + personRepository.findAll());
+    log.debug("\n\n\n\n***************************users:" + personRepository.findAll());
   }
 
   @Test

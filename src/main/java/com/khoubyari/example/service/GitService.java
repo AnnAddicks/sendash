@@ -1,4 +1,4 @@
-package com.khoubyari.example.git;
+package com.khoubyari.example.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,17 +12,21 @@ import org.eclipse.jgit.transport.FetchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
+import com.khoubyari.example.domain.properties.RepositoryProperties;
+
 @Service
-public class GitManager {
+@EnableConfigurationProperties
+public class GitService {
 
 	@Autowired
 	private RepositoryProperties repositoryProperties;
 	
-	private static final Logger log = LoggerFactory.getLogger(GitManager.class);
+	private static final Logger log = LoggerFactory.getLogger(GitService.class);
 
-	public GitManager() {
+	public GitService() {
 
 	}
 

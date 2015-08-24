@@ -1,10 +1,11 @@
-package com.khoubyari.example.git.test;
+package com.khoubyari.example.service.test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
+import org.flywaydb.test.junit.FlywayTestExecutionListener;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,32 +17,39 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.khoubyari.example.Application;
-import com.khoubyari.example.git.GitManager;
-import com.khoubyari.example.git.RepositoryProperties;
+import com.khoubyari.example.domain.properties.RepositoryProperties;
+import com.khoubyari.example.service.GitService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = Application.class)
 @Profile("test")
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class })
-public class GitManagerTest {
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
+    TransactionalTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
+    DbUnitTestExecutionListener.class, FlywayTestExecutionListener.class })
+
+public class GitServiceTest {
 
 	@Autowired
-	private GitManager manager;
+	private static GitService manager;
 
 	@Autowired
 	private static RepositoryProperties properties;
 
-	private static final String localRepoLocation = properties.getLocalRepo();
+	private static  String localRepoLocation = properties.getLocalRepo();
 	
-	private static final Logger log = LoggerFactory.getLogger(GitManager.class);
+	private static final Logger log = LoggerFactory.getLogger(GitService.class);
 
 	@BeforeClass
 	public static void setUp() {
+		log.warn("GitManager: " + manager);
 		log.warn("Properties: " + properties);
 		log.warn("Repo Location: " + localRepoLocation);
 		

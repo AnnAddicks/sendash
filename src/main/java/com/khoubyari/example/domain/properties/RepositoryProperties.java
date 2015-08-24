@@ -1,17 +1,14 @@
-package com.khoubyari.example.git;
-
-import javax.validation.constraints.NotNull;
+package com.khoubyari.example.domain.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 @ConfigurationProperties(locations = "classpath:application.yml", prefix = "git", ignoreUnknownFields = false)
 public class RepositoryProperties {
-	@NotNull
+	
 	private String localRepo;
 	
-	@NotNull
 	private String remoteRepo;
 
 	public String getLocalRepo() {

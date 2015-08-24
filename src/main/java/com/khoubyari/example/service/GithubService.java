@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import com.khoubyari.example.dao.jpa.GithubPayloadDao;
 import com.khoubyari.example.domain.Payload;
 import com.khoubyari.example.domain.Script;
-import com.khoubyari.example.git.GitManager;
 /**
  * Created by ann on 5/20/15.
  */
@@ -31,7 +30,7 @@ public class GithubService {
 	private ScriptService scriptService;
 	
 	@Autowired
-	private GitManager gitmanager;
+	private GitService gitmanager;
 
 	public GithubService() {
 		
