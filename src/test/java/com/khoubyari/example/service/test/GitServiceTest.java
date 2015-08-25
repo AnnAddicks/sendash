@@ -39,14 +39,10 @@ public class GitServiceTest {
 	public void shouldCreateLocalRepo() {
 		File gitDirectory = new File(properties.getLocalRepo());
 		deleteDirectory(gitDirectory);
+		
 		gitService.updateLocalRepository();
 
 		assertNotNull(gitDirectory);
-		log.error("*********************************");
-		log.error("File: " + gitDirectory);
-		log.error("Directory size: " + gitDirectory.list().length);
-		log.error("*********************************");
-		
 		assertTrue(gitDirectory.isDirectory());
 		assertTrue(gitDirectory.list().length > 1);
 	}
@@ -56,11 +52,6 @@ public class GitServiceTest {
 		gitService.updateLocalRepository();
 
 		File gitDirectory = new File(properties.getLocalRepo());
-		
-		log.error("*********************************");
-		log.error("File: " + gitDirectory);
-		log.error("Directory size: " + gitDirectory.list().length);
-		log.error("*********************************");
 		
 		assertNotNull(gitDirectory);
 		assertTrue(gitDirectory.isDirectory());

@@ -36,9 +36,6 @@ public class GitService {
 		Git git = null;
 		try {
 		    git = openRepository();
-			
-			
-			
 		}
 		catch(IOException | IllegalStateException | GitAPIException ex) {
 			log.error("An exception occured while updating the local repo:", ex);
@@ -52,13 +49,9 @@ public class GitService {
 	}
 	
 	private Git openRepository() throws IOException, IllegalStateException, GitAPIException {
-		log.error("*********************************");
-        log.error("Opening Repository " + repositoryProperties.getRemoteRepo());
-        log.error("*********************************");
 		File gitDirectory = new File(repositoryProperties.getLocalRepo());
-		
-		
 		Git git;
+		
 		if (gitDirectory.exists() && gitDirectory.list().length > 1) {
 			FileRepositoryBuilder builder = new FileRepositoryBuilder();
 			builder.addCeilingDirectory(gitDirectory);
@@ -98,7 +91,8 @@ public class GitService {
 	}
 	
 	private CredentialsProvider getRemoteCredentials() {
-		CredentialsProvider provider = new UsernamePasswordCredentialsProvider(repositoryProperties.getUsername(), repositoryProperties.getPassword());
+		CredentialsProvider provider = new UsernamePasswordCredentialsProvider(repositoryProperties.getUsername(),
+				repositoryProperties.getPassword());
 		return provider;
 	}
 }
