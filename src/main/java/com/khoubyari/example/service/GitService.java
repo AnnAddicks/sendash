@@ -9,7 +9,6 @@ import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,13 +56,10 @@ public class GitService {
 			builder.addCeilingDirectory(gitDirectory);
 			builder.findGitDir(gitDirectory);
 			git = new Git(builder.build());
-			FetchResult result = git.fetch()
+			git.fetch()
 					.setCheckFetchedObjects(true)
 					.setCredentialsProvider(getRemoteCredentials())
 					.call();
-			log.error("*********************************");
-			log.error("The result of fetching the repo:" + result.getMessages());
-			log.error("*********************************");
 		} else {
 			git = cloneRepository(gitDirectory);
 		}
