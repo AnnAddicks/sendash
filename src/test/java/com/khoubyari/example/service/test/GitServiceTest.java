@@ -38,6 +38,7 @@ public class GitServiceTest {
 	@Test
 	public void shouldCreateLocalRepo() {
 		File gitDirectory = new File(properties.getLocalRepo());
+		deleteDirectory(gitDirectory);
 		gitService.updateLocalRepository();
 
 		assertNotNull(gitDirectory);
@@ -65,5 +66,20 @@ public class GitServiceTest {
 		assertTrue(gitDirectory.isDirectory());
 		assertTrue(gitDirectory.list().length > 1);
 	}
+	
+	private void deleteDirectory(File directorToDelete) {
+		File[] files = directorToDelete.listFiles();
+		if (files != null) {
+			for (File f : files) {
+				if (f.isDirectory()) {
+					deleteDirectory(f);
+				} else {
+					f.delete();
+				}
+			}
+		}
+		directorToDelete.delete();
+	}
+	
 
 }
