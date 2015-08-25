@@ -8,7 +8,9 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +36,9 @@ public class GitService {
 		Git git = null;
 		try {
 		    git = openRepository();
-			FetchResult result = git.fetch().setCheckFetchedObjects(true).call();
 			
-			log.error("*********************************");
-			log.error("The result of fetching the repo:" + result.getMessages());
-			log.error("*********************************");
+			
+			
 		}
 		catch(IOException | IllegalStateException | GitAPIException ex) {
 			log.error("An exception occured while updating the local repo:", ex);
@@ -64,6 +64,13 @@ public class GitService {
 			builder.addCeilingDirectory(gitDirectory);
 			builder.findGitDir(gitDirectory);
 			git = new Git(builder.build());
+			FetchResult result = git.fetch()
+					.setCheckFetchedObjects(true)
+					.setCredentialsProvider(getRemoteCredentials())
+					.call();
+			log.error("*********************************");
+			log.error("The result of fetching the repo:" + result.getMessages());
+			log.error("*********************************");
 		} else {
 			git = cloneRepository(gitDirectory);
 		}
@@ -82,11 +89,16 @@ public class GitService {
         try (Git result = Git.cloneRepository()
                 .setURI(repositoryProperties.getRemoteRepo())
                 .setDirectory(gitDirectory)
+                .setCredentialsProvider(getRemoteCredentials())
                 .call()) {
 	        
 	        log.debug("Having repository: " + result.getRepository().getDirectory());
 	        return result;
         }
-
+	}
+	
+	private CredentialsProvider getRemoteCredentials() {
+		CredentialsProvider provider = new UsernamePasswordCredentialsProvider(repositoryProperties.getUsername(), repositoryProperties.getPassword());
+		return provider;
 	}
 }
