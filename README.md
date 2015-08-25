@@ -1,6 +1,14 @@
 # sendash
 Super Awesome way to manage health checks for VMWare, Palo Alto, network config, etc. and display captured data over time
-test
+
+#Testing
+There are a couple tests that work with the remote git repository and code.  These require a username and password passed in via command line for maven or set in the environment variables of the IDE.  The following is required to be set to make the tests passs:
+*-Dgit.username=your.email@email.com
+*-Dgit.password=yourPass
+
+Currently the remote URL for the repository is hard coded in the application.yml file.
+
+
 # Notes
 
 request from service includes:
