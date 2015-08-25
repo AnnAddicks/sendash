@@ -37,7 +37,7 @@ public class GitService {
 			FetchResult result = git.fetch().setCheckFetchedObjects(true).call();
 			
 			log.error("*********************************");
-			log.error("The result of fetching the repo:" + result);
+			log.error("The result of fetching the repo:" + result.getMessages());
 			log.error("*********************************");
 		}
 		catch(IOException | IllegalStateException | GitAPIException ex) {
@@ -52,21 +52,28 @@ public class GitService {
 	}
 	
 	private Git openRepository() throws IOException, IllegalStateException, GitAPIException {
+		log.error("*********************************");
+        log.error("Opening Repository " + repositoryProperties.getRemoteRepo());
+        log.error("*********************************");
 		File gitDirectory = new File(repositoryProperties.getLocalRepo());
-		FileRepositoryBuilder builder = new FileRepositoryBuilder();
-		builder.addCeilingDirectory(gitDirectory);
-		builder.findGitDir(gitDirectory);
+		
 		
 		Git git;
-		if (builder.getGitDir() == null) {
-			git = cloneRepository(gitDirectory);
-		} else {
+		if (gitDirectory.exists() && gitDirectory.list().length > 1) {
+			FileRepositoryBuilder builder = new FileRepositoryBuilder();
+			builder.addCeilingDirectory(gitDirectory);
+			builder.findGitDir(gitDirectory);
 			git = new Git(builder.build());
+		} else {
+			git = cloneRepository(gitDirectory);
 		}
 		return git;
 	}
 	
 	private Git cloneRepository(File gitDirectory) throws InvalidRemoteException, TransportException, GitAPIException {
+		if(!gitDirectory.exists()){
+			gitDirectory.mkdirs();
+		}
 		gitDirectory.delete();
        
 	    log.error("*********************************");
