@@ -2,6 +2,7 @@
 build/
 target/
 bin/
+powershell-status-scripts/
 dependency-reduced-pom.xml
 .classpath
 .project
