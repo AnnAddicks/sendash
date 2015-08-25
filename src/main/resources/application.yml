@@ -62,6 +62,8 @@ spring.jpa:
 git:
   localRepo: './powershell-status-scripts/'
   remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
+  username: '${git.username}'
+  password: '${git.password}'
 
 flyway:
   driver:  org.h2.Driver
