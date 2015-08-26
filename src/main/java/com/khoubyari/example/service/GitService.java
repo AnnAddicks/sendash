@@ -17,7 +17,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service;
 
 import com.khoubyari.example.domain.properties.RepositoryProperties;
-
+/**
+ * A simple service that will update the repository on the server.
+ * @author annaddicks
+ *
+ */
 @Service
 @EnableConfigurationProperties
 public class GitService {
@@ -31,6 +35,9 @@ public class GitService {
 
 	}
 
+	/**
+	 * Clones the remote repository if it does not exist or update a current one.  
+	 */
 	public void updateLocalRepository() {
 		Git git = null;
 		try {

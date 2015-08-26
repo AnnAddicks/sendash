@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,10 +37,10 @@ public class GitServiceTest {
 	private static final Logger log = LoggerFactory.getLogger(GitService.class);
 	
 	@Test
-	public void shouldCreateLocalRepo() {
+	public void shouldCreateLocalRepo() throws IOException {
 		File gitDirectory = new File(properties.getLocalRepo());
 		deleteDirectory(gitDirectory);
-		
+		//FileUtils.delete(gitDirectory);
 		gitService.updateLocalRepository();
 
 		assertNotNull(gitDirectory);
