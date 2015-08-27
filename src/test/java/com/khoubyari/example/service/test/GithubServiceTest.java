@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 import org.flywaydb.test.annotation.FlywayTest;
 import org.flywaydb.test.junit.FlywayTestExecutionListener;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,21 +41,32 @@ public class GithubServiceTest {
 	private GithubService githubService;
 
 	private static final String PAYLOAD_FILE = "/json/githubPayload.json";
-
+	private static Payload payload;
+	
+	@BeforeClass
+	public static void setUp() throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		InputStream is = Test.class.getResourceAsStream(PAYLOAD_FILE);
+	   
+		payload = mapper.readValue(is, Payload.class);
+		payload.setReceivedTimestamp(Calendar.getInstance().getTime());
+	}
+	
+	
 	@Test
 	public void testUpdateGithubData() {
 		// fail("Not yet implemented");
 	}
 
 	@Test
-	public void testGetPayloadHistory() throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		InputStream is = Test.class.getResourceAsStream(PAYLOAD_FILE);
-		Payload payload = mapper.readValue(is, Payload.class);
-		payload.setReceivedTimestamp(Calendar.getInstance().getTime());
+	public void testGetPayloadHistory() {
+		
 		githubService.updateGithubData(payload);
 		
-		githubService.getPayloadHistory();
+		Iterable<Payload> payloads = githubService.getPayloadHistory();
+		
 	}
+	
+	
 
 }

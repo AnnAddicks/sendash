@@ -1,10 +1,18 @@
 package com.khoubyari.example.domain;
 
-import javax.persistence.*;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
 
 /**
  * Created by ann on 5/13/15.
@@ -22,7 +30,8 @@ public class Script {
     @Column
     private String scriptName;
 
-    @Column
+    @Column(name = "scriptLastUpdated", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIME)
     private Date scriptLastUpdated;
 
     @Column
