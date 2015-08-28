@@ -42,7 +42,10 @@ public class GitService {
 	 * one.
 	 */
 	public void updateLocalRepository() {
-		if (repositoryProperties.getUsername() == null || repositoryProperties.getPassword() == null) {
+		if (repositoryProperties.getUsername() == null || repositoryProperties.getUsername().isEmpty()
+				|| repositoryProperties.getPassword() == null || repositoryProperties.getPassword().isEmpty()
+				|| repositoryProperties.getUsername().contains("git.username")
+				|| repositoryProperties.getPassword().contains("git.pass")) {
 			log.error(
 					"The username and password must be set before starting this application.  Use the parameters -Dgit.username=yourUsername and -Dgit.password=yourPassword.");
 		} else {

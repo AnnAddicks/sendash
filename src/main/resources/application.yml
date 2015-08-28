@@ -52,25 +52,29 @@ logging:
   path: /var/log
   file: sendash.log
   level.org.hibernate.SQL: DEBUG
+  level.org.springframework.boot: DEBUG
 ---
 spring:
   profiles: test
 
 spring.jpa:
-    hibernate.ddl-auto: create-drop #validate
+    hibernate.ddl-auto: none
 
 git:
   localRepo: './powershell-status-scripts/'
   remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
-  username: '${git.username}'
-  password: '${git.password}'
+  username: ${git.username}
+  password: ${git.password}
+
+spring.datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:sendash;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:db/migration/init_tests.sql';
 
 flyway:
   driver:  org.h2.Driver
-  url: jdbc:h2:mem:bootexample;MODE=MySQL
-  appUser:  h2_test
-  password:  h2_test
-  locations: sampletest3
+  url: jdbc:h2:mem:sendash;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:db/migration/init_tests.sql';
+  appUser:  sa  
+
 
 
 

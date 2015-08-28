@@ -10,8 +10,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -27,10 +28,11 @@ import com.khoubyari.example.Application;
 import com.khoubyari.example.domain.Payload;
 import com.khoubyari.example.service.GithubService;
 
+@Profile("test")
+@ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = Application.class)
-@Profile("test")
+@SpringApplicationConfiguration(classes = Application.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, TransactionalTestExecutionListener.class,
 		DirtiesContextTestExecutionListener.class, DbUnitTestExecutionListener.class,
 		FlywayTestExecutionListener.class })
