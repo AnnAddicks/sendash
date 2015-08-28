@@ -1,15 +1,13 @@
 CREATE TABLE Payload (
-	id BIGINT NOT Null AUTO_INCREMENT,
-	receivedTimestamp DATETIME NOT NULL,
-	ref varchar(255),
-	before varchar(255),
-    after varchar(255),
-	PRIMARY KEY (ref)
+	ID INTEGER NOT Null AUTO_INCREMENT,
+	RECEIVED_TIMESTAMP DATETIME NOT NULL,
+	REF varchar(255),
+	BEFORE varchar(255),
+    AFTER varchar(255),
+	PRIMARY KEY (ID)
 );
 
-CREATE INDEX payloadId
-    ON Payload(id);
 
 CREATE INDEX payloadTime
-    ON Payload(receivedTimestamp);
+    ON Payload(RECEIVED_TIMESTAMP);
 

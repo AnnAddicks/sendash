@@ -32,7 +32,7 @@ public class Payload {
 
 	
 	@Column(name = "receivedTimestamp", columnDefinition="DATETIME")
-	@Temporal(TemporalType.TIME)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date receivedTimestamp;
 
 	@Column
