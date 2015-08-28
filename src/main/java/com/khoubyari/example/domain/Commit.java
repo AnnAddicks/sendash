@@ -1,12 +1,23 @@
 package com.khoubyari.example.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by ann on 5/13/15.
@@ -16,117 +27,120 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Commit implements Serializable {
 
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Id
-    private Integer id;
+	private static final long serialVersionUID = -5419699145299244678L;
 
-    @ManyToOne( fetch = FetchType.EAGER )
-    @JoinColumn(name="payloadId", nullable = false )
-    private Payload payload;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	private Integer id;
 
-    @Column
-    private String message;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "payloadId", nullable = false)
+	private Payload payload;
 
-    @Column(name = "commitTimestamp")
-    private String timestamp;
+	private String message;
 
-    @Column
-    @ElementCollection
-    private Collection<String> added;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date commitDate;
 
-    @Column
-    @ElementCollection
-    private Collection<String> modified;
+	@Transient
+	// @Column(name="ADDED")
+	// @ElementCollection
+	private Collection<String> added;
 
+	@Transient
+	// @Column(name="MODIFIED")
+	// @ElementCollection
+	private Collection<String> modified;
 
-    @ElementCollection
-    @Column
-    private Collection<String> removed;
+	@Transient
+	// @ElementCollection
+	// @Column(name="REMOVED")
+	private Collection<String> removed;
 
-    public Commit() {
-        added = new ArrayList<>();
-        modified = new ArrayList<>();
-        removed = new ArrayList<>();
-    }
+	public Commit() {
+		added = new ArrayList<>();
+		modified = new ArrayList<>();
+		removed = new ArrayList<>();
+	}
 
-    public void setPayload(Payload payload) {
-        this.payload = payload;
-    }
+	public void setPayload(Payload payload) {
+		this.payload = payload;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public String getMessage() {
+		return message;
+	}
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
-    public String getTimestamp() {
-        return timestamp;
-    }
+	public Date getTimestamp() {
+		return commitDate;
+	}
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
+	public void setTimestamp(Date timestamp) {
+		this.commitDate = timestamp;
+	}
 
-    public Collection<String> getAdded() {
-        return added;
-    }
+	public Collection<String> getAdded() {
+		return added;
+	}
 
-    public void setAdded(List<String> added) {
-        this.added = added;
-    }
+	public void setAdded(List<String> added) {
+		this.added = added;
+	}
 
-    public Collection<String> getModified() {
-        return modified;
-    }
+	public Collection<String> getModified() {
+		return modified;
+	}
 
-    public void setModified(List<String> modified) {
-        this.modified = modified;
-    }
+	public void setModified(List<String> modified) {
+		this.modified = modified;
+	}
 
-    public Collection<String> getRemoved() {
-        return removed;
-    }
+	public Collection<String> getRemoved() {
+		return removed;
+	}
 
-    public void setRemoved(List<String> removed) {
-        this.removed = removed;
-    }
+	public void setRemoved(List<String> removed) {
+		this.removed = removed;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        Commit commit = (Commit) o;
+		Commit commit = (Commit) o;
 
-        if (message != null ? !message.equals(commit.message) : commit.message != null) return false;
-        if (timestamp != null ? !timestamp.equals(commit.timestamp) : commit.timestamp != null) return false;
-        if (added != null ? !added.equals(commit.added) : commit.added != null) return false;
-        if (modified != null ? !modified.equals(commit.modified) : commit.modified != null) return false;
-        return !(removed != null ? !removed.equals(commit.removed) : commit.removed != null);
+		if (message != null ? !message.equals(commit.message) : commit.message != null)
+			return false;
+		if (commitDate != null ? !commitDate.equals(commit.commitDate) : commit.commitDate != null)
+			return false;
+		if (added != null ? !added.equals(commit.added) : commit.added != null)
+			return false;
+		if (modified != null ? !modified.equals(commit.modified) : commit.modified != null)
+			return false;
+		return !(removed != null ? !removed.equals(commit.removed) : commit.removed != null);
 
-    }
+	}
 
-    @Override
-    public int hashCode() {
-        int result = message != null ? message.hashCode() : 0;
-        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
-        result = 31 * result + (added != null ? added.hashCode() : 0);
-        result = 31 * result + (modified != null ? modified.hashCode() : 0);
-        result = 31 * result + (removed != null ? removed.hashCode() : 0);
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		int result = message != null ? message.hashCode() : 0;
+		result = 31 * result + (commitDate != null ? commitDate.hashCode() : 0);
+		result = 31 * result + (added != null ? added.hashCode() : 0);
+		result = 31 * result + (modified != null ? modified.hashCode() : 0);
+		result = 31 * result + (removed != null ? removed.hashCode() : 0);
+		return result;
+	}
 
-    @Override
-    public String toString() {
-        return "Commit{" +
-                "id=" + id +
-                ", message='" + message + '\'' +
-                ", timestamp='" + timestamp + '\'' +
-                ", added=" + added +
-                ", modified=" + modified +
-                ", removed=" + removed +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Commit{" + "id=" + id + ", message='" + message + '\'' + ", timestamp='" + commitDate + '\''
+				+ ", added=" + added + ", modified=" + modified + ", removed=" + removed + '}';
+	}
 }

@@ -1,18 +1,18 @@
 CREATE TABLE Commit (
-	id BIGINT NOT Null AUTO_INCREMENT,
-	payloadId BIGINT Not Null,
-	message varchar(255),
-	commitTimestamp DATETIME NOT NULL,
-	added varchar(255),
-	modified varchar(255),
-    removed varchar(255),
-	PRIMARY KEY (message, commitTimestamp),
- 	FOREIGN KEY (payloadId)
-		REFERENCES Payload(id)
+	ID INT NOT Null AUTO_INCREMENT,
+	PAYLOAD_ID INTEGER Not Null,
+	MESSAGE varchar(255),
+	COMMIT_DATE TIMESTAMP NOT NULL,
+	ADDED varchar(255),
+	MODIFIED varchar(255),
+    REMOVED varchar(255),
+	PRIMARY KEY (MESSAGE, COMMIT_DATE),
+ 	FOREIGN KEY (PAYLOAD_ID)
+		REFERENCES Payload(ID)
 
 );
 
-CREATE INDEX commitId
-    ON Commit(id);
-CREATE INDEX commitPayloadId
-    ON Commit(payloadId);
+CREATE INDEX COMMIT_ID
+    ON Commit(ID);
+CREATE INDEX COMMIT_PAYLOAD
+    ON Commit(PAYLOAD_ID);
