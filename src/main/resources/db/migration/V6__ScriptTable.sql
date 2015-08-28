@@ -1,6 +1,6 @@
 CREATE table Script(
-     id BIGINT Not Null AUTO_INCREMENT,
-     scriptName varchar(200) PRIMARY KEY,
-     scriptLastUpdated DATETIME,
-     data varchar(200)
+     ID INTEGER Not Null AUTO_INCREMENT,
+     SCRIPT_NAME varchar(200) PRIMARY KEY,
+     SCRIPT_LAST_UPDATED DATETIME,
+     DATA varchar(200)
 );
