@@ -1,9 +1,15 @@
 package com.khoubyari.example.domain;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 
 /**
  * Created by ann on 5/18/15.
@@ -17,6 +23,7 @@ public class Endpoint {
     @Column
     private String clientId;
 
+    @Id
     @Column
     private String hostName;
 

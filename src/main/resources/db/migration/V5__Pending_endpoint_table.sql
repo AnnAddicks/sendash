@@ -8,4 +8,4 @@ CREATE table PendingEndpoint(
 );
 
 CREATE INDEX pendingEndPointApiAndClientId
-    ON EndPoint(clientId, apiKey);
+    ON PendingEndpoint(clientId, apiKey);

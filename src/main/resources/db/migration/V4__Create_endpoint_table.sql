@@ -1,16 +1,16 @@
 CREATE table EndPoint(
-    id CHAR(36) NOT Null,
-    clientId CHAR(36) NOT Null,
-    hostName varchar(255),
-    apiKey varchar(255) UNIQUE,
-    updateScriptRequest DATETIME,
-    PRIMARY KEY(clientId, hostName),
-    FOREIGN KEY (clientId)
-        REFERENCES Client(id)
+    ID VARCHAR(36) NOT Null,
+    CLIENT_ID VARCHAR(36) NOT Null,
+    HOST_NAME varchar(255),
+    API_KEY varchar(255) UNIQUE,
+    UPDATE_SCRIPT_REQUEST DATETIME,
+    PRIMARY KEY(CLIENT_ID, HOST_NAME),
+    FOREIGN KEY (CLIENT_ID)
+        REFERENCES Client(ID)
 );
 
 CREATE INDEX endPointId
-    ON EndPoint(id);
+    ON EndPoint(ID);
 
 CREATE INDEX endPointApiAndClientId
-    ON EndPoint(clientId, apiKey);
+    ON EndPoint(CLIENT_ID, API_KEY);
