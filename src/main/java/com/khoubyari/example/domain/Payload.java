@@ -33,8 +33,6 @@ public class Payload {
 	
 	@Column(name = "receivedTimestamp", columnDefinition="DATETIME")
 	@Temporal(TemporalType.TIME)
-//	@Column(columnDefinition = "datetime")
-//	@Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDateTime")
 	private Date receivedTimestamp;
 
 	@Column

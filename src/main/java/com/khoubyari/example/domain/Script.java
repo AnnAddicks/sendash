@@ -24,14 +24,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Script {
 
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Id
     private Integer id;
 
+    @Id
     @Column
     private String scriptName;
 
     @Column(name = "scriptLastUpdated", columnDefinition="DATETIME")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date scriptLastUpdated;
 
     @Column
