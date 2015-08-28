@@ -13,7 +13,10 @@ spring.jmx:
 
 spring.datasource:
     driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:bootexample;MODE=MySQL
+    url: jdbc:h2:mem:sendash;MODE=MySQL
+    
+#spring.jpa:
+#   hibernate.ddl-auto: none
 
 server:
   port: 8090
@@ -52,13 +55,14 @@ logging:
   path: /var/log
   file: sendash.log
   level.org.hibernate.SQL: DEBUG
-  level.org.springframework.boot: DEBUG
+  level.org.h2: DEBUG
 ---
 spring:
   profiles: test
 
 spring.jpa:
-    hibernate.ddl-auto: none
+    hibernate.ddl-auto: validate
+    show-sql: true
 
 git:
   localRepo: './powershell-status-scripts/'
