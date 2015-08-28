@@ -1,16 +1,16 @@
 CREATE TABLE EndpointScript (
-	endpointId CHAR(36) Not Null,
-	scriptId BIGINT Not Null,
-	PRIMARY KEY (endpointId, scriptId),
- 	FOREIGN KEY (endpointId)
-		REFERENCES Endpoint(id),
-	FOREIGN KEY (scriptId)
-    		REFERENCES Script(id)
+	ENDPOINT_ID VARCHAR(36) Not Null,
+	SCRIPT_ID INTEGER Not Null,
+	PRIMARY KEY (ENDPOINT_ID, SCRIPT_ID),
+ 	FOREIGN KEY (ENDPOINT_ID)
+		REFERENCES Endpoint(ID),
+	FOREIGN KEY (SCRIPT_ID)
+    		REFERENCES Script(ID)
 
 
 );
 
 CREATE INDEX endpointScriptEndpointId
-    ON EndpointScript(endpointId);
+    ON EndpointScript(ENDPOINT_ID);
 CREATE INDEX endpointScriptScriptId
-    ON EndpointScript(scriptId);
+    ON EndpointScript(SCRIPT_ID);

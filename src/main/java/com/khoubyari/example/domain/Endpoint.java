@@ -1,5 +1,6 @@
 package com.khoubyari.example.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,17 +8,17 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 /**
  * Created by ann on 5/18/15.
  */
 @Entity
-public class Endpoint {
+public class Endpoint implements Serializable{
 
-    @Id
+	private static final long serialVersionUID = -710746835945529033L;
+
+	@Id
     private String id;
 
     @Column
@@ -33,9 +34,10 @@ public class Endpoint {
     @Column
     private Date updateScriptRequest;
 
-    @OneToMany
-    @JoinTable(name="EndpointScript",  joinColumns={@JoinColumn(name="endpointId", referencedColumnName="id")},
-            inverseJoinColumns={@JoinColumn(name="scriptId", referencedColumnName="id")})
+    @Transient
+//    @OneToMany
+//    @JoinTable(name="EndpointScript",  joinColumns={@JoinColumn(name="endpointId", referencedColumnName="id")},
+//            inverseJoinColumns={@JoinColumn(name="scriptId", referencedColumnName="id")})
     private Set<Script> scripts;
 
     public Endpoint() { }
