@@ -1,10 +1,10 @@
 CREATE TABLE PERSON (
-	id CHAR(36) NOT Null,
-	email varchar(255),
-	first_name varchar(255) NOT NULL,
-	last_name varchar(255) NOT NULL,
-	PRIMARY KEY (email)
+	ID uuid  NOT Null,
+	EMAIL varchar(255),
+	FIRST_NAME varchar(255) NOT NULL,
+	LAST_NAME varchar(255) NOT NULL,
+	PRIMARY KEY (EMAIL)
 );
 
 CREATE INDEX personId
-    ON Person(id);
+    ON Person(ID);
