@@ -1,17 +1,17 @@
 package com.khoubyari.example.service;
 
-import com.khoubyari.example.dao.jpa.EndpointRepository;
-import com.khoubyari.example.dao.jpa.HotelRepository;
-import com.khoubyari.example.dao.jpa.ScriptRepository;
-import com.khoubyari.example.domain.Endpoint;
-import com.khoubyari.example.domain.EndpointStatus;
-import com.khoubyari.example.domain.Script;
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import com.khoubyari.example.dao.jpa.EndpointRepository;
+import com.khoubyari.example.dao.jpa.ScriptRepository;
+import com.khoubyari.example.domain.Endpoint;
+import com.khoubyari.example.domain.EndpointStatus;
+import com.khoubyari.example.domain.Script;
 
 /**
  * Created by ann on 5/13/15.

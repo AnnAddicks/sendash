@@ -1,8 +1,9 @@
 package com.khoubyari.example.dao.jpa;
 
-import com.khoubyari.example.domain.Hotel;
-import com.khoubyari.example.domain.Script;
+
 import org.springframework.data.repository.PagingAndSortingRepository;
+
+import com.khoubyari.example.domain.Script;
 
 /**
  * Created by ann on 5/13/15.

@@ -1,14 +1,13 @@
 package com.khoubyari.example.test.api.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.khoubyari.example.Application;
-import com.khoubyari.example.api.rest.GithubHookController;
-import com.khoubyari.example.api.rest.HotelController;
-import com.khoubyari.example.domain.Hotel;
-import com.khoubyari.example.domain.Payload;
-import jdk.nashorn.internal.parser.JSONParser;
-import net.minidev.json.JSONObject;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.regex.Pattern;
+
 import org.flywaydb.test.annotation.FlywayTest;
 import org.flywaydb.test.junit.FlywayTestExecutionListener;
 import org.junit.Before;
@@ -18,7 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener;
@@ -31,27 +29,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.WebApplicationContext;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Calendar;
-import java.util.List;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.khoubyari.example.Application;
+import com.khoubyari.example.api.rest.GithubHookController;
+import com.khoubyari.example.domain.Payload;
 
 /**
  * Created by ann on 5/27/15.
@@ -107,7 +91,8 @@ public class GithubHookControllerTest {
     // match redirect header URL (aka Location header)
     private static ResultMatcher redirectedUrlPattern(final String expectedUrlPattern) {
         return new ResultMatcher() {
-            public void match(MvcResult result) {
+            @Override
+			public void match(MvcResult result) {
                 Pattern pattern = Pattern.compile("\\A" + expectedUrlPattern + "\\z");
                 assertTrue(pattern.matcher(result.getResponse().getRedirectedUrl()).find());
             }
