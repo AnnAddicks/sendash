@@ -118,36 +118,49 @@ public class Payload {
 		}
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-
-		Payload payload = (Payload) o;
-
-		if (ref != null ? !ref.equals(payload.ref) : payload.ref != null)
-			return false;
-		if (before != null ? !before.equals(payload.before) : payload.before != null)
-			return false;
-		if (after != null ? !after.equals(payload.after) : payload.after != null)
-			return false;
-		if (commits != null ? !commits.equals(payload.commits) : payload.commits != null)
-			return false;
-		return !(receivedTimestamp != null ? !receivedTimestamp.equals(payload.receivedTimestamp)
-				: payload.receivedTimestamp != null);
-
-	}
+	
 
 	@Override
 	public int hashCode() {
-		int result = ref != null ? ref.hashCode() : 0;
-		result = 31 * result + (before != null ? before.hashCode() : 0);
-		result = 31 * result + (after != null ? after.hashCode() : 0);
-		result = 31 * result + (commits != null ? commits.hashCode() : 0);
-		result = 31 * result + (receivedTimestamp != null ? receivedTimestamp.hashCode() : 0);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((after == null) ? 0 : after.hashCode());
+		result = prime * result + ((before == null) ? 0 : before.hashCode());
+		result = prime * result + ((receivedTimestamp == null) ? 0 : receivedTimestamp.hashCode());
+		result = prime * result + ((ref == null) ? 0 : ref.hashCode());
 		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Payload other = (Payload) obj;
+		if (after == null) {
+			if (other.after != null)
+				return false;
+		} else if (!after.equals(other.after))
+			return false;
+		if (before == null) {
+			if (other.before != null)
+				return false;
+		} else if (!before.equals(other.before))
+			return false;
+		if (receivedTimestamp == null) {
+			if (other.receivedTimestamp != null)
+				return false;
+		} else if (!receivedTimestamp.equals(other.receivedTimestamp))
+			return false;
+		if (ref == null) {
+			if (other.ref != null)
+				return false;
+		} else if (!ref.equals(other.ref))
+			return false;
+		return true;
 	}
 
 	@Override
