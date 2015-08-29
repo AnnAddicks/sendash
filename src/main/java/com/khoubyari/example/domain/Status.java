@@ -4,23 +4,24 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.khoubyari.example.domain.properties.RepositoryProperties;
 
 /**
  * Created by ann on 4/16/15.
  */
 public class Status {
 
-  private final Boolean isUpdateNeeded;
-
+  private static final RepositoryProperties repositoryProperties = new RepositoryProperties();
+  private static final String firstPowershellFile = repositoryProperties.getLocalRepo() + "/Worker.ps1";	
+  
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "EST")
   private final Date timestamp;
-
   private final boolean runHealthCheckNow;
-
-  private final String data = "get-process";
-
   private final String healthCheckCronSchedule = " 0 08 * * * ";
-
+  private final Boolean isUpdateNeeded;
+  
+  private String data = "get-process";
+  
   public Status(Boolean isUpdateNeeded) {
     this.isUpdateNeeded = isUpdateNeeded;
     timestamp = Calendar.getInstance().getTime();
