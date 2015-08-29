@@ -58,10 +58,6 @@ public class GithubHookController extends AbstractRestHandler {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "returns all the payloads from github.", notes = " ")
     public Iterable<Payload> getLog() {
-
-        Iterable<Payload> payloads = githubService.getPayloadHistory();
-
-
-        return payloads;
+        return githubService.getPayloadHistory();
     }
 }
