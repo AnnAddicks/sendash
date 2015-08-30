@@ -41,9 +41,7 @@ public class StatusController extends AbstractRestHandler {
   public @ResponseBody Status checkStatusStub(@RequestHeader(value = "API_KEY") String apiKey,
       HttpServletRequest request, HttpServletResponse response) {
 
-    log.error("API KEY: " + apiKey);
     if (apiKey.equalsIgnoreCase("update")) {
-      log.error("Status: " + new Status(Boolean.TRUE));
       return new Status(Boolean.TRUE);
     }
 
