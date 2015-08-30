@@ -3,6 +3,8 @@ package com.addicks.sendash.admin.api.rest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +29,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 @RequestMapping(value = "/status")
 @Api(value = "status", description = "Status update for health check scripts")
 public class StatusController extends AbstractRestHandler {
+  private static final Logger log = LoggerFactory.getLogger(StatusController.class);
 
   @Autowired
   StatusService statusService;
@@ -38,7 +41,9 @@ public class StatusController extends AbstractRestHandler {
   public @ResponseBody Status checkStatusStub(@RequestHeader(value = "API_KEY") String apiKey,
       HttpServletRequest request, HttpServletResponse response) {
 
+    log.error("API KEY: " + apiKey);
     if (apiKey.equalsIgnoreCase("update")) {
+      log.error("Status: " + new Status(Boolean.TRUE));
       return new Status(Boolean.TRUE);
     }
 

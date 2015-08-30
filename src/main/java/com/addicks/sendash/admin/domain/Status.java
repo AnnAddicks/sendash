@@ -1,5 +1,8 @@
 package com.addicks.sendash.admin.domain;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -11,22 +14,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public class Status {
 
-  private static final RepositoryProperties repositoryProperties = new RepositoryProperties();
-  private static final String firstPowershellFile = repositoryProperties.getLocalRepo() + "/Worker.ps1";	
-  
+  private static final RepositoryProperties REPOSITORY_PROPERTIES = new RepositoryProperties();
+
+  private static final String FIRST_POWERSHELL_FILE = REPOSITORY_PROPERTIES.getLocalRepo()
+      + "/Worker.ps1";
+
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "EST")
   private final Date timestamp;
-  private final boolean runHealthCheckNow;
+
   private final String healthCheckCronSchedule = " 0 08 * * * ";
+
   private final Boolean isUpdateNeeded;
-  
-  private String data = "get-process";
-  
+
+  private String data;
+
   public Status(Boolean isUpdateNeeded) {
     this.isUpdateNeeded = isUpdateNeeded;
     timestamp = Calendar.getInstance().getTime();
-    runHealthCheckNow = false;
-
+    data = "get-process";
   }
 
   public Boolean isUpdateNeeded() {
@@ -40,6 +45,20 @@ public class Status {
   public String getData() {
 
     return data;
+  }
+
+  private String readWorkerFile() {
+    byte[] encoded;
+    try {
+      encoded = Files.readAllBytes(Paths.get(FIRST_POWERSHELL_FILE));
+      return new String(encoded);
+    }
+    catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    return new String("Error reading the first powershell file.");
   }
 
   public String getHealthCheckCronSchedule() {
