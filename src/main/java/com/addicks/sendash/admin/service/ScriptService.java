@@ -18,36 +18,46 @@ import com.addicks.sendash.admin.domain.Script;
  */
 @Service
 public class ScriptService {
-    private static final Logger log = LoggerFactory.getLogger(ScriptService.class);
+  private static final Logger log = LoggerFactory.getLogger(ScriptService.class);
 
-    @Autowired
-    private ScriptRepository scriptRepository;
+  @Autowired
+  private ScriptRepository scriptRepository;
 
-    @Autowired
-    private EndpointRepository endpointRepository;
+  @Autowired
+  private EndpointRepository endpointRepository;
 
-    public ScriptService() {
+  public ScriptService() {
+  }
+
+  public boolean isUpdateNeeded(EndpointStatus endpointStatus) {
+
+    Date lastUpdated = endpointStatus.getLastUpdatedScripts();
+    Endpoint endpoint = endpointRepository.findByapiKey(endpointStatus.getApiKey());
+
+    return lastUpdated.before(endpoint.getUpdateScriptRequest());
+
+  }
+
+  public Script getScriptByName(String name) {
+    if (name == null || name.isEmpty())
+      return null;
+
+    return scriptRepository.findByScriptName(name);
+  }
+
+  public void saveScripts(Iterable<Script> scripts) {
+    if (scripts != null)
+      scriptRepository.save(scripts);
+  }
+
+  public void save(Script script) {
+    if (script != null) {
+      scriptRepository.save(script);
     }
+  }
 
-    public boolean isUpdateNeeded(EndpointStatus endpointStatus) {
-
-        Date lastUpdated = endpointStatus.getLastUpdatedScripts();
-        Endpoint endpoint = endpointRepository.findByapiKey(endpointStatus.getApiKey());
-
-        return lastUpdated.before(endpoint.getUpdateScriptRequest());
-
-    }
-
-    public Script getScriptByName(String name) {
-        if(name == null || name.isEmpty())
-            return null;
-
-        return scriptRepository.findByScriptName(name);
-    }
-    
-    public void saveScripts(Iterable<Script> scripts) {
-        if(scripts != null)
-            scriptRepository.save(scripts);
-    }
+  public Iterable<Script> getAllScripts() {
+    return scriptRepository.findAll();
+  }
 
 }

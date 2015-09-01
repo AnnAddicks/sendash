@@ -32,7 +32,7 @@ public class StatusController extends AbstractRestHandler {
   private static final Logger log = LoggerFactory.getLogger(StatusController.class);
 
   @Autowired
-  StatusService statusService;
+  private StatusService statusService;
 
   @RequestMapping(value = "/stub", method = RequestMethod.GET, produces = { "application/json",
       "application/xml" })
