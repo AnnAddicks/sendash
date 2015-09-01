@@ -13,3 +13,4 @@ dependency-reduced-pom.xml
 *.idea
 Thumbs.db
 sendash.log
+sendash.zip

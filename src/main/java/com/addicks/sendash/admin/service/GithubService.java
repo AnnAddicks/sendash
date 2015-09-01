@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.addicks.sendash.admin.dao.jpa.GithubPayloadDao;
 import com.addicks.sendash.admin.domain.Payload;
 import com.addicks.sendash.admin.domain.Script;
+
 /**
  * Created by ann on 5/20/15.
  */
@@ -21,58 +22,61 @@ import com.addicks.sendash.admin.domain.Script;
 @Service
 public class GithubService {
 
-	private static final Logger log = LoggerFactory.getLogger(GithubService.class);
+  private static final Logger log = LoggerFactory.getLogger(GithubService.class);
 
-	@Autowired
-	private GithubPayloadDao githubPayloadDao;
+  @Autowired
+  private GithubPayloadDao githubPayloadDao;
 
-	@Autowired
-	private ScriptService scriptService;
-	
-	@Autowired
-	private GitService gitmanager;
+  @Autowired
+  private ScriptService scriptService;
 
-	public GithubService() {
-		
-		
-	}
+  @Autowired
+  private GitService gitmanager;
 
-	@Transactional
-	public void updateGithubData(Payload payload) {
-		gitmanager.updateLocalRepository();
-		
-		List<Script> scripts = new ArrayList<>();
-		Script script;
-		Date lastUpdated = payload.getReceivedTimestamp();
-		for (String scriptName : payload.getAllFilesModified()) {
-			script = scriptService.getScriptByName(scriptName);
+  @Autowired
+  private FileService fileService;
 
-			if (script != null) {
-				script.setScriptLastUpdated(lastUpdated);
-				scripts.add(script);
-			} else {
-				script = new Script();
-				script.setScriptName(scriptName);
-				script.setScriptLastUpdated(lastUpdated);
-				scripts.add(script);
-			}
-		}
+  public GithubService() {
 
-		payload.prepareCommitsForSave();
-		githubPayloadDao.save(payload);
+  }
 
-		scriptService.saveScripts(scripts);
-	}
+  @Transactional
+  public void updateGithubData(Payload payload) {
+    gitmanager.updateLocalRepository();
+    fileService.createZip();
 
-	@Transactional
-	public Iterable<Payload> getPayloadHistory() {
-		Iterable<Payload> payloads = githubPayloadDao.findAll();
+    List<Script> scripts = new ArrayList<>();
+    Script script;
+    Date lastUpdated = payload.getReceivedTimestamp();
+    for (String scriptName : payload.getAllFilesModified()) {
+      script = scriptService.getScriptByName(scriptName);
 
-		for (Payload payload : payloads) {
-			payload.getCommits();
-		}
+      if (script != null) {
+        script.setScriptLastUpdated(lastUpdated);
+        scripts.add(script);
+      }
+      else {
+        script = new Script();
+        script.setScriptName(scriptName);
+        script.setScriptLastUpdated(lastUpdated);
+        scripts.add(script);
+      }
+    }
 
-		return payloads;
-	}
+    payload.prepareCommitsForSave();
+    githubPayloadDao.save(payload);
+    scriptService.saveScripts(scripts);
+  }
+
+  @Transactional
+  public Iterable<Payload> getPayloadHistory() {
+    Iterable<Payload> payloads = githubPayloadDao.findAll();
+
+    for (Payload payload : payloads) {
+      payload.getCommits();
+    }
+
+    return payloads;
+  }
 
 }
