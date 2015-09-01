@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
@@ -71,8 +72,15 @@ public class StatusControllerTest {
   }
 
   private String readWorkerFile() throws IOException {
-    return new String(
-        Files.readAllBytes(Paths.get(repositoryProperties.getLocalRepo() + FIRST_POWERSHELL_FILE)));
+    String workerString = new String(
+        Files.readAllBytes(Paths.get(repositoryProperties.getLocalRepo() + FIRST_POWERSHELL_FILE)),
+        Charset.forName("UTF-8"));
+
+    if (workerString.startsWith("\ufeff")) {
+      workerString = workerString.substring(1);
+    }
+
+    return workerString;
   }
 
   @Test

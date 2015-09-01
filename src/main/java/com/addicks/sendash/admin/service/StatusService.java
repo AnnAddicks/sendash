@@ -84,7 +84,7 @@ public class StatusService {
     try {
       encoded = Files
           .readAllBytes(Paths.get(repositoryProperties.getLocalRepo() + FIRST_POWERSHELL_FILE));
-      return new String(encoded, Charset.forName("UTF-8")).trim();
+      return new String(encoded, Charset.forName("UTF-8"));
     }
     catch (IOException e) {
       // TODO Auto-generated catch block
