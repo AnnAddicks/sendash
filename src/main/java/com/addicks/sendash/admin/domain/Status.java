@@ -22,6 +22,7 @@ public class Status {
   public Status(Boolean isUpdateNeeded) {
     this.isUpdateNeeded = isUpdateNeeded;
     timestamp = Calendar.getInstance().getTime();
+    data = "get-process";
   }
 
   public Boolean isUpdateNeeded() {
@@ -37,6 +38,10 @@ public class Status {
   }
 
   public void setData(String data) {
+    // Strip out the BOM, BOM, BOM...
+    if (data.startsWith("\ufeff")) {
+      data = data.substring(1);
+    }
     this.data = data;
   }
 
