@@ -1,6 +1,7 @@
 package com.addicks.sendash.admin.service;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -67,12 +68,14 @@ public class StatusService {
         }
       }
     }
-    log.error("***********************");
+
     if (status == null) {
       status = new Status(Boolean.FALSE);
     }
 
     status.setData(readWorkerFile());
+    log.error("Data: " + status.getData());
+    log.error("***********************");
     return status;
   }
 
@@ -81,7 +84,7 @@ public class StatusService {
     try {
       encoded = Files
           .readAllBytes(Paths.get(repositoryProperties.getLocalRepo() + FIRST_POWERSHELL_FILE));
-      return new String(encoded);
+      return new String(encoded, Charset.forName("UTF-8")).trim();
     }
     catch (IOException e) {
       // TODO Auto-generated catch block

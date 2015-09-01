@@ -77,24 +77,20 @@ public class StatusControllerTest {
 
   @Test
   public void shouldCreateDefaultStatusWithUpdateNeeded() throws Exception {
-    workerFile = readWorkerFile();
-
     mvc.perform(get(TEST_URI_STUB).header("API_KEY", "update").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(content().contentType("application/json"))
         .andExpect(jsonPath("$.updateNeeded").value(Boolean.TRUE))
         .andExpect(jsonPath("$.healthCheckCronSchedule").value(" 0 08 * * * "))
-        .andExpect(jsonPath("$.data").value(workerFile)).andDo(MockMvcResultHandlers.print());
+        .andExpect(jsonPath("$.data").value("get-process")).andDo(MockMvcResultHandlers.print());
   }
 
   @Test
   public void shouldCreateDefaultStatusWithNoUpdateNeeded() throws Exception {
-    workerFile = readWorkerFile();
-
     mvc.perform(get(TEST_URI_STUB).header("API_KEY", "asdf").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(content().contentType("application/json"))
         .andExpect(jsonPath("$.updateNeeded").value(Boolean.FALSE))
         .andExpect(jsonPath("$.healthCheckCronSchedule").value(" 0 08 * * * "))
-        .andExpect(jsonPath("$.data").value(workerFile)).andDo(MockMvcResultHandlers.print());
+        .andExpect(jsonPath("$.data").value("get-process")).andDo(MockMvcResultHandlers.print());
   }
 
   @Test
