@@ -2,6 +2,7 @@ package com.addicks.sendash.admin.service;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
@@ -14,6 +15,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,30 +24,37 @@ import com.addicks.sendash.admin.domain.properties.RepositoryProperties;
 
 @Service
 public class FileService {
+  public static final String ZIP_NAME = "sendash.zip";
 
   @Autowired
   private RepositoryProperties repositoryProperties;
 
-  private static final String zipName = "sendash.zip";
+  private static final Logger log = LoggerFactory.getLogger(FileService.class);
 
   public FileService() {
 
   }
 
-  private FileSystem createZipFileSystem(String zipFilename, boolean create) throws IOException {
-    // convert the filename to a URI
-    final Path path = Paths.get(zipFilename);
-    final URI uri = URI.create("jar:file:" + path.toUri().getPath());
+  private FileSystem createZipFileSystem(String zipFilename, boolean create)
+      throws IOException, URISyntaxException {
+    log.error("*********************");
 
+    // convert the filename to a URI
+    final URI uri = FileSystems.getDefault().getPath(zipFilename).toUri();
+
+    log.error("URI: " + uri.toString());
+    log.error("URI Path:" + uri.getPath());
+    log.error("*********************");
     final Map<String, String> env = new HashMap<>();
     if (create) {
       env.put("create", "true");
     }
+
     return FileSystems.newFileSystem(uri, env);
   }
 
   public void createZip() {
-    try (FileSystem zipFileSystem = createZipFileSystem(zipName, true)) {
+    try (FileSystem zipFileSystem = createZipFileSystem(ZIP_NAME, true)) {
       final Path destDir = Paths.get("./");
       // if the destination doesn't exist, create it
       if (Files.notExists(destDir)) {
@@ -54,7 +64,7 @@ public class FileService {
 
       // if the zip exists delete it
       try {
-        Path destFile = Paths.get(destDir + zipName);
+        Path destFile = Paths.get(destDir + ZIP_NAME);
         Files.deleteIfExists(destFile);
       }
       catch (java.nio.file.FileSystemNotFoundException e) {
@@ -84,7 +94,7 @@ public class FileService {
         }
       });
     }
-    catch (IOException e) {
+    catch (IOException | URISyntaxException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
