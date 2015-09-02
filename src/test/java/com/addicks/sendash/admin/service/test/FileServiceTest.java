@@ -1,5 +1,8 @@
 package com.addicks.sendash.admin.service.test;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.addicks.sendash.admin.Application;
-import com.addicks.sendash.admin.domain.properties.RepositoryProperties;
 import com.addicks.sendash.admin.service.FileService;
 
 @Profile("test")
@@ -24,9 +26,6 @@ import com.addicks.sendash.admin.service.FileService;
 @WebAppConfiguration
 @SpringApplicationConfiguration(classes = Application.class)
 public class FileServiceTest {
-
-  @Autowired
-  private RepositoryProperties repositoryProperties;
 
   @Autowired
   private FileService fileService;
@@ -42,11 +41,17 @@ public class FileServiceTest {
 
     fileService.createZip();
 
+    File zipFile = new File("./" + FileService.ZIP_NAME);
+    assertTrue(zipFile.exists());
+
   }
 
   @Test
   public void shouldDeleteThenCreateZip() {
     fileService.createZip();
     fileService.createZip();
+
+    File zipFile = new File("./" + FileService.ZIP_NAME);
+    assertTrue(zipFile.exists());
   }
 }
