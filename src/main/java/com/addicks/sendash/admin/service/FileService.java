@@ -1,19 +1,14 @@
 package com.addicks.sendash.admin.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,69 +30,94 @@ public class FileService {
 
   }
 
-  private FileSystem createZipFileSystem(String zipFilename, boolean create)
-      throws IOException, URISyntaxException {
-    log.error("*********************");
+  private List<String> generateFileList(String sourceFolder, File node) throws IOException {
+    List<String> fileList = new ArrayList<String>();
+    // add file only
+    if (node.isFile()) {
+      fileList.add(node.getCanonicalPath());
 
-    // convert the filename to a URI
-    final URI uri = FileSystems.getDefault().getPath(zipFilename).toUri();
-
-    log.error("URI: " + uri.toString());
-    log.error("URI Path:" + uri.getPath());
-    log.error("*********************");
-    final Map<String, String> env = new HashMap<>();
-    if (create) {
-      env.put("create", "true");
     }
 
-    return FileSystems.newFileSystem(uri, env);
+    if (node.isDirectory()) {
+      String[] subNote = node.list();
+      for (String filename : subNote) {
+        if (!filename.startsWith(".")) {
+          fileList.addAll(generateFileList(sourceFolder, new File(node, filename)));
+        }
+      }
+    }
+    return fileList;
   }
 
   public void createZip() {
-    try (FileSystem zipFileSystem = createZipFileSystem(ZIP_NAME, true)) {
-      final Path destDir = Paths.get("./");
-      // if the destination doesn't exist, create it
-      if (Files.notExists(destDir)) {
-        System.out.println(destDir + " does not exist. Creating...");
-        Files.createDirectories(destDir);
-      }
+    String zipFile = ZIP_NAME;
+    String sourceDirectory = repositoryProperties.getLocalRepo();
+    byte[] buffer = new byte[1024];
 
-      // if the zip exists delete it
-      try {
-        Path destFile = Paths.get(destDir + ZIP_NAME);
-        Files.deleteIfExists(destFile);
-      }
-      catch (java.nio.file.FileSystemNotFoundException e) {
-      }
+    try {
+      // create object of FileOutputStream
+      FileOutputStream fout = new FileOutputStream(zipFile);
 
-      final Path root = zipFileSystem.getPath(repositoryProperties.getLocalRepo());
+      // create object of ZipOutputStream from FileOutputStream
+      try (ZipOutputStream zout = new ZipOutputStream(fout)) {
 
-      // walk the zip file tree and copy files to the destination
-      Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
-        @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-          final Path destFile = Paths.get(destDir.toString(), file.toString());
-          System.out.printf("Extracting file %s to %s\n", file, destFile);
-          Files.copy(file, destFile, StandardCopyOption.REPLACE_EXISTING);
-          return FileVisitResult.CONTINUE;
+        // create File object from directory name
+        File dir = new File(sourceDirectory);
+        log.debug("DIR: " + dir);
+
+        // check to see if this directory exists
+        if (!dir.isDirectory()) {
+          log.error(sourceDirectory + " is not a directory");
         }
+        else {
+          List<String> files = generateFileList(sourceDirectory, dir);
 
-        @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-            throws IOException {
-          final Path dirToCreate = Paths.get(destDir.toString(), dir.toString());
-          if (Files.notExists(dirToCreate)) {
-            System.out.printf("Creating directory %s\n", dirToCreate);
-            Files.createDirectory(dirToCreate);
+          for (String fileName : files) {
+
+            // create object of FileInputStream for source file
+            try {
+              FileInputStream fin = new FileInputStream(fileName);
+              zout.putNextEntry(
+                  new ZipEntry(fileName.substring(fileName.indexOf(sourceDirectory.substring(2)))));
+
+              /*
+               * After creating entry in the zip file, actually write the file.
+               */
+              int length;
+
+              while ((length = fin.read(buffer)) > 0) {
+                zout.write(buffer, 0, length);
+              }
+
+              /*
+               * After writing the file to ZipOutputStream, use
+               *
+               * void closeEntry() method of ZipOutputStream class to close the
+               * current entry and position the stream to write the next entry.
+               */
+
+              zout.closeEntry();
+
+              // close the InputStream
+              fin.close();
+            }
+            catch (FileNotFoundException ex) {
+              log.error("File not Found:" + fileName);
+            }
           }
-          return FileVisitResult.CONTINUE;
         }
-      });
+
+        // close the ZipOutputStream
+        zout.close();
+
+        log.debug("Zip file has been created!");
+
+      }
     }
-    catch (IOException | URISyntaxException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    catch (IOException ioe) {
+      ioe.printStackTrace();
     }
+
   }
 
   // public FileSystem getZip() {
