@@ -33,6 +33,7 @@ import com.addicks.sendash.admin.Application;
 import com.addicks.sendash.admin.api.rest.StatusController;
 import com.addicks.sendash.admin.domain.Script;
 import com.addicks.sendash.admin.domain.properties.RepositoryProperties;
+import com.addicks.sendash.admin.service.GitService;
 import com.addicks.sendash.admin.service.ScriptService;
 
 @Profile("test")
@@ -56,6 +57,9 @@ public class StatusControllerTest {
   private ScriptService scriptService;
 
   @Autowired
+  private GitService gitService;
+
+  @Autowired
   private RepositoryProperties repositoryProperties;
 
   private MockMvc mvc;
@@ -69,6 +73,8 @@ public class StatusControllerTest {
     MockitoAnnotations.initMocks(this);
     mvc = MockMvcBuilders.webAppContextSetup(context).build();
     workerFile = readWorkerFile();
+
+    gitService.updateLocalRepository();
   }
 
   private String readWorkerFile() throws IOException {

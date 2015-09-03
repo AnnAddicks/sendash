@@ -28,36 +28,34 @@ import com.wordnik.swagger.annotations.ApiOperation;
 @Api(value = "github", description = "Destination for a github web hook for when a repository has had a push event.")
 public class GithubHookController extends AbstractRestHandler {
 
-    public static final String REQUEST_MAPPING = "/github";
-    private static final Logger log = LoggerFactory.getLogger(GithubHookController.class);
+  public static final String REQUEST_MAPPING = "/github";
 
-    @Autowired
-    private GithubService githubService;
+  private static final Logger log = LoggerFactory.getLogger(GithubHookController.class);
 
-    @RequestMapping(value = "",
-            method = RequestMethod.POST,
-            consumes = {"application/json", "application/xml"},
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Listens for a github webhook to say an update is needed.", notes = "When a github payload is received, we need to update the powershell scripts. ")
-    public void pushEvent(@RequestBody Payload payload, HttpServletRequest request, HttpServletResponse response) {
+  @Autowired
+  private GithubService githubService;
 
-        log.debug("*******************************************");
-        log.debug("Payload: " + payload);
-        log.debug("*******************************************");
+  @RequestMapping(value = "", method = RequestMethod.POST, consumes = { "application/json",
+      "application/xml" }, produces = { "application/json", "application/xml" })
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(value = "Listens for a github webhook to say an update is needed.", notes = "When a github payload is received, we need to update the powershell scripts. ")
+  public void pushEvent(@RequestBody Payload payload, HttpServletRequest request,
+      HttpServletResponse response) {
 
-        payload.setReceivedTimestamp(Calendar.getInstance().getTime());
-        githubService.updateGithubData(payload);
+    log.debug("*******************************************");
+    log.debug("Payload: " + payload);
+    log.debug("*******************************************");
 
-    }
+    payload.setReceivedTimestamp(Calendar.getInstance().getTime());
+    githubService.updateGithubData(payload);
 
+  }
 
-    @RequestMapping(value = "",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "returns all the payloads from github.", notes = " ")
-    public Iterable<Payload> getLog() {
-        return githubService.getPayloadHistory();
-    }
+  @RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json",
+      "application/xml" })
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(value = "returns all the payloads from github.", notes = " ")
+  public Iterable<Payload> getLog() {
+    return githubService.getPayloadHistory();
+  }
 }
