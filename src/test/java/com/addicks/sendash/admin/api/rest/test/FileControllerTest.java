@@ -49,8 +49,8 @@ public class FileControllerTest {
 
   @Test
   public void shouldReturnZip() throws Exception {
-    mvc.perform(get("http://localhost/" + FileController.REQUEST_MAPPING + "/zip")
-        .accept(MediaType.APPLICATION_OCTET_STREAM)).andExpect(status().isOk())
+    mvc.perform(get("http://localhost" + FileController.REQUEST_MAPPING + "/zip")
+        .accept(MediaType.APPLICATION_OCTET_STREAM_VALUE)).andExpect(status().isOk())
         .andExpect(content().contentType("application/zip")).andDo(MockMvcResultHandlers.print());
   }
 }
