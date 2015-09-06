@@ -14,34 +14,22 @@ import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.addicks.sendash.admin.Application;
 import com.addicks.sendash.admin.api.rest.StatusController;
 import com.addicks.sendash.admin.domain.Script;
 import com.addicks.sendash.admin.domain.properties.RepositoryProperties;
 import com.addicks.sendash.admin.service.GitService;
 import com.addicks.sendash.admin.service.ScriptService;
 
-@Profile("test")
-@ActiveProfiles("test")
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@SpringApplicationConfiguration(classes = Application.class)
-public class StatusControllerTest {
+public class StatusControllerTest extends ControllerTest {
 
   private static final String TEST_URI = "http://localhost/status";
 
