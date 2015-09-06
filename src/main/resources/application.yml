@@ -54,7 +54,7 @@ git:
 logging:
   path: /var/log
   file: sendash.log
-  level.org.hibernate.SQL: DEBUG
+  level.org.hibernate.SQL: WARN
   level.org.h2: DEBUG
 ---
 spring:

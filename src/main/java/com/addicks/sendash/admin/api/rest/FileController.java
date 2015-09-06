@@ -41,22 +41,21 @@ public class FileController {
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a zip containing scripts of the powershell directory.", notes = "Returns all files in the directory in the zip.")
   public void getZipedScripts(HttpServletRequest request, HttpServletResponse response) {
-    log.error("made it to controller");
     try (ZipInputStream fileInputStream = fileService.getZip()) {
-      log.error("We have the zip!");
+      String headerKey = "Content-Disposition";
+      String headerValue = String.format("attachment; filename=\"sendash\"");
+      response.setHeader(headerKey, headerValue);
       response.setContentType("application/zip");
       OutputStream outStream = response.getOutputStream();
       IOUtils.copy(fileInputStream, outStream);
-      // return
-      // ResponseEntity.ok().contentType(MediaType.parseMediaType("application/octet-stream"))
-      // .body(fileInputStream);
+
+      outStream.flush();
+      outStream.close();
+      fileInputStream.close();
     }
     catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    log.error("not good!");
-
   }
 
 }
