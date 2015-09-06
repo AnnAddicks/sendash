@@ -49,13 +49,14 @@ info:
 git:
   localRepo: './powershell-status-scripts/'
   remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
+  username: ${git.username}
+  password: ${git.password}
   
 # LOGGING
 logging:
   path: /var/log
   file: sendash.log
   level.org.hibernate.SQL: WARN
-  level.org.h2: DEBUG
 ---
 spring:
   profiles: test
