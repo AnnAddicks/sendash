@@ -79,10 +79,9 @@ public class FileService {
             try {
 
               log.error("FileName: " + fileName);
+              log.error("Starting Dir: " + startingDir);
               FileInputStream fin = new FileInputStream(fileName);
-              log.error("fis ok");
               zout.putNextEntry(new ZipEntry(fileName.replace(startingDir, "")));
-              log.error("zout ok");
               log.error("substring" + fileName.replace(startingDir, ""));
 
               /*
