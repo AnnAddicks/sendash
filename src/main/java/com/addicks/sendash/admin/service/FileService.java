@@ -71,14 +71,19 @@ public class FileService {
         }
         else {
           List<String> files = generateFileList(sourceDirectory, dir);
-
+          log.error("*************");
           for (String fileName : files) {
 
             // create object of FileInputStream for source file
             try {
+
+              log.error("FileName: " + fileName);
               FileInputStream fin = new FileInputStream(fileName);
+              log.error("fis ok");
               zout.putNextEntry(
                   new ZipEntry(fileName.substring(fileName.indexOf(sourceDirectory.substring(2)))));
+              log.error("zout ok");
+              log.error(fileName.substring(fileName.indexOf(sourceDirectory.substring(2))));
 
               /*
                * After creating entry in the zip file, actually write the file.
@@ -88,17 +93,7 @@ public class FileService {
               while ((length = fin.read(buffer)) > 0) {
                 zout.write(buffer, 0, length);
               }
-
-              /*
-               * After writing the file to ZipOutputStream, use
-               *
-               * void closeEntry() method of ZipOutputStream class to close the
-               * current entry and position the stream to write the next entry.
-               */
-
               zout.closeEntry();
-
-              // close the InputStream
               fin.close();
             }
             catch (FileNotFoundException ex) {
@@ -106,7 +101,7 @@ public class FileService {
             }
           }
         }
-
+        log.error("*************");
         // close the ZipOutputStream
         zout.close();
 

@@ -60,6 +60,16 @@ logging:
   level.org.hibernate.SQL: WARN
 ---
 spring:
+  profiles: dev
+  
+git:
+  localRepo: './powershell-status-scripts/'
+  zipOfRep: './sendash.zip'
+  remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
+  username: ${git.username}
+  password: ${git.password}
+---
+spring:
   profiles: test
 
 spring.jpa:
