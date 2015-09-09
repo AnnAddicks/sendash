@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.addicks.sendash.admin.Application;
+import com.addicks.sendash.admin.domain.properties.RepositoryProperties;
 import com.addicks.sendash.admin.service.FileService;
 
 @Profile("test")
@@ -36,10 +37,13 @@ public class FileServiceTest {
   @Autowired
   private FileService fileService;
 
+  @Autowired
+  private RepositoryProperties repositoryProperties;
+
   @Test
   public void shouldCreateZip() {
     try {
-      Path destFile = Paths.get("./" + FileService.ZIP_NAME);
+      Path destFile = Paths.get(repositoryProperties.getZipOfRep() + FileService.ZIP_NAME);
       Files.deleteIfExists(destFile);
     }
     catch (java.nio.file.FileSystemNotFoundException | IOException e) {
@@ -47,7 +51,7 @@ public class FileServiceTest {
 
     fileService.createZip();
 
-    File zipFile = new File("./" + FileService.ZIP_NAME);
+    File zipFile = new File(repositoryProperties.getZipOfRep() + FileService.ZIP_NAME);
     assertTrue(zipFile.exists());
 
   }

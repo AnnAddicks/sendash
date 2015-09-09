@@ -51,7 +51,7 @@ public class FileService {
   }
 
   public void createZip() {
-    String zipFile = ZIP_NAME;
+    String zipFile = repositoryProperties.getZipOfRep() + ZIP_NAME;
     String sourceDirectory = repositoryProperties.getLocalRepo();
     byte[] buffer = new byte[1024];
 
