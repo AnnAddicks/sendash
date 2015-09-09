@@ -48,7 +48,7 @@ info:
 
 git:
   localRepo: '/home/tomcat7/powershell-status-scripts/'
-  zipOfRep: '/home/tomcat7/'
+  zipOfRep: '/home/tomcat7/sendash.zip'
   remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
   username: ${git.username}
   password: ${git.password}
@@ -68,7 +68,7 @@ spring.jpa:
 
 git:
   localRepo: './powershell-status-scripts/'
-  zipOfRep: './'
+  zipOfRep: './sendash.zip'
   remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
   username: ${git.username}
   password: ${git.password}

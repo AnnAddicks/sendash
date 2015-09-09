@@ -20,7 +20,6 @@ import com.addicks.sendash.admin.domain.properties.RepositoryProperties;
 
 @Service
 public class FileService {
-  public static final String ZIP_NAME = "sendash.zip";
 
   @Autowired
   private RepositoryProperties repositoryProperties;
@@ -51,7 +50,7 @@ public class FileService {
   }
 
   public void createZip() {
-    String zipFile = repositoryProperties.getZipOfRep() + ZIP_NAME;
+    String zipFile = repositoryProperties.getZipOfRep();
     String sourceDirectory = repositoryProperties.getLocalRepo();
     byte[] buffer = new byte[1024];
 
@@ -122,7 +121,7 @@ public class FileService {
   }
 
   public ZipInputStream getZip() throws IOException {
-    File zipFile = new File("./" + ZIP_NAME);
+    File zipFile = new File(repositoryProperties.getZipOfRep());
 
     return new ZipInputStream(new FileInputStream(zipFile));
   }
