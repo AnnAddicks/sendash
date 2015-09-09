@@ -47,7 +47,7 @@ info:
     version: ${project.version}
 
 git:
-  localRepo: 'powershell-status-scripts/'
+  localRepo: '/home/tomcat7/powershell-status-scripts/'
   remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
   username: ${git.username}
   password: ${git.password}
