@@ -43,7 +43,7 @@ public class FileServiceTest {
   @Test
   public void shouldCreateZip() {
     try {
-      Path destFile = Paths.get(repositoryProperties.getZipOfRep() + FileService.ZIP_NAME);
+      Path destFile = Paths.get(repositoryProperties.getZipOfRep());
       Files.deleteIfExists(destFile);
     }
     catch (java.nio.file.FileSystemNotFoundException | IOException e) {
@@ -51,7 +51,7 @@ public class FileServiceTest {
 
     fileService.createZip();
 
-    File zipFile = new File(repositoryProperties.getZipOfRep() + FileService.ZIP_NAME);
+    File zipFile = new File(repositoryProperties.getZipOfRep());
     assertTrue(zipFile.exists());
 
   }
@@ -61,7 +61,7 @@ public class FileServiceTest {
     fileService.createZip();
     fileService.createZip();
 
-    File zipFile = new File("./" + FileService.ZIP_NAME);
+    File zipFile = new File(repositoryProperties.getZipOfRep());
     assertTrue(zipFile.exists());
   }
 
