@@ -47,7 +47,7 @@ public class FileController {
       String headerKey = "Content-Disposition";
       String headerValue = String.format("attachment; filename=\"sendash\"");
       response.setHeader(headerKey, headerValue);
-      // response.setContentType("application/zip");
+      response.setContentType("application/zip");
 
       IOUtils.copy(fileInputStream, response.getOutputStream());
 
