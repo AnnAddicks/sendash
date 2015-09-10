@@ -71,18 +71,13 @@ public class FileService {
         }
         else {
           List<String> files = generateFileList(sourceDirectory, dir);
-          log.error("*************");
-          String startingDir = repositoryProperties.getZipOfRep();
+
           for (String fileName : files) {
 
             // create object of FileInputStream for source file
             try {
-
-              log.error("FileName: " + fileName);
-              log.error("Starting Dir: " + startingDir);
               FileInputStream fin = new FileInputStream(fileName);
-              zout.putNextEntry(new ZipEntry(fileName.replace(startingDir, "")));
-              log.error("substring" + fileName.replace(startingDir, ""));
+              zout.putNextEntry(new ZipEntry(fileName.replace("/home/tomcat7/", "")));
 
               /*
                * After creating entry in the zip file, actually write the file.
@@ -100,7 +95,7 @@ public class FileService {
             }
           }
         }
-        log.error("*************");
+
         // close the ZipOutputStream
         zout.close();
 
