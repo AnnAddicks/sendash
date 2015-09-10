@@ -1,12 +1,7 @@
 package com.addicks.sendash.admin.api.rest;
 
-import java.io.IOException;
-import java.util.zip.ZipInputStream;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,27 +34,6 @@ public class FileController {
   @RequestMapping(value = "/zip", method = RequestMethod.GET, produces = { "application/zip" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a zip containing scripts of the powershell directory.", notes = "Returns all files in the directory in the zip.")
-  public void getZipedScripts(HttpServletRequest request, HttpServletResponse response) {
-    try (ZipInputStream fileInputStream = fileService.getZip()) {
-      // todo remove when done testing, not closing streams!
-      log.error("next Entry" + fileService.getZip().getNextEntry());
-      String headerKey = "Content-Disposition";
-      String headerValue = String.format("attachment; filename=\"sendash\"");
-      response.setHeader(headerKey, headerValue);
-      response.setContentType("application/zip");
-
-      IOUtils.copy(fileInputStream, response.getOutputStream());
-
-      response.flushBuffer();
-      fileInputStream.close();
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @RequestMapping(value = "/zip2", method = RequestMethod.GET, produces = { "application/zip" })
-  @ResponseStatus(HttpStatus.OK)
   public FileSystemResource getFile(HttpServletResponse response) {
     String headerKey = "Content-Disposition";
     String headerValue = String.format("attachment; filename=\"sendash\"");
