@@ -11,7 +11,7 @@ import java.util.zip.ZipFile;
 
 public class ZipCompare {
 
-  public static boolean isSame(ZipFile file1, ZipFile file2) {
+  public static boolean filesEqual(ZipFile file1, ZipFile file2) {
 
     Set<String> set1 = new LinkedHashSet<>();
     for (Enumeration e = file1.entries(); e.hasMoreElements();)

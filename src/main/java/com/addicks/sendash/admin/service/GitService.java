@@ -28,78 +28,86 @@ import com.addicks.sendash.admin.domain.properties.RepositoryProperties;
 @EnableConfigurationProperties
 public class GitService {
 
-	@Autowired
-	private RepositoryProperties repositoryProperties;
+  @Autowired
+  private RepositoryProperties repositoryProperties;
 
-	private static final Logger log = LoggerFactory.getLogger(GitService.class);
+  private static final Logger log = LoggerFactory.getLogger(GitService.class);
 
-	public GitService() {
+  public GitService() {
 
-	}
+  }
 
-	/**
-	 * Clones the remote repository if it does not exist or update a current
-	 * one.
-	 */
-	public void updateLocalRepository() {
-		if (repositoryProperties.getUsername() == null || repositoryProperties.getUsername().isEmpty()
-				|| repositoryProperties.getPassword() == null || repositoryProperties.getPassword().isEmpty()
-				|| repositoryProperties.getUsername().contains("git.username")
-				|| repositoryProperties.getPassword().contains("git.pass")) {
-			log.error(
-					"The username and password must be set before starting this application.  Use the parameters -Dgit.username=yourUsername and -Dgit.password=yourPassword.");
-		} else {
-			Git git = null;
-			try {
-				git = openRepository();
-			} catch (IOException | IllegalStateException | GitAPIException ex) {
-				log.error("An exception occured while updating the local repo:", ex);
-			} finally {
-				if (git != null && git.getRepository() != null) {
-					// workaround for
-					// https://bugs.eclipse.org/bugs/show_bug.cgi?id=474093
-					git.getRepository().close();
-				}
-			}
-		}
-	}
+  /**
+   * Clones the remote repository if it does not exist or update a current one.
+   */
+  public void updateLocalRepository() {
+    log.error("username: " + repositoryProperties.getUsername());
+    log.error("pass" + repositoryProperties.getPassword());
+    if (repositoryProperties.getUsername() == null || repositoryProperties.getUsername().isEmpty()
+        || repositoryProperties.getPassword() == null
+        || repositoryProperties.getPassword().isEmpty()
+        || repositoryProperties.getUsername().contains("git.username")
+        || repositoryProperties.getPassword().contains("git.pass")) {
+      log.error(
+          "The username and password must be set before starting this application.  Use the parameters -Dgit.username=yourUsername and -Dgit.password=yourPassword.");
+    }
+    else {
+      Git git = null;
+      try {
+        git = openRepository();
+      }
+      catch (IOException | IllegalStateException | GitAPIException ex) {
+        log.error("An exception occured while updating the local repo:", ex);
+      }
+      finally {
+        if (git != null && git.getRepository() != null) {
+          // workaround for
+          // https://bugs.eclipse.org/bugs/show_bug.cgi?id=474093
+          git.getRepository().close();
+        }
+      }
+    }
+  }
 
-	private Git openRepository() throws IOException, IllegalStateException, GitAPIException {
-		File gitDirectory = new File(repositoryProperties.getLocalRepo());
-		Git git;
+  private Git openRepository() throws IOException, IllegalStateException, GitAPIException {
+    File gitDirectory = new File(repositoryProperties.getLocalRepo());
+    Git git;
 
-		if (gitDirectory.exists() && gitDirectory.list().length > 1) {
-			FileRepositoryBuilder builder = new FileRepositoryBuilder();
-			builder.addCeilingDirectory(gitDirectory);
-			builder.findGitDir(gitDirectory);
-			git = new Git(builder.build());
-			git.fetch().setCheckFetchedObjects(true).setCredentialsProvider(getRemoteCredentials()).call();
-		} else {
-			git = cloneRepository(gitDirectory);
-		}
-		return git;
-	}
+    if (gitDirectory.exists() && gitDirectory.list().length > 1) {
+      FileRepositoryBuilder builder = new FileRepositoryBuilder();
+      builder.addCeilingDirectory(gitDirectory);
+      builder.findGitDir(gitDirectory);
+      git = new Git(builder.build());
+      git.fetch().setCheckFetchedObjects(true).setCredentialsProvider(getRemoteCredentials())
+          .call();
+    }
+    else {
+      git = cloneRepository(gitDirectory);
+    }
+    return git;
+  }
 
-	private Git cloneRepository(File gitDirectory) throws InvalidRemoteException, TransportException, GitAPIException {
-		if (!gitDirectory.exists()) {
-			gitDirectory.mkdirs();
-		}
-		gitDirectory.delete();
+  private Git cloneRepository(File gitDirectory)
+      throws InvalidRemoteException, TransportException, GitAPIException {
+    if (!gitDirectory.exists()) {
+      gitDirectory.mkdirs();
+    }
+    gitDirectory.delete();
 
-		log.error("*********************************");
-		log.error("Cloning from " + repositoryProperties.getRemoteRepo() + " to " + gitDirectory);
-		log.error("*********************************");
-		try (Git result = Git.cloneRepository().setURI(repositoryProperties.getRemoteRepo()).setDirectory(gitDirectory)
-				.setCredentialsProvider(getRemoteCredentials()).call()) {
+    log.error("*********************************");
+    log.error("Cloning from " + repositoryProperties.getRemoteRepo() + " to " + gitDirectory);
+    log.error("*********************************");
+    try (Git result = Git.cloneRepository().setURI(repositoryProperties.getRemoteRepo())
+        .setDirectory(gitDirectory).setCredentialsProvider(getRemoteCredentials()).call()) {
 
-			log.debug("Having repository: " + result.getRepository().getDirectory());
-			return result;
-		}
-	}
+      log.debug("Having repository: " + result.getRepository().getDirectory());
+      return result;
+    }
+  }
 
-	private CredentialsProvider getRemoteCredentials() {
-		CredentialsProvider provider = new UsernamePasswordCredentialsProvider(repositoryProperties.getUsername(),
-				repositoryProperties.getPassword());
-		return provider;
-	}
+  private CredentialsProvider getRemoteCredentials() {
+    CredentialsProvider provider = new UsernamePasswordCredentialsProvider(
+        repositoryProperties.getUsername(), repositoryProperties.getPassword());
+    return provider;
+  }
 }

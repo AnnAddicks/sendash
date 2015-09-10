@@ -50,8 +50,7 @@ git:
   localRepo: '/home/tomcat7/powershell-status-scripts/'
   zipOfRep: '/home/tomcat7/sendash.zip'
   remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
-  username: ${git.username}
-  password: ${git.password}
+
   
 # LOGGING
 logging:
@@ -66,8 +65,7 @@ git:
   localRepo: './powershell-status-scripts/'
   zipOfRep: './sendash.zip'
   remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
-  username: ${git.username}
-  password: ${git.password}
+
 ---
 spring:
   profiles: test
