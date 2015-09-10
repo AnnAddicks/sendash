@@ -36,8 +36,7 @@ public class FileController {
 
   }
 
-  @RequestMapping(value = "/zip", method = RequestMethod.GET, produces = {
-      "application/octet-stream" })
+  @RequestMapping(value = "/zip", method = RequestMethod.GET, produces = { "application/zip" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a zip containing scripts of the powershell directory.", notes = "Returns all files in the directory in the zip.")
   public void getZipedScripts(HttpServletRequest request, HttpServletResponse response) {
