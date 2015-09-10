@@ -1,6 +1,5 @@
 package com.addicks.sendash.admin.api.rest;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.zip.ZipInputStream;
 
@@ -61,11 +60,12 @@ public class FileController {
 
   @RequestMapping(value = "/zip2", method = RequestMethod.GET, produces = { "application/zip" })
   @ResponseStatus(HttpStatus.OK)
-  public FileSystemResource getFile() {
+  public FileSystemResource getFile(HttpServletResponse response) {
     String headerKey = "Content-Disposition";
     String headerValue = String.format("attachment; filename=\"sendash\"");
-    File file = new File("./sendash.zip");
-    return new FileSystemResource(file);
+    response.setHeader(headerKey, headerValue);
+
+    return new FileSystemResource(fileService.getZipFile());
   }
 
 }

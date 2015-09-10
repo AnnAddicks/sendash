@@ -118,4 +118,8 @@ public class FileService {
     return new ZipInputStream(new FileInputStream(zipFile));
   }
 
+  public File getZipFile() {
+    return new File(repositoryProperties.getZipOfRep());
+  }
+
 }
