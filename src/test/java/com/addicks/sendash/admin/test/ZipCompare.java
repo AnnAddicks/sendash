@@ -9,7 +9,11 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ZipCompare {
+  private static final Logger log = LoggerFactory.getLogger(ZipCompare.class);
 
   public static boolean filesEqual(ZipFile file1, ZipFile file2) {
 
@@ -27,7 +31,7 @@ public class ZipCompare {
     for (Iterator<String> i = set1.iterator(); i.hasNext();) {
       String name = i.next();
       if (!set2.contains(name)) {
-        System.out.println(name + " not found in " + file2);
+        log.error(name + " not found in " + file2);
         errcount += 1;
         continue;
       }
@@ -35,25 +39,25 @@ public class ZipCompare {
         set2.remove(name);
         if (!streamsEqual(file1.getInputStream(file1.getEntry(name)),
             file2.getInputStream(file2.getEntry(name)))) {
-          System.out.println(name + " does not match");
+          log.error(name + " does not match");
           errcount += 1;
           continue;
         }
       }
       catch (Exception e) {
-        System.out.println(name + ": IO Error " + e);
+        log.error(name + ": IO Error " + e);
         e.printStackTrace();
         errcount += 1;
         continue;
       }
       filecount += 1;
     }
-    for (Iterator i = set2.iterator(); i.hasNext();) {
-      String name = (String) i.next();
-      System.out.println(name + " not found in " + file1);
+    for (Iterator<String> i = set2.iterator(); i.hasNext();) {
+      String name = i.next();
+      log.error(name + " not found in " + file1);
       errcount += 1;
     }
-    System.out.println(filecount + " entries matched");
+    log.error(filecount + " entries matched");
     if (errcount > 0) {
       return false;
     }

@@ -1,10 +1,14 @@
 package com.addicks.sendash.admin.api.rest.test;
 
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.util.zip.ZipFile;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +26,8 @@ import org.springframework.web.context.WebApplicationContext;
 import com.addicks.sendash.admin.api.rest.FileController;
 import com.addicks.sendash.admin.api.rest.GithubHookController;
 import com.addicks.sendash.admin.service.FileService;
+import com.addicks.sendash.admin.test.InputStreamToFile;
+import com.addicks.sendash.admin.test.ZipCompare;
 
 public class FileControllerTest extends ControllerTest {
 
@@ -51,8 +57,17 @@ public class FileControllerTest extends ControllerTest {
         .andExpect(status().isOk()).andExpect(content().contentType("application/zip"))
         .andDo(MockMvcResultHandlers.print()).andReturn();
 
-    log.error("result: " + result.getResponse().getContentAsByteArray());
-    log.error("String " + new String(result.getResponse().getContentAsByteArray()));
+    byte[] zip = result.getResponse().getContentAsByteArray();
+    File zipFromController = InputStreamToFile.convert(new ByteArrayInputStream(zip), ".zip");
+    File zipFromFile = fileService.getZipFile();
+
+    ZipFile fromController = new ZipFile(zipFromController);
+    ZipFile fromFile = new ZipFile(zipFromFile);
+    assertTrue(ZipCompare.filesEqual(fromController, fromFile));
+
+    zipFromController.delete();
+    fromController.close();
+    fromFile.close();
 
   }
 }

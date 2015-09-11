@@ -110,11 +110,9 @@ public class FileService {
   }
 
   public ZipInputStream getZip() throws IOException {
-
-    log.error("zip repo location: " + repositoryProperties.getZipOfRep());
     File zipFile = new File(repositoryProperties.getZipOfRep());
-    log.error("canonical Path: " + zipFile.getCanonicalPath());
-    log.error("exists: " + zipFile.exists());
+    log.debug("canonical Path: " + zipFile.getCanonicalPath());
+    log.debug("exists: " + zipFile.exists());
     return new ZipInputStream(new FileInputStream(zipFile));
   }
 
