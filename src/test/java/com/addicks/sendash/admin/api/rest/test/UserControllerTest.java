@@ -1,7 +1,12 @@
 package com.addicks.sendash.admin.api.rest.test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.IOException;
 
 import org.flywaydb.test.annotation.FlywayTest;
 import org.flywaydb.test.junit.FlywayTestExecutionListener;
@@ -29,6 +34,8 @@ import org.springframework.web.context.WebApplicationContext;
 import com.addicks.sendash.admin.Application;
 import com.addicks.sendash.admin.api.rest.UserController;
 import com.addicks.sendash.admin.domain.User;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 
 @Profile("test")
@@ -50,23 +57,27 @@ public class UserControllerTest extends ControllerTest {
 
   private MockMvc mvc;
 
-  private User user;
+  private byte[] userJson;
 
   @Before
-  public void initTests() {
+  public void initTests() throws JsonParseException, JsonMappingException, IOException, Exception {
     MockitoAnnotations.initMocks(this);
     mvc = MockMvcBuilders.webAppContextSetup(context).build();
-    user = 
+    userJson = readObjectFromJsonFile("json/user.json", User.class);
   }
 
   @Test
-  public void shouldCreateUser() {
+  public void shouldCreateUser() throws Exception {
     MvcResult result = mvc
-        .perform(post(SERVER + "/user").content(r1Json).contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON))
+        .perform(post(SERVER + UserController.REQUEST_MAPPING).content(userJson)
+            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
         .andExpect(redirectedUrlPattern(SERVER + UserController.REQUEST_MAPPING + "/[0-9]+"))
         .andReturn();
     long id = getResourceIdFromUrl(result.getResponse().getRedirectedUrl());
+
+    assertNotNull(id);
+    assertThat("id", id, greaterThan(0L));
+
   }
 }
