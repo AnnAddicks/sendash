@@ -14,7 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "person")
+@Table(name = "Person")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User implements UserDetails {
