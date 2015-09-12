@@ -1,5 +1,8 @@
 package com.addicks.sendash.admin.api.rest.test;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.flywaydb.test.annotation.FlywayTest;
 import org.flywaydb.test.junit.FlywayTestExecutionListener;
 import org.junit.Before;
@@ -10,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -24,6 +28,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.addicks.sendash.admin.Application;
 import com.addicks.sendash.admin.api.rest.UserController;
+import com.addicks.sendash.admin.domain.User;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 
 @Profile("test")
@@ -45,10 +50,13 @@ public class UserControllerTest extends ControllerTest {
 
   private MockMvc mvc;
 
+  private User user;
+
   @Before
   public void initTests() {
     MockitoAnnotations.initMocks(this);
     mvc = MockMvcBuilders.webAppContextSetup(context).build();
+    user = 
   }
 
   @Test
@@ -56,7 +64,8 @@ public class UserControllerTest extends ControllerTest {
     MvcResult result = mvc
         .perform(post(SERVER + "/user").content(r1Json).contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated()).andExpect(redirectedUrlPattern(RESOURCE_LOCATION_PATTERN))
+        .andExpect(status().isCreated())
+        .andExpect(redirectedUrlPattern(SERVER + UserController.REQUEST_MAPPING + "/[0-9]+"))
         .andReturn();
     long id = getResourceIdFromUrl(result.getResponse().getRedirectedUrl());
   }
