@@ -17,7 +17,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.addicks.sendash.admin.Application;
-import com.addicks.sendash.admin.dao.jpa.PersonRepository;
+import com.addicks.sendash.admin.dao.jpa.UserRepository;
 import com.addicks.sendash.admin.service.EndpointService;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 
@@ -38,14 +38,14 @@ public class AppUserIntegrationTest {
   private static final Logger log = LoggerFactory.getLogger(AppUserIntegrationTest.class);
 
   @Autowired
-  private PersonRepository personRepository;
+  private UserRepository repository;
 
   @Autowired
   private EndpointService endpointService;
 
   @Test
   public void testFlywayAddingUser() {
-    log.debug("\n\n\n\n***************************users:" + personRepository.findAll());
+    log.debug("\n\n\n\n***************************users:" + repository.findAll());
   }
 
   @Test

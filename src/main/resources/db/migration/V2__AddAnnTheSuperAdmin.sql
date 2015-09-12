@@ -1,1 +1,1 @@
-insert into PERSON( id, email, first_name, last_name) values( '7dc53df5703e49b38670b1c468f47f1fcc31', 'ann.addicks@test.com', 'ann', 'addicks');
+insert into PERSON(  email, first_name, last_name) values(  'ann.addicks@test.com', 'ann', 'addicks');

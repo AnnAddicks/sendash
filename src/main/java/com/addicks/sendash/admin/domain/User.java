@@ -14,28 +14,28 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "Person")
+@Table(name = "PERSON")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User implements UserDetails {
 
   private static final long serialVersionUID = 5651803198978520716L;
 
-  @Id
   @GeneratedValue()
-  private long id;
+  private Long id;
 
+  @Id
   private String email;
 
   private String firstName;
 
   private String lastName;
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
