@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -21,10 +22,10 @@ public class User implements UserDetails {
 
   private static final long serialVersionUID = 5651803198978520716L;
 
-  @GeneratedValue()
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Id
   private String email;
 
   private String firstName;
@@ -129,6 +130,12 @@ public class User implements UserDetails {
     else if (!email.equals(other.email))
       return false;
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName="
+        + lastName + "]";
   }
 
 }

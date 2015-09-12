@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.addicks.sendash.admin.Application;
+import com.addicks.sendash.admin.api.rest.GithubHookController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,11 +32,15 @@ public abstract class ControllerTest {
 
   protected static String SERVER = "http://localhost";
 
+  private static final Logger log = LoggerFactory.getLogger(GithubHookController.class);
+
   // match redirect header URL (aka Location header)
   protected static ResultMatcher redirectedUrlPattern(final String expectedUrlPattern) {
     return new ResultMatcher() {
       @Override
       public void match(MvcResult result) {
+
+        log.error("result" + result.getResponse().getRedirectedUrl());
         Pattern pattern = Pattern.compile("\\A" + expectedUrlPattern + "\\z");
         assertTrue(pattern.matcher(result.getResponse().getRedirectedUrl()).find());
       }
