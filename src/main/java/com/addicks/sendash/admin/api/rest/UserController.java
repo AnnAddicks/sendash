@@ -63,10 +63,7 @@ public class UserController extends AbstractRestHandler {
       HttpServletRequest request, HttpServletResponse response) {
 
     Page<User> userPage = userService.getAllUsers(page, size);
-    log.error("content: " + userPage.getContent());
-    log.error("size:" + userPage.getTotalElements());
-
-    // return userService.getAllUsers(page, size);
+    response.addHeader("X-Total-Count", "" + userPage.getNumberOfElements());
     return userPage.getContent();
   }
 }
