@@ -54,11 +54,14 @@ public class UserController extends AbstractRestHandler {
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a paginated list of all users.", notes = "The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
   public @ResponseBody Page<User> getAllUsers(
-      @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
-      @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "size", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
+      @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "_page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
+      @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
       HttpServletRequest request, HttpServletResponse response) {
 
-    log.error("Returning: " + userService.getAllUsers(page, size));
+    Page<User> userPage = userService.getAllUsers(page, size);
+    log.error("content: " + userPage.getContent());
+    log.error("size:" + userPage.getTotalElements());
+    log.error("Returning: " + page);
     return userService.getAllUsers(page, size);
   }
 }
