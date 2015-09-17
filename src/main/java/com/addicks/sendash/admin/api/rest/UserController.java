@@ -1,5 +1,7 @@
 package com.addicks.sendash.admin.api.rest;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -53,15 +55,21 @@ public class UserController extends AbstractRestHandler {
       "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a paginated list of all users.", notes = "The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
-  public @ResponseBody Page<User> getAllUsers(
+  public @ResponseBody List<User> getAllUsers(
       @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "_page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
+      @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = "DESC") String sortDir,
+      @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
       HttpServletRequest request, HttpServletResponse response) {
 
     Page<User> userPage = userService.getAllUsers(page, size);
     log.error("content: " + userPage.getContent());
     log.error("size:" + userPage.getTotalElements());
-    log.error("Returning: " + page);
-    return userService.getAllUsers(page, size);
+
+    String uri = request.getScheme() + request.getServerName();
+    response.setHeader("Access-Control-Allow-Origin", uri);
+
+    // return userService.getAllUsers(page, size);
+    return userPage.getContent();
   }
 }
