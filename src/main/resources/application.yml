@@ -13,10 +13,10 @@ spring.jmx:
 
 spring.datasource:
     driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:sendash;MODE=MySQL
+    url: jdbc:h2:mem:sendash;
     
-#spring.jpa:
-#   hibernate.ddl-auto: none
+spring.jpa:
+  hibernate.ddl-auto: none
 
 server:
   port: 8090
@@ -60,6 +60,13 @@ logging:
 ---
 spring:
   profiles: dev
+  
+spring.jpa:
+   hibernate.ddl-auto: none
+
+spring.datasource:
+  driverClassName: org.h2.Driver
+  url: jdbc:h2:mem:sendash;
   
 git:
   localRepo: './powershell-status-scripts/'
