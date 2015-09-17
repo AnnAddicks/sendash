@@ -66,9 +66,6 @@ public class UserController extends AbstractRestHandler {
     log.error("content: " + userPage.getContent());
     log.error("size:" + userPage.getTotalElements());
 
-    String uri = request.getScheme() + request.getServerName();
-    response.setHeader("Access-Control-Allow-Origin", uri);
-
     // return userService.getAllUsers(page, size);
     return userPage.getContent();
   }
