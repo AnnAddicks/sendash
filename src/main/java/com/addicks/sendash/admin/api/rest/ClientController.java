@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.support.StandardServletEnvironment;
 
 import com.addicks.sendash.admin.domain.Client;
 import com.addicks.sendash.admin.service.IClientService;
@@ -32,8 +35,22 @@ public class ClientController extends AbstractRestHandler {
 
   public static final String REQUEST_MAPPING = "/client";
 
+  private static final Logger log = LoggerFactory.getLogger(ClientController.class);
+
   @Autowired
   private IClientService clientService;
+
+  @Autowired
+  private StandardServletEnvironment environment;
+
+  public ClientController() {
+    log.error("***************");
+    log.error("Properties: ", environment.getSystemProperties());
+    log.error("Environment", environment.getSystemEnvironment());
+    log.error("PORT", environment.getProperty("PORT"));
+    log.error("port", environment.getProperty("port"));
+    log.error("***************");
+  }
 
   @RequestMapping(value = "", method = RequestMethod.POST, consumes = { "application/json",
       "application/xml" }, produces = { "application/json", "application/xml" })
