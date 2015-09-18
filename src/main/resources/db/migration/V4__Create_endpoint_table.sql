@@ -1,6 +1,6 @@
 CREATE table EndPoint(
     ID VARCHAR(36) NOT Null,
-    CLIENT_ID VARCHAR(36) NOT Null,
+    CLIENT_ID BIGINT NOT Null,
     HOST_NAME varchar(255),
     API_KEY varchar(255) UNIQUE,
     UPDATE_SCRIPT_REQUEST DATETIME,
