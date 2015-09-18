@@ -50,4 +50,9 @@ public class EndpointService implements IEndpointService {
     endpointRepository.delete(id);
   }
 
+  @Override
+  public Endpoint create(Endpoint object) {
+    return endpointRepository.save(object);
+  }
+
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +34,17 @@ public class ClientController extends AbstractRestHandler {
 
   @Autowired
   private IClientService clientService;
+
+  @RequestMapping(value = "", method = RequestMethod.POST, consumes = { "application/json",
+      "application/xml" }, produces = { "application/json", "application/xml" })
+  @ResponseStatus(HttpStatus.CREATED)
+  @ApiOperation(value = "Create a hotel resource.", notes = "Returns the URL of the new resource in the Location header.")
+  public void createHotel(@RequestBody Client client, HttpServletRequest request,
+      HttpServletResponse response) {
+    Client createdClient = clientService.create(client);
+    response.setHeader("Location",
+        request.getRequestURL().append("/").append(createdClient.getId()).toString());
+  }
 
   @RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json",
       "application/xml" })
@@ -60,7 +72,7 @@ public class ClientController extends AbstractRestHandler {
       "application/xml" })
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ApiOperation(value = "Delete a client.", notes = "You have to provide a valid hotel ID in the URL. Once deleted the resource can not be recovered.")
-  public void deleteHotel(
+  public void deleteClient(
       @ApiParam(value = "The ID of the existing hotel resource.", required = true) @PathVariable("id") Long id,
       HttpServletRequest request, HttpServletResponse response) {
     checkResourceFound(clientService.findById(id));

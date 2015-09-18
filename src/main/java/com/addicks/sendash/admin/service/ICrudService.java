@@ -11,4 +11,6 @@ public interface ICrudService<T> {
   T findById(Long id);
 
   void delete(Long id);
+
+  T create(T object);
 }

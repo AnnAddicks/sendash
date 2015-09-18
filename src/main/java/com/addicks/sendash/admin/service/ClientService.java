@@ -34,4 +34,9 @@ public class ClientService implements IClientService {
     clientRepository.delete(id);
   }
 
+  @Override
+  public Client create(Client object) {
+    return clientRepository.save(object);
+  }
+
 }
