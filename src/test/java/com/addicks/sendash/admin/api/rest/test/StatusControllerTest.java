@@ -103,10 +103,11 @@ public class StatusControllerTest extends ControllerTest {
     script.setScriptName("worker script 2");
     scriptService.save(script);
 
-    mvc.perform(post(TEST_URI).contentType(MediaType.APPLICATION_JSON)
-        .content("{\"id\": \"zzfe6e4c-f45a-43ef-8ca7-d2219b509099\",\"apiKey\": \"H9cZ0GA5WgaP\""
-            + ",\"lastUpdatedScripts\": 1185937200000}")
-        .accept(MediaType.APPLICATION_JSON))
+    mvc.perform(
+        post(TEST_URI).contentType(MediaType.APPLICATION_JSON)
+            .content("{\"id\": 1,\"apiKey\": \"H9cZ0GA5WgaP\""
+                + ",\"lastUpdatedScripts\": 1185937200000}")
+            .accept(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.updateNeeded").value(Boolean.TRUE))
         .andExpect(jsonPath("$.data").value(workerFile)).andDo(MockMvcResultHandlers.print());
   }
