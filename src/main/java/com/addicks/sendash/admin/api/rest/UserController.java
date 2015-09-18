@@ -62,7 +62,7 @@ public class UserController extends AbstractRestHandler {
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
       HttpServletRequest request, HttpServletResponse response) {
 
-    Page<User> userPage = userService.getAllUsers(page, size);
+    Page<User> userPage = userService.getAll(page, size);
     response.addHeader("X-Total-Count", "" + userPage.getNumberOfElements());
     return userPage.getContent();
   }

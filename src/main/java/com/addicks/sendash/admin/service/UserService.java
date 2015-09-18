@@ -27,7 +27,7 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public Page<User> getAllUsers(Integer page, Integer size) {
+  public Page<User> getAll(Integer page, Integer size) {
     return userRepository.findAll(new PageRequest(page, size));
   }
 

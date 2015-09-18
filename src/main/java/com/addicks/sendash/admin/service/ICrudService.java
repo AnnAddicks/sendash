@@ -6,5 +6,5 @@ public interface ICrudService<T> {
 
   T save(T object);
 
-  Page<T> getAllUsers(Integer page, Integer size);
+  Page<T> getAll(Integer page, Integer size);
 }

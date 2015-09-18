@@ -18,7 +18,7 @@ public class ClientService implements IClientService {
   }
 
   @Override
-  public Page<Client> getAllUsers(Integer page, Integer size) {
+  public Page<Client> getAll(Integer page, Integer size) {
     return clientRepository.findAll(new PageRequest(page, size));
   }
 
