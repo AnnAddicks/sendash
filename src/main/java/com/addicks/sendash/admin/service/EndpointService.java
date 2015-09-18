@@ -1,6 +1,8 @@
 package com.addicks.sendash.admin.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.addicks.sendash.admin.dao.jpa.EndpointRepository;
@@ -11,7 +13,7 @@ import com.addicks.sendash.admin.domain.Endpoint;
  */
 
 @Service
-public class EndpointService {
+public class EndpointService implements IEndpointService {
 
   @Autowired
   private EndpointRepository endpointRepository;
@@ -26,6 +28,16 @@ public class EndpointService {
 
   public Iterable<Endpoint> findAll() {
     return endpointRepository.findAll();
+  }
+
+  @Override
+  public Endpoint save(Endpoint object) {
+    return endpointRepository.save(object);
+  }
+
+  @Override
+  public Page<Endpoint> getAll(Integer page, Integer size) {
+    return endpointRepository.findAll(new PageRequest(page, size));
   }
 
 }
