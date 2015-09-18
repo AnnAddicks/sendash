@@ -1,5 +1,5 @@
 CREATE table Client(
-    id CHAR(36) UNIQUE NOT NULL,
+    id BIGINT NOT NULL AUTO_INCREMENT,
     name varchar(255),
     PRIMARY KEY(name)
 );
