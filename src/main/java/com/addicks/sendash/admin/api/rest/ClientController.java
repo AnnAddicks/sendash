@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,8 @@ import com.addicks.sendash.admin.service.IClientService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = ClientController.REQUEST_MAPPING)
@@ -45,5 +48,22 @@ public class ClientController extends AbstractRestHandler {
     Page<Client> clientPage = clientService.getAll(page, size);
     response.addHeader("X-Total-Count", "" + clientPage.getNumberOfElements());
     return clientPage.getContent();
+  }
+
+  @ApiResponses(value = {
+      // @ApiResponse(code = 400, message = "Invalid ID supplied",
+      // responseHeader = @ResponseHeader(name = "X-Rack-Cache", description =
+      // "Explains whether or not a cache was used", response = Boolean.class)
+      // ),
+      @ApiResponse(code = 404, message = "Client not found") })
+  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = { "application/json",
+      "application/xml" })
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @ApiOperation(value = "Delete a client.", notes = "You have to provide a valid hotel ID in the URL. Once deleted the resource can not be recovered.")
+  public void deleteHotel(
+      @ApiParam(value = "The ID of the existing hotel resource.", required = true) @PathVariable("id") Long id,
+      HttpServletRequest request, HttpServletResponse response) {
+    checkResourceFound(clientService.findById(id));
+    clientService.delete(id);
   }
 }

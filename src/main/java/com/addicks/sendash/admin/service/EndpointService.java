@@ -22,7 +22,7 @@ public class EndpointService implements IEndpointService {
 
   }
 
-  public Endpoint getEndpoint(String id, String apiKey) {
+  public Endpoint getEndpoint(Long id, String apiKey) {
     return endpointRepository.findByIdAndApiKey(id, apiKey);
   }
 
@@ -38,6 +38,16 @@ public class EndpointService implements IEndpointService {
   @Override
   public Page<Endpoint> getAll(Integer page, Integer size) {
     return endpointRepository.findAll(new PageRequest(page, size));
+  }
+
+  @Override
+  public Endpoint findById(Long id) {
+    return endpointRepository.findOne(id);
+  }
+
+  @Override
+  public void delete(Long id) {
+    endpointRepository.delete(id);
   }
 
 }

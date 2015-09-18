@@ -24,4 +24,14 @@ public class ClientService implements IClientService {
     return clientRepository.findAll(new PageRequest(page, size));
   }
 
+  @Override
+  public Client findById(Long id) {
+    return clientRepository.findOne(id);
+  }
+
+  @Override
+  public void delete(Long id) {
+    clientRepository.delete(id);
+  }
+
 }

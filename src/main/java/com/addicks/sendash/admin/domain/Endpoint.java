@@ -19,7 +19,7 @@ public class Endpoint implements Serializable {
   private static final long serialVersionUID = -710746835945529033L;
 
   @Id
-  private String id;
+  private Long id;
 
   @Column
   private Long clientId;
@@ -47,7 +47,7 @@ public class Endpoint implements Serializable {
   public Endpoint() {
   }
 
-  public Endpoint(String id, Long clientId, String hostName, String apiKey,
+  public Endpoint(Long id, Long clientId, String hostName, String apiKey,
       Date updateScriptRequest) {
     this.id = id;
     this.clientId = clientId;
@@ -57,11 +57,11 @@ public class Endpoint implements Serializable {
     scripts = new HashSet<>();
   }
 
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

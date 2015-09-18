@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 import com.mangofactory.swagger.plugin.EnableSwagger;
 import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
-import com.wordnik.swagger.model.ApiInfo;
+import com.mangofactory.swagger.models.dto.ApiInfo;
+
 
 @Configuration
 @EnableSwagger
@@ -33,7 +34,7 @@ public class SwaggerConfig {
   private ApiInfo apiInfo() {
     ApiInfo apiInfo = new ApiInfo("Spring Boot Sample REST APIs",
         "The APIs here demonstrate creating a 'production-ready' service built with Spring Boot and other helpful libraries",
-        "http://opensource.org/licenses/MIT", "khoubyari@gmail.com", "MIT",
+        "http://opensource.org/licenses/MIT", "sendashApi@sendash.com", "MIT",
         "http://opensource.org/licenses/MIT");
     return apiInfo;
   }

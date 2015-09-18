@@ -30,4 +30,15 @@ public class PendingEndpointService implements IPendingEndpointService {
 
   }
 
+  @Override
+  public PendingEndpoint findById(Long id) {
+    return pendingEndpointRepository.findOne(id);
+  }
+
+  @Override
+  public void delete(Long id) {
+    pendingEndpointRepository.delete(id);
+
+  }
+
 }

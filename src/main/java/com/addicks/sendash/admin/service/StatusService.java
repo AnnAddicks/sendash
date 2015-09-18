@@ -49,8 +49,8 @@ public class StatusService {
       return null;
     }
 
-    Endpoint endpoint = endpointService.getEndpoint(endpointStatus.getId(),
-        endpointStatus.getApiKey());
+    Long id = Long.valueOf(endpointStatus.getId());
+    Endpoint endpoint = endpointService.getEndpoint(id, endpointStatus.getApiKey());
     Iterable<Script> scripts = scriptService.getAllScripts();
     Status status = null;
 

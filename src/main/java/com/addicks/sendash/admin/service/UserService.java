@@ -31,4 +31,14 @@ public class UserService implements IUserService {
     return userRepository.findAll(new PageRequest(page, size));
   }
 
+  @Override
+  public User findById(Long id) {
+    return userRepository.findOne(id);
+  }
+
+  @Override
+  public void delete(Long id) {
+    userRepository.delete(id);
+  }
+
 }
