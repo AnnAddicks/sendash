@@ -11,12 +11,25 @@ public class PendingEndpoint implements Serializable {
   private static final long serialVersionUID = 4863519288808297293L;
 
   @Id
+  private Long id;
+
   private Long clientId;
 
-  @Id
   private String hostName;
 
   private String apiKey;
+
+  public PendingEndpoint() {
+
+  }
+
+  public Long getPendingEndpointId() {
+    return id;
+  }
+
+  public void setPendingEndpointId(Long pendingEndpointId) {
+    this.id = pendingEndpointId;
+  }
 
   public Long getClientId() {
     return clientId;

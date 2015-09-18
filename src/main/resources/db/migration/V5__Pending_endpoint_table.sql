@@ -1,11 +1,13 @@
-CREATE table PendingEndpoint(
-     clientId BIGINT NOT Null,
-     hostName varchar(255) NOT NULL,
-     apiKey varchar(255) NOT NULL,
-     PRIMARY KEY(clientId, hostName),
-     FOREIGN KEY (clientId)
-        REFERENCES Client(id)
+CREATE table PENDING_ENDPOINT(
+     ID BIGINT NOT NULL AUTO_INCREMENT,
+     CLIENT_ID BIGINT NOT Null,
+     HOST_NAME varchar(255) NOT NULL,
+     API_KEY varchar(255) NOT NULL,
+     PRIMARY KEY(ID),
+    CONSTRAINT client_host UNIQUE (CLIENT_ID, HOST_NAME),
+     FOREIGN KEY (CLIENT_ID)
+        REFERENCES Client(ID)
 );
 
 CREATE INDEX pendingEndPointApiAndClientId
-    ON PendingEndpoint(clientId, apiKey);
+    ON PENDING_ENDPOINT(CLIENT_ID, API_KEY);
