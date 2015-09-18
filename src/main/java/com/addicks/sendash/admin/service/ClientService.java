@@ -3,10 +3,12 @@ package com.addicks.sendash.admin.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import com.addicks.sendash.admin.dao.jpa.ClientRepository;
 import com.addicks.sendash.admin.domain.Client;
 
+@Service
 public class ClientService implements IClientService {
 
   @Autowired
