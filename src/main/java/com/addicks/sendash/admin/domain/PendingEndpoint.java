@@ -23,7 +23,7 @@ public class PendingEndpoint implements Serializable {
 
   }
 
-  public Long getPendingEndpointId() {
+  public Long getId() {
     return id;
   }
 

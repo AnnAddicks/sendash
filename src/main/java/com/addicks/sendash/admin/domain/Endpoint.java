@@ -45,6 +45,13 @@ public class Endpoint implements Serializable {
   private Set<Script> scripts;
 
   public Endpoint() {
+
+  }
+
+  public Endpoint(PendingEndpoint pendingEndpoint) {
+    clientId = pendingEndpoint.getClientId();
+    hostName = pendingEndpoint.getHostName();
+    apiKey = pendingEndpoint.getApiKey();
   }
 
   public Endpoint(Long id, Long clientId, String hostName, String apiKey,
