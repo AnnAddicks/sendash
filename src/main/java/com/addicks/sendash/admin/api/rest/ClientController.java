@@ -66,6 +66,18 @@ public class ClientController extends AbstractRestHandler {
     return clientPage.getContent();
   }
 
+  @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = { "application/json",
+      "application/xml" })
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(value = "Get a single client.", notes = "You have to provide a valid client ID.")
+  public @ResponseBody Client getHotel(
+      @ApiParam(value = "The ID of the client.", required = true) @PathVariable("id") Long id,
+      HttpServletRequest request, HttpServletResponse response) throws Exception {
+    Client client = clientService.findById(id);
+    checkResourceFound(client);
+    return client;
+  }
+
   @ApiResponses(value = {
       // @ApiResponse(code = 400, message = "Invalid ID supplied",
       // responseHeader = @ResponseHeader(name = "X-Rack-Cache", description =
