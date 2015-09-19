@@ -43,8 +43,8 @@ public class ClientController extends AbstractRestHandler {
   @RequestMapping(value = "", method = RequestMethod.POST, consumes = { "application/json",
       "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.CREATED)
-  @ApiOperation(value = "Create a hotel resource.", notes = "Returns the URL of the new resource in the Location header.")
-  public void createHotel(@RequestBody Client client, HttpServletRequest request,
+  @ApiOperation(value = "Create a client resource.", notes = "Returns the URL of the new resource in the Location header.")
+  public void createClient(@RequestBody Client client, HttpServletRequest request,
       HttpServletResponse response) {
     Client createdClient = clientService.create(client);
     response.setHeader("Location",
@@ -71,7 +71,7 @@ public class ClientController extends AbstractRestHandler {
       "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a single client.", notes = "You have to provide a valid client ID.")
-  public @ResponseBody Client getHotel(
+  public @ResponseBody Client getClient(
       @ApiParam(value = "The ID of the client.", required = true) @PathVariable("id") Long id,
       HttpServletRequest request, HttpServletResponse response) throws Exception {
     Client client = clientService.findById(id);
@@ -83,7 +83,7 @@ public class ClientController extends AbstractRestHandler {
       "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ApiOperation(value = "Update a client.", notes = "Provide a valid client ID in the URL and in the payload. The ID attribute can not be updated.")
-  public void updateHotel(
+  public void updateClient(
       @ApiParam(value = "The ID of the existing client resource.", required = true) @PathVariable("id") Long id,
       @RequestBody Client client, HttpServletRequest request, HttpServletResponse response) {
     checkResourceFound(clientService.findById(id));
@@ -103,7 +103,7 @@ public class ClientController extends AbstractRestHandler {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ApiOperation(value = "Delete a client.", notes = "You have to provide a valid client ID in the URL. Once deleted the resource can not be recovered.")
   public void deleteClient(
-      @ApiParam(value = "The ID of the existing hotel resource.", required = true) @PathVariable("id") Long id,
+      @ApiParam(value = "The ID of the existing client resource.", required = true) @PathVariable("id") Long id,
       HttpServletRequest request, HttpServletResponse response) {
     checkResourceFound(clientService.findById(id));
     clientService.delete(id);

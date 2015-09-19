@@ -38,7 +38,7 @@ public class EndpointController extends AbstractRestHandler {
       "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.CREATED)
   @ApiOperation(value = "Create a endpoint resource.", notes = "Returns the URL of the new resource in the Location header.")
-  public void createHotel(@RequestBody Endpoint endpoint, HttpServletRequest request,
+  public void createEndpoint(@RequestBody Endpoint endpoint, HttpServletRequest request,
       HttpServletResponse response) {
     Endpoint createdEndpoint = endpointService.create(endpoint);
     response.setHeader("Location",
@@ -65,7 +65,7 @@ public class EndpointController extends AbstractRestHandler {
       "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a single endpoint.", notes = "You have to provide a valid endpoint ID.")
-  public @ResponseBody Endpoint getHotel(
+  public @ResponseBody Endpoint getEndpoint(
       @ApiParam(value = "The ID of the endpoint.", required = true) @PathVariable("id") Long id,
       HttpServletRequest request, HttpServletResponse response) throws Exception {
     Endpoint endpoint = endpointService.findById(id);
@@ -77,7 +77,7 @@ public class EndpointController extends AbstractRestHandler {
       "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ApiOperation(value = "Update an endpoint.", notes = "Provide a valid endpoint ID in the URL and in the payload. The ID attribute can not be updated.")
-  public void updateHotel(
+  public void updateEndpoint(
       @ApiParam(value = "The ID of the existing endpoint resource.", required = true) @PathVariable("id") Long id,
       @RequestBody Endpoint endpoint, HttpServletRequest request, HttpServletResponse response) {
     checkResourceFound(endpointService.findById(id));

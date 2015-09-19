@@ -49,7 +49,7 @@ public class UserController extends AbstractRestHandler {
       "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.CREATED)
   @ApiOperation(value = "Create a user.", notes = "Returns the URL of the new user in the Location header.")
-  public void createHotel(@RequestBody User user, HttpServletRequest request,
+  public void createUser(@RequestBody User user, HttpServletRequest request,
       HttpServletResponse response) {
     User savedUser = userService.save(user);
     response.setHeader("Location",
@@ -76,7 +76,7 @@ public class UserController extends AbstractRestHandler {
       "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a single user.", notes = "You have to provide a valid user ID.")
-  public @ResponseBody User getHotel(
+  public @ResponseBody User getUser(
       @ApiParam(value = "The ID of the user.", required = true) @PathVariable("id") Long id,
       HttpServletRequest request, HttpServletResponse response) throws Exception {
     User user = userService.findById(id);
@@ -88,7 +88,7 @@ public class UserController extends AbstractRestHandler {
       "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ApiOperation(value = "Update a user.", notes = "Provide a valid user ID in the URL and in the payload. The ID attribute can not be updated.")
-  public void updateHotel(
+  public void updateUser(
       @ApiParam(value = "The ID of the existing user resource.", required = true) @PathVariable("id") Long id,
       @RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
     checkResourceFound(userService.findById(id));
@@ -108,7 +108,7 @@ public class UserController extends AbstractRestHandler {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ApiOperation(value = "Delete a user.", notes = "You have to provide a valid user ID in the URL. Once deleted the resource can not be recovered.")
   public void deleteUser(
-      @ApiParam(value = "The ID of the existing hotel resource.", required = true) @PathVariable("id") Long id,
+      @ApiParam(value = "The ID of the existing user resource.", required = true) @PathVariable("id") Long id,
       HttpServletRequest request, HttpServletResponse response) {
     checkResourceFound(userService.findById(id));
     userService.delete(id);

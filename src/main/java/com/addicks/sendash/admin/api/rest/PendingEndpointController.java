@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,10 +18,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.addicks.sendash.admin.domain.PendingEndpoint;
+import com.addicks.sendash.admin.exception.DataFormatException;
 import com.addicks.sendash.admin.service.IPendingEndpointService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = PendingEndpointController.REQUEST_MAPPING)
@@ -30,6 +35,17 @@ public class PendingEndpointController extends AbstractRestHandler {
 
   @Autowired
   private IPendingEndpointService pendingEndpointService;
+
+  @RequestMapping(value = "", method = RequestMethod.POST, consumes = { "application/json",
+      "application/xml" }, produces = { "application/json", "application/xml" })
+  @ResponseStatus(HttpStatus.CREATED)
+  @ApiOperation(value = "Create a pendingEndpoint resource.", notes = "Returns the URL of the new resource in the Location header.")
+  public void creatependingEndpoint(@RequestBody PendingEndpoint pendingEndpoint,
+      HttpServletRequest request, HttpServletResponse response) {
+    PendingEndpoint createdPendingEndpoint = pendingEndpointService.create(pendingEndpoint);
+    response.setHeader("Location",
+        request.getRequestURL().append("/").append(createdPendingEndpoint.getId()).toString());
+  }
 
   @RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json",
       "application/xml" })
@@ -42,8 +58,63 @@ public class PendingEndpointController extends AbstractRestHandler {
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
       HttpServletRequest request, HttpServletResponse response) {
 
-    Page<PendingEndpoint> clientPage = pendingEndpointService.getAll(page, size);
-    response.addHeader("X-Total-Count", "" + clientPage.getNumberOfElements());
-    return clientPage.getContent();
+    Page<PendingEndpoint> pendingEndpointPage = pendingEndpointService.getAll(page, size);
+    response.addHeader("X-Total-Count", "" + pendingEndpointPage.getNumberOfElements());
+    return pendingEndpointPage.getContent();
   }
+
+  @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = { "application/json",
+      "application/xml" })
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(value = "Get a single pendingEndpoint.", notes = "You have to provide a valid pendingEndpoint ID.")
+  public @ResponseBody PendingEndpoint getpendingEndpoint(
+      @ApiParam(value = "The ID of the pendingEndpoint.", required = true) @PathVariable("id") Long id,
+      HttpServletRequest request, HttpServletResponse response) throws Exception {
+    PendingEndpoint pendingEndpoint = pendingEndpointService.findById(id);
+    checkResourceFound(pendingEndpoint);
+    return pendingEndpoint;
+  }
+
+  @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = { "application/json",
+      "application/xml" }, produces = { "application/json", "application/xml" })
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @ApiOperation(value = "Update a pendingEndpoint.", notes = "Provide a valid pendingEndpoint ID in the URL and in the payload. The ID attribute can not be updated.")
+  public void updatependingEndpoint(
+      @ApiParam(value = "The ID of the existing pendingEndpoint resource.", required = true) @PathVariable("id") Long id,
+      @RequestBody PendingEndpoint pendingEndpoint, HttpServletRequest request,
+      HttpServletResponse response) {
+    checkResourceFound(pendingEndpointService.findById(id));
+    if (id != pendingEndpoint.getId())
+      throw new DataFormatException("ID doesn't match!");
+    pendingEndpointService.update(pendingEndpoint);
+  }
+
+  @ApiResponses(value = {
+      // @ApiResponse(code = 400, message = "Invalid ID supplied",
+      // responseHeader = @ResponseHeader(name = "X-Rack-Cache", description =
+      // "Explains whether or not a cache was used", response = Boolean.class)
+      // ),
+      @ApiResponse(code = 404, message = "PendingEndpoint not found") })
+  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = { "application/json",
+      "application/xml" })
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @ApiOperation(value = "Delete a pendingEndpoint.", notes = "You have to provide a valid pendingEndpoint ID in the URL. Once deleted the resource can not be recovered.")
+  public void deletePendingEndpoint(
+      @ApiParam(value = "The ID of the existing pending endpoint resource.", required = true) @PathVariable("id") Long id,
+      HttpServletRequest request, HttpServletResponse response) {
+    checkResourceFound(pendingEndpointService.findById(id));
+    pendingEndpointService.delete(id);
+  }
+
+  @RequestMapping(value = "/approve", method = RequestMethod.POST, consumes = { "application/json",
+      "application/xml" }, produces = { "application/json", "application/xml" })
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(value = "Approve pendingEndpoint(s).", notes = "Provide one or more valid pendingEndpoint IDs in  the payload.")
+  public void approvePendingEndpoint(
+      @ApiParam(value = "The ID of the existing pending endpoint resource(s) to approve.", required = true) @RequestBody List<Long> ids,
+      @RequestBody PendingEndpoint pendingEndpoint, HttpServletRequest request,
+      HttpServletResponse response) {
+    pendingEndpointService.approve(ids);
+  }
+
 }
