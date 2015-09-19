@@ -55,4 +55,9 @@ public class EndpointService implements IEndpointService {
     return endpointRepository.save(object);
   }
 
+  @Override
+  public void update(Endpoint object) {
+    endpointRepository.save(object);
+  }
+
 }

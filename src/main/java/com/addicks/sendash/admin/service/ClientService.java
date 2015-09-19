@@ -39,4 +39,9 @@ public class ClientService implements IClientService {
     return clientRepository.save(object);
   }
 
+  @Override
+  public void update(Client object) {
+    clientRepository.save(object);
+  }
+
 }

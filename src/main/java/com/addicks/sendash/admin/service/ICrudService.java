@@ -13,4 +13,6 @@ public interface ICrudService<T> {
   void delete(Long id);
 
   T create(T object);
+
+  void update(T object);
 }

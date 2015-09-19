@@ -46,4 +46,9 @@ public class PendingEndpointService implements IPendingEndpointService {
     return pendingEndpointRepository.save(object);
   }
 
+  @Override
+  public void update(PendingEndpoint object) {
+    pendingEndpointRepository.save(object);
+  }
+
 }

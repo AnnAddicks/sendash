@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.addicks.sendash.admin.domain.Client;
+import com.addicks.sendash.admin.exception.DataFormatException;
 import com.addicks.sendash.admin.service.IClientService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -76,6 +77,19 @@ public class ClientController extends AbstractRestHandler {
     Client client = clientService.findById(id);
     checkResourceFound(client);
     return client;
+  }
+
+  @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = { "application/json",
+      "application/xml" }, produces = { "application/json", "application/xml" })
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @ApiOperation(value = "Update a client.", notes = "Provide a valid client ID in the URL and in the payload. The ID attribute can not be updated.")
+  public void updateHotel(
+      @ApiParam(value = "The ID of the existing client resource.", required = true) @PathVariable("id") Long id,
+      @RequestBody Client client, HttpServletRequest request, HttpServletResponse response) {
+    checkResourceFound(clientService.findById(id));
+    if (id != client.getId())
+      throw new DataFormatException("ID doesn't match!");
+    clientService.update(client);
   }
 
   @ApiResponses(value = {
