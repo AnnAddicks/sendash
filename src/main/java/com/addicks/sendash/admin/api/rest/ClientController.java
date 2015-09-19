@@ -101,7 +101,7 @@ public class ClientController extends AbstractRestHandler {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = { "application/json",
       "application/xml" })
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @ApiOperation(value = "Delete a client.", notes = "You have to provide a valid hotel ID in the URL. Once deleted the resource can not be recovered.")
+  @ApiOperation(value = "Delete a client.", notes = "You have to provide a valid client ID in the URL. Once deleted the resource can not be recovered.")
   public void deleteClient(
       @ApiParam(value = "The ID of the existing hotel resource.", required = true) @PathVariable("id") Long id,
       HttpServletRequest request, HttpServletResponse response) {
