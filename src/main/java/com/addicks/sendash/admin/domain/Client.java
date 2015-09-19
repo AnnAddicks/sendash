@@ -12,10 +12,10 @@ public class Client implements Serializable {
 
   private static final long serialVersionUID = 7236302321181353033L;
 
+  @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Id
   private String name;
 
   public Long getId() {
