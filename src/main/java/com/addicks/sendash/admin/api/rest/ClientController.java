@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.support.StandardServletEnvironment;
 
 import com.addicks.sendash.admin.domain.Client;
 import com.addicks.sendash.admin.service.IClientService;
@@ -39,18 +38,6 @@ public class ClientController extends AbstractRestHandler {
 
   @Autowired
   private IClientService clientService;
-
-  @Autowired
-  private StandardServletEnvironment environment;
-
-  public ClientController() {
-    log.error("***************");
-    log.error("Properties: ", environment.getSystemProperties());
-    log.error("Environment", environment.getSystemEnvironment());
-    log.error("PORT", environment.getProperty("PORT"));
-    log.error("port", environment.getProperty("port"));
-    log.error("***************");
-  }
 
   @RequestMapping(value = "", method = RequestMethod.POST, consumes = { "application/json",
       "application/xml" }, produces = { "application/json", "application/xml" })
