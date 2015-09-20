@@ -14,3 +14,5 @@ CREATE INDEX endPointId
 
 CREATE INDEX endPointApiAndClientId
     ON EndPoint(CLIENT_ID, API_KEY);
+    
+INSERT INTO EndPoint (ID, CLIENT_ID, HOST_NAME, API_KEY) VALUES (2, 1, 'another host name.', 'H9c!!!A5WgaP');
