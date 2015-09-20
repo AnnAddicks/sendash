@@ -15,5 +15,5 @@ CREATE INDEX endPointId
 CREATE INDEX endPointApiAndClientId
     ON EndPoint(CLIENT_ID, API_KEY);
 
-INSERT INTO Client (id, name) VALUES (1, 'Client 1');
-INSERT INTO EndPoint (ID, CLIENT_ID, HOST_NAME, API_KEY) VALUES (2, 1, 'another host name.', 'H9c!!!A5WgaP');
+INSERT INTO Client (id, name) VALUES (1, 'A Very Importanat Client');
+INSERT INTO EndPoint (ID, CLIENT_ID, HOST_NAME, API_KEY) VALUES (2, 1, 'Super Important host name.', 'H9c!!!Asdf5WgaP');
