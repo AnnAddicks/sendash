@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
@@ -21,8 +22,8 @@ public class Endpoint implements Serializable {
   @Id
   private Long id;
 
-  @Column
-  private Long clientId;
+  @Embedded
+  private Client client;
 
   // @Id
   // TODO add composit id
@@ -49,15 +50,15 @@ public class Endpoint implements Serializable {
   }
 
   public Endpoint(PendingEndpoint pendingEndpoint) {
-    clientId = pendingEndpoint.getClientId();
+    client = pendingEndpoint.getClient();
     hostName = pendingEndpoint.getHostName();
     apiKey = pendingEndpoint.getApiKey();
   }
 
-  public Endpoint(Long id, Long clientId, String hostName, String apiKey,
+  public Endpoint(Long id, Client client, String hostName, String apiKey,
       Date updateScriptRequest) {
     this.id = id;
-    this.clientId = clientId;
+    this.client = client;
     this.hostName = hostName;
     this.apiKey = apiKey;
     this.updateScriptRequest = updateScriptRequest;
@@ -72,12 +73,12 @@ public class Endpoint implements Serializable {
     this.id = id;
   }
 
-  public Long getClientId() {
-    return clientId;
+  public Client getClient() {
+    return client;
   }
 
-  public void setClientId(Long clientId) {
-    this.clientId = clientId;
+  public void setClient(Client client) {
+    this.client = client;
   }
 
   public String getHostName() {
@@ -123,7 +124,8 @@ public class Endpoint implements Serializable {
 
     if (id != null ? !id.equals(endpoint.id) : endpoint.id != null)
       return false;
-    if (clientId != null ? !clientId.equals(endpoint.clientId) : endpoint.clientId != null)
+    if (client.getId() != null ? !client.getId().equals(endpoint.client.getId())
+        : endpoint.client.getId() != null)
       return false;
     if (hostName != null ? !hostName.equals(endpoint.hostName) : endpoint.hostName != null)
       return false;
@@ -137,7 +139,7 @@ public class Endpoint implements Serializable {
   @Override
   public int hashCode() {
     int result = id != null ? id.hashCode() : 0;
-    result = 31 * result + (clientId != null ? clientId.hashCode() : 0);
+    result = 31 * result + (client.getId() != null ? client.getId().hashCode() : 0);
     result = 31 * result + (hostName != null ? hostName.hashCode() : 0);
     result = 31 * result + (apiKey != null ? apiKey.hashCode() : 0);
     result = 31 * result + (updateScriptRequest != null ? updateScriptRequest.hashCode() : 0);
@@ -146,8 +148,8 @@ public class Endpoint implements Serializable {
 
   @Override
   public String toString() {
-    return "Endpoint{" + "id='" + id + '\'' + ", clientId='" + clientId + '\'' + ", hostName='"
-        + hostName + '\'' + ", apiKey='" + apiKey + '\'' + ", updateScriptRequest="
+    return "Endpoint{" + "id='" + id + '\'' + ", client.getId()='" + client.getId() + '\''
+        + ", hostName='" + hostName + '\'' + ", apiKey='" + apiKey + '\'' + ", updateScriptRequest="
         + updateScriptRequest + '}';
   }
 }

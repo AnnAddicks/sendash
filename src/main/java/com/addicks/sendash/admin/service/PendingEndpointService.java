@@ -33,11 +33,6 @@ public class PendingEndpointService implements IPendingEndpointService {
   }
 
   @Override
-  public void approve(PendingEndpoint endpoint) {
-
-  }
-
-  @Override
   public void approve(Collection<Long> idsToApprove) {
     Iterable<PendingEndpoint> pendingEndpoints = pendingEndpointRepository.findAll(idsToApprove);
 

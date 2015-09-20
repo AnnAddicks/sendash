@@ -2,6 +2,7 @@ package com.addicks.sendash.admin.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -13,7 +14,8 @@ public class PendingEndpoint implements Serializable {
   @Id
   private Long id;
 
-  private Long clientId;
+  @Embedded
+  private Client client;
 
   private String hostName;
 
@@ -31,12 +33,12 @@ public class PendingEndpoint implements Serializable {
     this.id = pendingEndpointId;
   }
 
-  public Long getClientId() {
-    return clientId;
+  public Client getClient() {
+    return client;
   }
 
-  public void setClientId(Long clientId) {
-    this.clientId = clientId;
+  public void setClientId(Client client) {
+    this.client = client;
   }
 
   public String getHostName() {
@@ -64,7 +66,7 @@ public class PendingEndpoint implements Serializable {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((apiKey == null) ? 0 : apiKey.hashCode());
-    result = prime * result + ((clientId == null) ? 0 : clientId.hashCode());
+    result = prime * result + ((client.getId() == null) ? 0 : client.getId().hashCode());
     result = prime * result + ((hostName == null) ? 0 : hostName.hashCode());
     return result;
   }
@@ -84,11 +86,11 @@ public class PendingEndpoint implements Serializable {
     }
     else if (!apiKey.equals(other.apiKey))
       return false;
-    if (clientId == null) {
-      if (other.clientId != null)
+    if (client.getId() == null) {
+      if (other.client.getId() != null)
         return false;
     }
-    else if (!clientId.equals(other.clientId))
+    else if (!client.getId().equals(other.client.getId()))
       return false;
     if (hostName == null) {
       if (other.hostName != null)
@@ -101,7 +103,7 @@ public class PendingEndpoint implements Serializable {
 
   @Override
   public String toString() {
-    return "PendingEndpoint [clientId=" + clientId + ", hostName=" + hostName + ", apiKey=" + apiKey
+    return "PendingEndpoint [client=" + client + ", hostName=" + hostName + ", apiKey=" + apiKey
         + "]";
   }
 
