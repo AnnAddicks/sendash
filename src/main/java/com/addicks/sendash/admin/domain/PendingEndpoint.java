@@ -2,9 +2,10 @@ package com.addicks.sendash.admin.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class PendingEndpoint implements Serializable {
@@ -14,7 +15,8 @@ public class PendingEndpoint implements Serializable {
   @Id
   private Long id;
 
-  @Embedded
+  @ManyToOne
+  @JoinColumn(name = "CLIENT_ID")
   private Client client;
 
   private String hostName;
