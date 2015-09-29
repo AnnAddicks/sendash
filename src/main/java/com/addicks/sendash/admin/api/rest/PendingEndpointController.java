@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -111,7 +112,7 @@ public class PendingEndpointController extends AbstractRestHandler {
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Approve pendingEndpoint(s).", notes = "Provide one or more valid pendingEndpoint IDs in  the payload.")
   public void approvePendingEndpoint(
-      @ApiParam(value = "The ID of the existing pending endpoint resource(s) to approve.", required = true) @RequestParam List<Long> ids,
+      @ApiParam(value = "The ID of the existing pending endpoint resource(s) to approve.", required = true) @ModelAttribute List<Long> ids,
       HttpServletRequest request, HttpServletResponse response) {
     pendingEndpointService.approve(ids);
   }
