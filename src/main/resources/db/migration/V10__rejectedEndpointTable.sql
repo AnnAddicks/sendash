@@ -4,7 +4,7 @@ CREATE table REJECTED_ENDPOINT(
      HOST_NAME varchar(255) NOT NULL,
      API_KEY varchar(255) NOT NULL,
      PRIMARY KEY(ID),
-    CONSTRAINT client_host UNIQUE (CLIENT_ID, HOST_NAME),
+    CONSTRAINT rejected_client_host UNIQUE (CLIENT_ID, HOST_NAME),
      FOREIGN KEY (CLIENT_ID)
         REFERENCES Client(ID)
 );
