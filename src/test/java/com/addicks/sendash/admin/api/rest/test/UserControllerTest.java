@@ -69,7 +69,7 @@ public class UserControllerTest extends ControllerTest {
   @Test
   public void shouldCreateUser() throws Exception {
     MvcResult result = mvc
-        .perform(post(SERVER + UserController.REQUEST_MAPPING).content(userJson)
+        .perform(post(UserController.REQUEST_MAPPING).content(userJson)
             .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
         .andExpect(redirectedUrlPattern(SERVER + UserController.REQUEST_MAPPING + "/[0-9]+"))

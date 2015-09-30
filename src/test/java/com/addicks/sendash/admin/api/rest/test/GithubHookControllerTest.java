@@ -57,7 +57,7 @@ public class GithubHookControllerTest extends ControllerTest {
 
     byte[] json = readObjectFromJsonFile("json/githubPayload.json", Payload.class);
 
-    mvc.perform(post(SERVER + GithubHookController.REQUEST_MAPPING).content(json)
+    mvc.perform(post(GithubHookController.REQUEST_MAPPING).content(json)
         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
 
