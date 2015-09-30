@@ -115,7 +115,7 @@ public class PendingEndpointController extends AbstractRestHandler {
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Approve pendingEndpoint(s).", notes = "Provide one or more valid pendingEndpoint IDs in  the payload.")
   public void approvePendingEndpoint(
-      @ApiParam(value = "The ID of the existing pending endpoint resource(s) to approve.", required = true) PendingEndpointReviewRequest request,
+      @ApiParam(value = "The ID of the existing pending endpoint resource(s) to approve.", required = true) @RequestBody PendingEndpointReviewRequest request,
       HttpServletResponse response) {
     log.error("Ids:" + request.getIds());
     pendingEndpointService.approve(request.getIds());
