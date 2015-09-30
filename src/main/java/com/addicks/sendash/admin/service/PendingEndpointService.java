@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.addicks.sendash.admin.dao.jpa.EndpointRepository;
 import com.addicks.sendash.admin.dao.jpa.PendingEndpointRepository;
+import com.addicks.sendash.admin.dao.jpa.RejectedEndpointRepository;
 import com.addicks.sendash.admin.domain.Endpoint;
 import com.addicks.sendash.admin.domain.PendingEndpoint;
 import com.addicks.sendash.admin.domain.RejectedEndpoint;
@@ -25,6 +26,9 @@ public class PendingEndpointService implements IPendingEndpointService {
 
   @Autowired
   private EndpointRepository endpointRepository;
+
+  @Autowired
+  RejectedEndpointRepository rejectedEndpointRepository;
 
   @Override
   public PendingEndpoint save(PendingEndpoint object) {
@@ -79,6 +83,9 @@ public class PendingEndpointService implements IPendingEndpointService {
 
     pendingEndpoints
         .forEach(pendingEndpoint -> rejectedEndpoints.add(new RejectedEndpoint(pendingEndpoint)));
+
+    rejectedEndpointRepository.save(rejectedEndpoints);
+    pendingEndpointRepository.delete(pendingEndpoints);
   }
 
 }
