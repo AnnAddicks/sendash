@@ -1,20 +1,20 @@
 package com.addicks.sendash.admin.domain;
 
-import java.util.Collection;
+import java.util.List;
 
 public class PendingEndpointReviewRequest {
 
-  private Collection<Long> ids;
+  private List<Long> ids;
 
   public PendingEndpointReviewRequest() {
 
   }
 
-  public Collection<Long> getIds() {
+  public List<Long> getIds() {
     return ids;
   }
 
-  public void setIds(Collection<Long> ids) {
+  public void setIds(List<Long> ids) {
     this.ids = ids;
   }
 
