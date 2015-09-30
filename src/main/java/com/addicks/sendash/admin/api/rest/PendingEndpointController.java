@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 @RequestMapping(value = PendingEndpointController.REQUEST_MAPPING)
 @Api(value = "pendingEndpoint", description = "CRUD pending endpoint management.")
 public class PendingEndpointController extends AbstractRestHandler {
+  private static final Logger log = LoggerFactory.getLogger(PendingEndpointController.class);
 
   public static final String REQUEST_MAPPING = "/pending-endpoint";
 
@@ -114,6 +117,7 @@ public class PendingEndpointController extends AbstractRestHandler {
   public void approvePendingEndpoint(
       @ApiParam(value = "The ID of the existing pending endpoint resource(s) to approve.", required = true) PendingEndpointReviewRequest request,
       HttpServletResponse response) {
+    log.error("Ids:" + request.getIds());
     pendingEndpointService.approve(request.getIds());
   }
 
