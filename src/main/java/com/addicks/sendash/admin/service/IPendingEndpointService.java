@@ -7,4 +7,6 @@ import com.addicks.sendash.admin.domain.PendingEndpoint;
 public interface IPendingEndpointService extends ICrudService<PendingEndpoint> {
 
   void approve(Collection<Long> idsToApprove);
+
+  void reject(Collection<Long> ids);
 }

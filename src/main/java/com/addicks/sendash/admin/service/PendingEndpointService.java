@@ -14,6 +14,7 @@ import com.addicks.sendash.admin.dao.jpa.EndpointRepository;
 import com.addicks.sendash.admin.dao.jpa.PendingEndpointRepository;
 import com.addicks.sendash.admin.domain.Endpoint;
 import com.addicks.sendash.admin.domain.PendingEndpoint;
+import com.addicks.sendash.admin.domain.RejectedEndpoint;
 
 @Service
 public class PendingEndpointService implements IPendingEndpointService {
@@ -38,19 +39,15 @@ public class PendingEndpointService implements IPendingEndpointService {
   @Override
   public void approve(Collection<Long> idsToApprove) {
     Iterable<PendingEndpoint> pendingEndpoints = pendingEndpointRepository.findAll(idsToApprove);
-    log.error("pending enpoints:" + pendingEndpoints);
+
     Collection<Endpoint> approvedEndpoints = new ArrayList<>();
     Endpoint endpoint;
     for (PendingEndpoint pendingEndpoint : pendingEndpoints) {
       endpoint = new Endpoint(pendingEndpoint);
-      log.error("pendingEndpoint: " + pendingEndpoint);
-      log.error("endpoint: " + endpoint);
       approvedEndpoints.add(endpoint);
     }
 
-    log.error("approvedEndpoints: " + approvedEndpoints);
     pendingEndpointRepository.delete(pendingEndpoints);
-
     endpointRepository.save(approvedEndpoints);
   }
 
@@ -73,6 +70,15 @@ public class PendingEndpointService implements IPendingEndpointService {
   @Override
   public void update(PendingEndpoint object) {
     pendingEndpointRepository.save(object);
+  }
+
+  @Override
+  public void reject(Collection<Long> ids) {
+    Iterable<PendingEndpoint> pendingEndpoints = pendingEndpointRepository.findAll(ids);
+    Collection<RejectedEndpoint> rejectedEndpoints = new ArrayList<>();
+
+    pendingEndpoints
+        .forEach(pendingEndpoint -> rejectedEndpoints.add(new RejectedEndpoint(pendingEndpoint)));
   }
 
 }
