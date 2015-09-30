@@ -3,6 +3,8 @@ package com.addicks.sendash.admin.service;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +17,7 @@ import com.addicks.sendash.admin.domain.PendingEndpoint;
 
 @Service
 public class PendingEndpointService implements IPendingEndpointService {
+  private static final Logger log = LoggerFactory.getLogger(PendingEndpointService.class);
 
   @Autowired
   private PendingEndpointRepository pendingEndpointRepository;
@@ -35,16 +38,19 @@ public class PendingEndpointService implements IPendingEndpointService {
   @Override
   public void approve(Collection<Long> idsToApprove) {
     Iterable<PendingEndpoint> pendingEndpoints = pendingEndpointRepository.findAll(idsToApprove);
-
+    log.error("pending enpoints:" + pendingEndpoints);
     Collection<Endpoint> approvedEndpoints = new ArrayList<>();
     Endpoint endpoint;
     for (PendingEndpoint pendingEndpoint : pendingEndpoints) {
       endpoint = new Endpoint(pendingEndpoint);
-
+      log.error("pendingEndpoint: " + pendingEndpoint);
+      log.error("endpoint: " + endpoint);
       approvedEndpoints.add(endpoint);
     }
 
+    log.error("approvedEndpoints: " + approvedEndpoints);
     pendingEndpointRepository.delete(pendingEndpoints);
+
     endpointRepository.save(approvedEndpoints);
   }
 

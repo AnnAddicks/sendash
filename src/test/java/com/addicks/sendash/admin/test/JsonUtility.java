@@ -11,6 +11,10 @@ public class JsonUtility {
 
   public static final String USER_JSON = "json/user.json";
 
+  public static final String PENDING_ENPOINT_JSON = "json/pendingEndpoint.json";
+
+  public static final String CLIENT_JSON = "json/client.json";
+
   public static <T> T loadObjectFromJson(String fileName, Class<T> clazz)
       throws JsonParseException, JsonMappingException, IOException {
     ClassLoader classLoader = JsonUtility.class.getClassLoader();

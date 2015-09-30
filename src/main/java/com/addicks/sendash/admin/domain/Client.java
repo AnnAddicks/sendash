@@ -18,6 +18,9 @@ public class Client implements Serializable {
 
   private String name;
 
+  public Client() {
+  }
+
   public Long getId() {
     return id;
   }

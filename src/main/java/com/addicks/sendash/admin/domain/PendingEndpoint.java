@@ -30,6 +30,12 @@ public class PendingEndpoint implements Serializable {
 
   }
 
+  public PendingEndpoint(PendingEndpoint pendingEndpoint) {
+    client = pendingEndpoint.getClient();
+    hostName = pendingEndpoint.getHostName();
+    apiKey = pendingEndpoint.getApiKey();
+  }
+
   public Long getId() {
     return id;
   }
