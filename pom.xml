@@ -47,30 +47,25 @@
     </pluginRepositories>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-actuator</artifactId>
 		</dependency>
-
 		<!-- web development, including Tomcat and spring-webmvc -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<!-- Spring security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 		<!-- Manage a git repo from Java -->
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
@@ -82,31 +77,26 @@
 			<artifactId>org.eclipse.jgit.archive</artifactId>
 			<version>4.0.1.201506240215-r</version>
 		</dependency>
-
 		<!-- spring-data-jpa, spring-orm and Hibernate -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>1.4.181</version>
 		</dependency>
-
 		<!-- spring-test, hamcrest, ... -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-
 		<!-- attribute level json comparisons -->
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
@@ -126,7 +116,6 @@
 			<artifactId>swagger-springmvc</artifactId>
 			<version>1.0.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>

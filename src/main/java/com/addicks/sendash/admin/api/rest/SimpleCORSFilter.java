@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SimpleCORSFileter implements Filter {
+public class SimpleCORSFilter implements Filter {
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
