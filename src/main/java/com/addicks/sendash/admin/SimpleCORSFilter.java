@@ -1,4 +1,4 @@
-package com.addicks.sendash.admin.api.rest;
+package com.addicks.sendash.admin;
 
 import java.io.IOException;
 
