@@ -1,24 +1,29 @@
 package com.addicks.sendash.admin.domain;
 
-import java.util.Collection;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "PERSON")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class User implements UserDetails {
+public class User implements Serializable {
 
   private static final long serialVersionUID = 5651803198978520716L;
 
@@ -31,6 +36,27 @@ public class User implements UserDetails {
   private String firstName;
 
   private String lastName;
+
+  private String password;
+
+  @JsonIgnore
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "USER_ROLE", joinColumns = {
+      @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
+  private Set<Role> roles = new HashSet<Role>();
+
+  public User() {
+    roles = new HashSet<>();
+  }
+
+  public User(User user) {
+    this.id = user.getId();
+    this.email = user.getEmail();
+    this.firstName = user.getFirstName();
+    this.lastName = user.getLastName();
+    this.password = user.getPassword();
+    this.roles = user.getRoles();
+  }
 
   public Long getId() {
     return id;
@@ -64,46 +90,20 @@ public class User implements UserDetails {
     this.lastName = lastName;
   }
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
   public String getPassword() {
-    // TODO Auto-generated method stub
-    return null;
+    return password;
   }
 
-  @Override
-  public String getUsername() {
-    // TODO Auto-generated method stub
-    return null;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    // TODO Auto-generated method stub
-    return false;
+  public Set<Role> getRoles() {
+    return roles;
   }
 
-  @Override
-  public boolean isAccountNonLocked() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public boolean isCredentialsNonExpired() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public boolean isEnabled() {
-    // TODO Auto-generated method stub
-    return false;
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
   }
 
   @Override
@@ -135,7 +135,7 @@ public class User implements UserDetails {
   @Override
   public String toString() {
     return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName="
-        + lastName + "]";
+        + lastName + ", password=" + password + ", roles=" + roles + "]";
   }
 
 }

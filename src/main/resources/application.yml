@@ -25,8 +25,8 @@ server:
 
 #todo: make sure to always enable security in production
 security:
-  basic:
-    enabled: false
+  user:
+    password: 123456
 
 #management endpoints on a separate port
 management:
@@ -57,6 +57,7 @@ logging:
   path: /var/log
   file: sendash.log
   level.org.hibernate.SQL: WARN
+  org.springframework.security: DEBUG
 ---
 spring:
   profiles: dev

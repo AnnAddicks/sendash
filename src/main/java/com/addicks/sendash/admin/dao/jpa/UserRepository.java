@@ -6,4 +6,5 @@ import com.addicks.sendash.admin.domain.User;
 
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
+  User findByEmail(String email);
 }

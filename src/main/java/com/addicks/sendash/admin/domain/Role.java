@@ -22,7 +22,7 @@ public class Role implements GrantedAuthority {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
+  private Long id;
 
   @NotEmpty
   private String name;
@@ -31,16 +31,20 @@ public class Role implements GrantedAuthority {
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
   private Set<User> users = new HashSet<User>();
 
+  public Role() {
+
+  }
+
   @Override
   public String getAuthority() {
     return name;
   }
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
