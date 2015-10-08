@@ -1,13 +1,10 @@
 package com.addicks.sendash.admin.api.rest;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.security.Principal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wordnik.swagger.annotations.Api;
@@ -18,15 +15,13 @@ import com.wordnik.swagger.annotations.Api;
 public class ResourceController extends AbstractRestHandler {
   private static final Logger log = LoggerFactory.getLogger(ResourceController.class);
 
-  public static final String REQUEST_MAPPING = "/resource";
+  public static final String REQUEST_MAPPING = "/me";
 
-  @RequestMapping(method = RequestMethod.GET)
-  public Map<String, Object> home() {
-    log.error("made it home!");
-    Map<String, Object> model = new HashMap<String, Object>();
-    model.put("id", UUID.randomUUID().toString());
-    model.put("content", "Hello World");
-
-    return model;
+  @RequestMapping
+  public Principal user(Principal user) {
+    // TODO make a class that takes user in through the constructor and limits
+    // what is passed through the API.
+    return user;
   }
+
 }
