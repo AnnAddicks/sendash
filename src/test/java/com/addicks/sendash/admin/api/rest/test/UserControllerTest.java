@@ -34,6 +34,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.addicks.sendash.admin.Application;
 import com.addicks.sendash.admin.api.rest.UserController;
 import com.addicks.sendash.admin.domain.User;
+import com.addicks.sendash.admin.test.JsonUtility;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
@@ -63,7 +64,8 @@ public class UserControllerTest extends ControllerTest {
   public void initTests() throws JsonParseException, JsonMappingException, IOException, Exception {
     MockitoAnnotations.initMocks(this);
     mvc = MockMvcBuilders.webAppContextSetup(context).build();
-    userJson = readObjectFromJsonFile("json/user.json", User.class);
+    User user = JsonUtility.loadObjectFromJson(JsonUtility.USER_JSON, User.class);
+    userJson = toJson(user);
   }
 
   @Test
