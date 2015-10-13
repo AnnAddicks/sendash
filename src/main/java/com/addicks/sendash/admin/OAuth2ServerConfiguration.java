@@ -64,8 +64,9 @@ public class OAuth2ServerConfiguration {
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-      clients.inMemory().withClient("clientapp").authorizedGrantTypes("password", "refresh_token")
-          .authorities("USER").scopes("read", "write").resourceIds(RESOURCE_ID).secret("123456");
+      clients.inMemory().withClient("sendashWebApp")
+          .authorizedGrantTypes("password", "refresh_token").authorities("USER")
+          .scopes("read", "write").resourceIds(RESOURCE_ID).secret("GoGoVCHeckProApp");
     }
 
     @Bean
