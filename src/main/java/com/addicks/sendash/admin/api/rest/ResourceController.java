@@ -15,7 +15,7 @@ import com.wordnik.swagger.annotations.Api;
 public class ResourceController extends AbstractRestHandler {
   private static final Logger log = LoggerFactory.getLogger(ResourceController.class);
 
-  public static final String REQUEST_MAPPING = "/me";
+  public static final String REQUEST_MAPPING = "/api/me";
 
   @RequestMapping
   public Principal user(Principal user) {

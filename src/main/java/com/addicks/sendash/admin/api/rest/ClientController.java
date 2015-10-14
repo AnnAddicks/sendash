@@ -33,7 +33,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 @Api(value = "client", description = "CRUD client management.")
 public class ClientController extends AbstractRestHandler {
 
-  public static final String REQUEST_MAPPING = "/client";
+  public static final String REQUEST_MAPPING = "/api/admin/client";
 
   private static final Logger log = LoggerFactory.getLogger(ClientController.class);
 

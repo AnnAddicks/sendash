@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.addicks.sendash.admin.domain.User;
-import com.addicks.sendash.admin.domain.User;
 import com.addicks.sendash.admin.exception.DataFormatException;
 import com.addicks.sendash.admin.service.IUserService;
 import com.wordnik.swagger.annotations.Api;
@@ -34,7 +33,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 @Api(value = "user", description = "CRUD user management.")
 public class UserController extends AbstractRestHandler {
 
-  public static final String REQUEST_MAPPING = "/user";
+  public static final String REQUEST_MAPPING = "/api/admin/user";
 
   private static final Logger log = LoggerFactory.getLogger(UserController.class);
 

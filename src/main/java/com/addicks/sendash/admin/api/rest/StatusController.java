@@ -26,9 +26,11 @@ import com.wordnik.swagger.annotations.ApiOperation;
  */
 
 @RestController
-@RequestMapping(value = "/status")
+@RequestMapping(value = StatusController.REQUEST_MAPPING)
 @Api(value = "status", description = "Status update for health check scripts")
 public class StatusController extends AbstractRestHandler {
+  public static final String REQUEST_MAPPING = "/api/admin/status";
+
   private static final Logger log = LoggerFactory.getLogger(StatusController.class);
 
   @Autowired

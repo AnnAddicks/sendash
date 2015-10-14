@@ -29,7 +29,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 @RequestMapping(value = EndpointController.REQUEST_MAPPING)
 public class EndpointController extends AbstractRestHandler {
 
-  public static final String REQUEST_MAPPING = "/endpoint";
+  public static final String REQUEST_MAPPING = "/api/admin/endpoint";
 
   @Autowired
   private IEndpointService endpointService;

@@ -51,11 +51,4 @@ public class GithubHookController extends AbstractRestHandler {
 
   }
 
-  @RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json",
-      "application/xml" })
-  @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "returns all the payloads from github.", notes = " ")
-  public Iterable<Payload> getLog() {
-    return githubService.getPayloadHistory();
-  }
 }
