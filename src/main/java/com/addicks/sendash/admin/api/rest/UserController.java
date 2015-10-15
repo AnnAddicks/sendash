@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,8 @@ public class UserController extends AbstractRestHandler {
   @Autowired
   private IUserService userService;
 
+  private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
   public UserController() {
 
   }
@@ -50,6 +53,8 @@ public class UserController extends AbstractRestHandler {
   @ApiOperation(value = "Create a user.", notes = "Returns the URL of the new user in the Location header.")
   public void createUser(@RequestBody User user, HttpServletRequest request,
       HttpServletResponse response) {
+
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     User savedUser = userService.save(user);
     response.setHeader("Location",
         request.getRequestURL().append("/").append(savedUser.getId()).toString());
