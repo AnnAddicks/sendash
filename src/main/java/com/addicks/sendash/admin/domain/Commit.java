@@ -33,7 +33,7 @@ public class Commit implements Serializable {
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
-  private Integer id;
+  private Long id;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "payloadId", nullable = false)
