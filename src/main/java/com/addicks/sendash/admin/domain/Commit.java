@@ -54,7 +54,7 @@ public class Commit implements Serializable {
   @Column(name = "SCRIPT_NAME")
   private Collection<String> modified;
 
-  @CollectionTable(name = "MODIFIED_SCRIPT_COMMITS", joinColumns = @JoinColumn(name = "COMMIT_ID") )
+  @CollectionTable(name = "REMOVED_SCRIPT_COMMITS", joinColumns = @JoinColumn(name = "COMMIT_ID") )
   @ElementCollection
   @Column(name = "SCRIPT_NAME")
   private Collection<String> removed;
