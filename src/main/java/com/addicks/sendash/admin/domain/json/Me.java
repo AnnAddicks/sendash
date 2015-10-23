@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+
+import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepositoryUserDetails;
 
 public class Me {
+
+  private Long id;
 
   private String username;
 
@@ -17,11 +21,21 @@ public class Me {
     roles = Collections.emptyList();
   }
 
-  public Me(UserDetails details, String sessionId) {
+  public Me(OAuth2Authentication user) {
+    UserRepositoryUserDetails details = (UserRepositoryUserDetails) user.getPrincipal();
+    id = details.getId();
     username = details.getUsername();
     roles = new ArrayList<String>();
 
-    details.getAuthorities().forEach(authority -> roles.add(authority.getAuthority()));
+    user.getAuthorities().forEach(authority -> roles.add(authority.getAuthority()));
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getUsername() {
@@ -44,6 +58,7 @@ public class Me {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((roles == null) ? 0 : roles.hashCode());
     result = prime * result + ((username == null) ? 0 : username.hashCode());
     return result;
@@ -58,6 +73,12 @@ public class Me {
     if (getClass() != obj.getClass())
       return false;
     Me other = (Me) obj;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    }
+    else if (!id.equals(other.id))
+      return false;
     if (roles == null) {
       if (other.roles != null)
         return false;
@@ -75,7 +96,7 @@ public class Me {
 
   @Override
   public String toString() {
-    return "Me [username=" + username + ", roles=" + roles + "]";
+    return "Me [id=" + id + ", username=" + username + ", roles=" + roles + "]";
   }
 
 }

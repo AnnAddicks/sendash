@@ -4,9 +4,11 @@ import java.security.Principal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.addicks.sendash.admin.domain.json.Me;
 import com.wordnik.swagger.annotations.Api;
 
 @RestController
@@ -18,10 +20,9 @@ public class ResourceController extends AbstractRestHandler {
   public static final String REQUEST_MAPPING = "/api/me";
 
   @RequestMapping
-  public Principal user(Principal user) {
-    // TODO make a class that takes user in through the constructor and limits
-    // what is passed through the API.
-    return user;
+  public Me user(Principal user) {
+    return new Me((OAuth2Authentication) user);
+
   }
 
 }

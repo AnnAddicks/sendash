@@ -31,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     return new UserRepositoryUserDetails(user);
   }
 
-  private final static class UserRepositoryUserDetails extends User implements UserDetails {
+  public final static class UserRepositoryUserDetails extends User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
