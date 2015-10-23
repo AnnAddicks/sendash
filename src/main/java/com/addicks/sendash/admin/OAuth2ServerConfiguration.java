@@ -90,7 +90,7 @@ public class OAuth2ServerConfiguration {
       clients.jdbc(dataSource).passwordEncoder(passwordEncoder).withClient("sendashWebApp")
           .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
           .authorities("USER").scopes("read", "write").resourceIds(RESOURCE_ID)
-          .accessTokenValiditySeconds(60).secret("GoGoVCHeckProApp");
+          .accessTokenValiditySeconds(10800).secret("GoGoVCHeckProApp");
 
     }
 
