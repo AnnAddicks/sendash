@@ -3,6 +3,7 @@ package com.addicks.sendash.admin.domain;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +17,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,6 +34,10 @@ public class User implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @GeneratedValue(generator = "uuid2")
+  @GenericGenerator(name = "uuid2", strategy = "uuid2")
+  private UUID uuid;
 
   private String email;
 
@@ -54,11 +61,13 @@ public class User implements Serializable {
 
   public User(User user) {
     this.id = user.getId();
+    this.uuid = user.getUuid();
     this.email = user.getEmail();
     this.firstName = user.getFirstName();
     this.lastName = user.getLastName();
     this.password = user.getPassword();
     this.roles = user.getRoles();
+
   }
 
   public Long getId() {
@@ -67,6 +76,14 @@ public class User implements Serializable {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public UUID getUuid() {
+    return uuid;
+  }
+
+  public void setUuid(UUID uuid) {
+    this.uuid = uuid;
   }
 
   public String getEmail() {
@@ -137,8 +154,8 @@ public class User implements Serializable {
 
   @Override
   public String toString() {
-    return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName="
-        + lastName + ", password=" + password + ", roles=" + roles + "]";
+    return "User [id=" + id + ", uuid=" + uuid + ", email=" + email + ", firstName=" + firstName
+        + ", lastName=" + lastName + ", password=" + password + ", roles=" + roles + "]";
   }
 
 }
