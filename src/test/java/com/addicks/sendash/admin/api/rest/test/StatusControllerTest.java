@@ -1,5 +1,6 @@
 package com.addicks.sendash.admin.api.rest.test;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -18,6 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -31,9 +33,9 @@ import com.addicks.sendash.admin.service.ScriptService;
 
 public class StatusControllerTest extends ControllerTest {
 
-  private static final String TEST_URI = "http://localhost/status";
+  private static final String TEST_URI = "http://localhost/api/admin/status";
 
-  private static final String TEST_URI_STUB = "http://localhost/status/stub";
+  private static final String TEST_URI_STUB = "http://localhost/api/admin/status/stub";
 
   @InjectMocks
   private StatusController controller;
@@ -59,7 +61,7 @@ public class StatusControllerTest extends ControllerTest {
   @Before
   public void initTests() throws IOException {
     MockitoAnnotations.initMocks(this);
-    mvc = MockMvcBuilders.webAppContextSetup(context).build();
+    mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
     workerFile = readWorkerFile();
 
     gitService.updateLocalRepository();
@@ -77,6 +79,7 @@ public class StatusControllerTest extends ControllerTest {
     return workerString;
   }
 
+  @WithMockUser(username = "test@test.com", roles = { "USER", "ADMIN" })
   @Test
   public void shouldCreateDefaultStatusWithUpdateNeeded() throws Exception {
     mvc.perform(get(TEST_URI_STUB).header("API_KEY", "update").accept(MediaType.APPLICATION_JSON))
@@ -86,6 +89,7 @@ public class StatusControllerTest extends ControllerTest {
         .andExpect(jsonPath("$.data").value("get-process")).andDo(MockMvcResultHandlers.print());
   }
 
+  @WithMockUser(username = "test@test.com", roles = { "USER", "ADMIN" })
   @Test
   public void shouldCreateDefaultStatusWithNoUpdateNeeded() throws Exception {
     mvc.perform(get(TEST_URI_STUB).header("API_KEY", "asdf").accept(MediaType.APPLICATION_JSON))
@@ -95,6 +99,7 @@ public class StatusControllerTest extends ControllerTest {
         .andExpect(jsonPath("$.data").value("get-process")).andDo(MockMvcResultHandlers.print());
   }
 
+  @WithMockUser(username = "test@test.com", roles = { "USER", "ADMIN" })
   @Test
   public void ShouldCreateStatusReadingDataFromAFile() throws Exception {
     Script script = new Script();

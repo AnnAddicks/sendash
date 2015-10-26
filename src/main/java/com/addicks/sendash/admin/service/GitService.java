@@ -41,8 +41,9 @@ public class GitService {
    * Clones the remote repository if it does not exist or update a current one.
    */
   public void updateLocalRepository() {
-    log.error("username: " + repositoryProperties.getUsername());
-    log.error("pass" + repositoryProperties.getPassword());
+    log.error("*********************************");
+    log.error("REpository PRoperties: " + repositoryProperties);
+    log.error("*********************************");
     if (repositoryProperties.getUsername() == null || repositoryProperties.getUsername().isEmpty()
         || repositoryProperties.getPassword() == null
         || repositoryProperties.getPassword().isEmpty()

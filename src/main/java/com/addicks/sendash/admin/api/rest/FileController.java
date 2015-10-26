@@ -20,7 +20,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 @RequestMapping(value = FileController.REQUEST_MAPPING)
 @Api(value = "status", description = "Status update for health check scripts")
 public class FileController {
-  public static final String REQUEST_MAPPING = "api/file-manager";
+  public static final String REQUEST_MAPPING = "/api/file-manager";
 
   private static final Logger log = LoggerFactory.getLogger(FileController.class);
 

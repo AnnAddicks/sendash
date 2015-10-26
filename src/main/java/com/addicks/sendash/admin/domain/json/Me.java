@@ -3,7 +3,6 @@ package com.addicks.sendash.admin.domain.json;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.UUID;
 
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
@@ -11,7 +10,7 @@ import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepository
 
 public class Me {
 
-  private UUID id;
+  private Long id;
 
   private String username;
 
@@ -24,18 +23,18 @@ public class Me {
 
   public Me(OAuth2Authentication user) {
     UserRepositoryUserDetails details = (UserRepositoryUserDetails) user.getPrincipal();
-    id = details.getUuid();
+    id = details.getId();
     username = details.getUsername();
     roles = new ArrayList<String>();
 
     user.getAuthorities().forEach(authority -> roles.add(authority.getAuthority()));
   }
 
-  public UUID getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(UUID id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

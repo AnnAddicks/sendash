@@ -86,8 +86,7 @@ git:
   localRepo: './powershell-status-scripts/'
   zipOfRep: './sendash.zip'
   remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
-  username: ${git.username}
-  password: ${git.password}
+  
 
 spring.datasource:
     driverClassName: org.h2.Driver
