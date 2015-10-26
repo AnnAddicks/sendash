@@ -1,7 +1,9 @@
 package com.addicks.sendash.admin.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -49,14 +51,19 @@ public class User implements Serializable {
   @JsonProperty(value = "password")
   private String password;
 
-  @JsonIgnore
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "USER_ROLE", joinColumns = {
       @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
   private Set<Role> roles = new HashSet<Role>();
 
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(name = "USER_CLIENT", joinColumns = {
+      @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "CLIENT_ID") })
+  private List<Client> clients;
+
   public User() {
     roles = new HashSet<>();
+    clients = new ArrayList<>();
   }
 
   public User(User user) {
@@ -67,7 +74,7 @@ public class User implements Serializable {
     this.lastName = user.getLastName();
     this.password = user.getPassword();
     this.roles = user.getRoles();
-
+    this.clients = user.getClients();
   }
 
   public Long getId() {
@@ -126,6 +133,14 @@ public class User implements Serializable {
     this.roles = roles;
   }
 
+  public List<Client> getClients() {
+    return clients;
+  }
+
+  public void setClients(List<Client> clients) {
+    this.clients = clients;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -155,7 +170,8 @@ public class User implements Serializable {
   @Override
   public String toString() {
     return "User [id=" + id + ", uuid=" + uuid + ", email=" + email + ", firstName=" + firstName
-        + ", lastName=" + lastName + ", password=" + password + ", roles=" + roles + "]";
+        + ", lastName=" + lastName + ", password=" + password + ", roles=" + roles + ", clients="
+        + clients + "]";
   }
 
 }

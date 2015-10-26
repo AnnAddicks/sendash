@@ -22,7 +22,6 @@ public class ResourceController extends AbstractRestHandler {
   @RequestMapping
   public Me user(Principal user) {
     return new Me((OAuth2Authentication) user);
-
   }
 
 }
