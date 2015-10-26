@@ -3,4 +3,4 @@ CREATE table Script(
      SCRIPT_NAME varchar(200) PRIMARY KEY,
      SCRIPT_LAST_UPDATED DATETIME,
      DATA varchar(200)
-);
+) ENGINE=MyISAM;

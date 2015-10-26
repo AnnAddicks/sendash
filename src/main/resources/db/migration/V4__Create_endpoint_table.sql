@@ -7,7 +7,7 @@ CREATE table EndPoint(
     PRIMARY KEY(ID),
     FOREIGN KEY (CLIENT_ID)
         REFERENCES Client(ID)
-);
+) ENGINE=InnoDB;
 
 CREATE INDEX endPointId
     ON EndPoint(CLIENT_ID, HOST_NAME);

@@ -8,7 +8,7 @@ CREATE TABLE EndpointScript (
     		REFERENCES Script(ID)
 
 
-);
+) ENGINE=InnoDB;
 
 CREATE INDEX endpointScriptEndpointId
     ON EndpointScript(ENDPOINT_ID);

@@ -5,7 +5,7 @@ CREATE TABLE Payload (
 	BEFORE varchar(255),
     AFTER varchar(255),
 	PRIMARY KEY (ID)
-);
+) ENGINE=MyISAM;
 
 
 CREATE INDEX payloadTime
