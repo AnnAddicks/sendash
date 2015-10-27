@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.addicks.sendash.admin.domain.Client;
 import com.addicks.sendash.admin.exception.DataFormatException;
+import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepositoryUserDetails;
 import com.addicks.sendash.admin.service.IClientService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -60,9 +62,10 @@ public class ClientController extends AbstractRestHandler {
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
-      HttpServletRequest request, HttpServletResponse response) {
+      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
 
-    Page<Client> clientPage = clientService.getAll(page, size);
+    Page<Client> clientPage = clientService.getAll((UserRepositoryUserDetails) user.getPrincipal(),
+        page, size);
     response.addHeader("X-Total-Count", "" + clientPage.getNumberOfElements());
     return clientPage.getContent();
   }
@@ -108,4 +111,5 @@ public class ClientController extends AbstractRestHandler {
     checkResourceFound(clientService.findById(id));
     clientService.delete(id);
   }
+
 }
