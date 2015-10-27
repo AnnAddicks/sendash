@@ -2,7 +2,9 @@ package com.addicks.sendash.admin.api.rest.test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,6 +17,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
@@ -34,6 +38,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.addicks.sendash.admin.Application;
 import com.addicks.sendash.admin.api.rest.UserController;
 import com.addicks.sendash.admin.domain.User;
+import com.addicks.sendash.admin.service.IUserService;
 import com.addicks.sendash.admin.test.JsonUtility;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -49,12 +54,16 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
     DbUnitTestExecutionListener.class, FlywayTestExecutionListener.class })
 @FlywayTest
 public class UserControllerTest extends ControllerTest {
+  private static final Logger log = LoggerFactory.getLogger(UserControllerTest.class);
 
   @InjectMocks
-  UserController controller;
+  private UserController controller;
 
   @Autowired
-  WebApplicationContext context;
+  private WebApplicationContext context;
+
+  @Autowired
+  private IUserService userService;
 
   private MockMvc mvc;
 
@@ -80,6 +89,19 @@ public class UserControllerTest extends ControllerTest {
 
     assertNotNull(id);
     assertThat("id", id, greaterThan(0L));
+
+  }
+
+  @Test
+  public void shouldReturnUser() throws Exception {
+    MvcResult result = mvc.perform(get(UserController.REQUEST_MAPPING + "/1")
+        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+    String userString = result.getResponse().getContentAsString();
+
+    User returnedUser = JsonUtility.loadObjectFromString(userString, User.class);
+    User savedUser = userService.findById(1L);
+    assertEquals(returnedUser, savedUser);
 
   }
 }
