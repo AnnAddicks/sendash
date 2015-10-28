@@ -64,7 +64,7 @@ public class ClientController extends AbstractRestHandler {
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
       HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
 
-    Page<Client> clientPage = clientService.getAll((UserRepositoryUserDetails) user.getPrincipal(),
+    Page<Client> clientPage = clientService.findAll((UserRepositoryUserDetails) user.getPrincipal(),
         page, size);
     response.addHeader("X-Total-Count", "" + clientPage.getNumberOfElements());
     return clientPage.getContent();

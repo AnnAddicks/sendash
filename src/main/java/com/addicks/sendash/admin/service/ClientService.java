@@ -22,8 +22,7 @@ public class ClientService implements IClientService {
 
   @Override
   public Page<Client> findAll(User user, Integer page, Integer size) {
-    // TODO Auto-generated method stub
-    return null;
+    return clientRepository.findAll(user.getId(), new PageRequest(page, size));
   }
 
   @Override
