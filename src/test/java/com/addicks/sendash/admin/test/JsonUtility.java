@@ -2,10 +2,12 @@ package com.addicks.sendash.admin.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 public class JsonUtility {
 
@@ -25,9 +27,16 @@ public class JsonUtility {
     return mapper.readValue(new File(path), clazz);
   }
 
-  public static <T> T loadObjectFromString(String userString, Class<T> clazz)
+  public static <T> T loadObjectFromString(String json, Class<T> clazz)
       throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
-    return mapper.readValue(userString, clazz);
+    return mapper.readValue(json, clazz);
+  }
+
+  public static <T> List<T> loadObjectListFromString(String json, Class<T> clazz)
+      throws JsonParseException, JsonMappingException, IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(json,
+        TypeFactory.defaultInstance().constructCollectionType(List.class, clazz));
   }
 }
