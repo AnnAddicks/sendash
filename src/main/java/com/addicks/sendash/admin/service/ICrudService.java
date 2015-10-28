@@ -8,7 +8,9 @@ public interface ICrudService<T> {
 
   T save(T object);
 
-  Page<T> getAll(User user, Integer page, Integer size);
+  Page<T> findAll(User user, Integer page, Integer size);
+
+  Page<T> findAll(Integer page, Integer size);
 
   T findById(Long id);
 

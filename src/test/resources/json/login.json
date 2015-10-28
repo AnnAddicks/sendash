@@ -1,0 +1,8 @@
+{
+  "username": "test@test.com"
+  "password": "password",
+  "grant_type":"password",
+  "scope": "read write",
+  "clientSecret":"GoGoVCHeckProApp", 
+  "client_id": "sendashWebApp"
+}

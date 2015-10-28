@@ -22,8 +22,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,7 +39,6 @@ import com.addicks.sendash.admin.api.rest.ClientController;
 import com.addicks.sendash.admin.api.rest.UserController;
 import com.addicks.sendash.admin.domain.Client;
 import com.addicks.sendash.admin.domain.User;
-import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepositoryUserDetails;
 import com.addicks.sendash.admin.service.IClientService;
 import com.addicks.sendash.admin.test.JsonUtility;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -88,22 +85,18 @@ public class ClientControllerTest extends ControllerTest {
   }
 
   @Test
-  public void testGetAllCLients() throws Exception {
+  public void testGetAllClients() throws Exception {
     User user = new User();
     user.setId(1L);
-    UserRepositoryUserDetails details = new UserRepositoryUserDetails(user);
 
-    TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,
-        null);
-    SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
-
-    MvcResult result = mvc.perform(get(ClientController.REQUEST_MAPPING)
-        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+    MvcResult result = mvc
+        .perform(get(ClientController.REQUEST_MAPPING).contentType(MediaType.APPLICATION_JSON)
+            .principal(getPrincipal()).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
     String clientString = result.getResponse().getContentAsString();
 
     List<Client> returnedClients = JsonUtility.loadObjectListFromString(clientString, Client.class);
-    Page<Client> savedClients = clientService.getAll(user, 0, 50);
+    Page<Client> savedClients = clientService.findAll(user, 0, 50);
 
     assertEquals(returnedClients, savedClients.getContent());
   }

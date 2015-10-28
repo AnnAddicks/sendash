@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.addicks.sendash.admin.dao.jpa.ClientRepository;
 import com.addicks.sendash.admin.domain.Client;
+import com.addicks.sendash.admin.domain.User;
 
 @Service
 public class ClientService implements IClientService {
@@ -20,7 +21,13 @@ public class ClientService implements IClientService {
   }
 
   @Override
-  public Page<Client> getAll(Integer page, Integer size) {
+  public Page<Client> findAll(User user, Integer page, Integer size) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Page<Client> findAll(Integer page, Integer size) {
     return clientRepository.findAll(new PageRequest(page, size));
   }
 

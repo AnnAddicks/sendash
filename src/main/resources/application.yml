@@ -58,6 +58,7 @@ logging:
   file: sendash.log
   level.org.hibernate.SQL: WARN
   org.springframework.security: DEBUG
+
 ---
 spring:
   profiles: dev

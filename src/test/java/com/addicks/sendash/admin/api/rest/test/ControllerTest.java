@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.regex.Pattern;
 
 import org.junit.runner.RunWith;
@@ -11,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -19,6 +22,8 @@ import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.addicks.sendash.admin.Application;
 import com.addicks.sendash.admin.api.rest.GithubHookController;
+import com.addicks.sendash.admin.domain.User;
+import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepositoryUserDetails;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -67,5 +72,25 @@ public abstract class ControllerTest {
   protected byte[] toJson(Object r) throws Exception {
     ObjectMapper map = new ObjectMapper();
     return map.writeValueAsString(r).getBytes();
+  }
+
+  protected Principal getPrincipal() {
+    User user = new User();
+    user.setId(1L);
+
+    TestUserDetails userDetails = new TestUserDetails(user);
+
+    TestingAuthenticationToken token = new TestingAuthenticationToken(userDetails, null);
+    return new OAuth2Authentication(null, token);
+
+  }
+
+  @SuppressWarnings("serial")
+  private class TestUserDetails extends UserRepositoryUserDetails {
+
+    public TestUserDetails(User user) {
+      super(user);
+    }
+
   }
 }

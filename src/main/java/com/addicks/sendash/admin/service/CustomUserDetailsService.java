@@ -31,11 +31,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     return new UserRepositoryUserDetails(user);
   }
 
-  public final static class UserRepositoryUserDetails extends User implements UserDetails {
+  public static class UserRepositoryUserDetails extends User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-    private UserRepositoryUserDetails(User user) {
+    protected UserRepositoryUserDetails(User user) {
       super(user);
     }
 

@@ -17,6 +17,8 @@ public class JsonUtility {
 
   public static final String CLIENT_JSON = "json/client.json";
 
+  public static final String LOGIN_JSON = "json/login.json";
+
   public static <T> T loadObjectFromJson(String fileName, Class<T> clazz)
       throws JsonParseException, JsonMappingException, IOException {
     ClassLoader classLoader = JsonUtility.class.getClassLoader();
@@ -38,5 +40,16 @@ public class JsonUtility {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(json,
         TypeFactory.defaultInstance().constructCollectionType(List.class, clazz));
+  }
+
+  public static byte[] readJsonFromFile(String fileName) throws Exception {
+    ClassLoader classLoader = JsonUtility.class.getClassLoader();
+    File file = new File(classLoader.getResource(fileName).getFile());
+    return toJson(file);
+  }
+
+  public static byte[] toJson(Object r) throws Exception {
+    ObjectMapper map = new ObjectMapper();
+    return map.writeValueAsString(r).getBytes();
   }
 }
