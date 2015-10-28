@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.addicks.sendash.admin.domain.Endpoint;
 import com.addicks.sendash.admin.exception.DataFormatException;
+import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepositoryUserDetails;
 import com.addicks.sendash.admin.service.IEndpointService;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -48,15 +50,16 @@ public class EndpointController extends AbstractRestHandler {
   @RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json",
       "application/xml" })
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Get a paginated list of all users.", notes = "The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
-  public @ResponseBody List<Endpoint> getAllCLients(
+  @ApiOperation(value = "Get a paginated list of all endpoints.", notes = "The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
+  public @ResponseBody List<Endpoint> getAllEndpoints(
       @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "_page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
-      HttpServletRequest request, HttpServletResponse response) {
+      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
 
-    Page<Endpoint> endpointPage = endpointService.getAll(page, size);
+    Page<Endpoint> endpointPage = endpointService
+        .findAll((UserRepositoryUserDetails) user.getPrincipal(), page, size);
     response.addHeader("X-Total-Count", "" + endpointPage.getNumberOfElements());
     return endpointPage.getContent();
   }

@@ -1,8 +1,12 @@
 package com.addicks.sendash.admin.api.rest.test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -15,8 +19,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
@@ -56,8 +58,6 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 @FlywayTest
 public class ClientControllerTest extends ControllerTest {
 
-  private static final Logger log = LoggerFactory.getLogger(UserControllerTest.class);
-
   @InjectMocks
   private UserController controller;
 
@@ -80,8 +80,17 @@ public class ClientControllerTest extends ControllerTest {
   }
 
   @Test
-  public void testCreateClient() {
-    fail("Not yet implemented");
+  public void testCreateClient() throws Exception {
+    MvcResult result = mvc
+        .perform(post(ClientController.REQUEST_MAPPING).content(clientJson)
+            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated())
+        .andExpect(redirectedUrlPattern(SERVER + ClientController.REQUEST_MAPPING + "/[0-9]+"))
+        .andReturn();
+    long id = getResourceIdFromUrl(result.getResponse().getRedirectedUrl());
+
+    assertNotNull(id);
+    assertThat("id", id, greaterThan(0L));
   }
 
   @Test
