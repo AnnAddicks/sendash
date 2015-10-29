@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.addicks.sendash.admin.dao.jpa.EndpointRepository;
 import com.addicks.sendash.admin.domain.Endpoint;
+import com.addicks.sendash.admin.domain.User;
 
 /**
  * Created by ann on 6/10/15.
@@ -36,8 +37,13 @@ public class EndpointService implements IEndpointService {
   }
 
   @Override
-  public Page<Endpoint> getAll(Integer page, Integer size) {
+  public Page<Endpoint> findAll(Integer page, Integer size) {
     return endpointRepository.findAll(new PageRequest(page, size));
+  }
+
+  @Override
+  public Page<Endpoint> findAll(User user, Integer page, Integer size) {
+    return endpointRepository.findAll(user.getId(), new PageRequest(page, size));
   }
 
   @Override

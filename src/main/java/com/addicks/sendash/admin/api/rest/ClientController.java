@@ -5,8 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -37,8 +35,6 @@ public class ClientController extends AbstractRestHandler {
 
   public static final String REQUEST_MAPPING = "/api/admin/client";
 
-  private static final Logger log = LoggerFactory.getLogger(ClientController.class);
-
   @Autowired
   private IClientService clientService;
 
@@ -56,7 +52,7 @@ public class ClientController extends AbstractRestHandler {
   @RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json",
       "application/xml" })
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Get a paginated list of all users.", notes = "The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
+  @ApiOperation(value = "Get a paginated list of all clients.", notes = "The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
   public @ResponseBody List<Client> getAllCLients(
       @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "_page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,

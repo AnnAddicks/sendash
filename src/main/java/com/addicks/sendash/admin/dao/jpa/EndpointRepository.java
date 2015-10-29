@@ -1,6 +1,10 @@
 package com.addicks.sendash.admin.dao.jpa;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import com.addicks.sendash.admin.domain.Endpoint;
 
@@ -14,4 +18,6 @@ public interface EndpointRepository extends PagingAndSortingRepository<Endpoint,
 
   Endpoint findByIdAndApiKey(Long id, String apiKey);
 
+  @Query("from Endpoint e inner join e.client.users user where user.id = :id")
+  Page<Endpoint> findAll(@Param("id") Long userId, Pageable page);
 }
