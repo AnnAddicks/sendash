@@ -34,10 +34,6 @@ public class User implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  // @GeneratedValue(generator = "uuid2")
-  // @GenericGenerator(name = "uuid2", strategy = "uuid2")
-  // private UUID uuid;
-
   private String email;
 
   private String firstName;
@@ -53,9 +49,8 @@ public class User implements Serializable {
       @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
   private Set<Role> roles = new HashSet<Role>();
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(name = "USER_CLIENT", joinColumns = {
-      @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "CLIENT_ID") })
+  @JsonIgnore
+  @ManyToMany(mappedBy = "users")
   private List<Client> clients;
 
   public User() {
