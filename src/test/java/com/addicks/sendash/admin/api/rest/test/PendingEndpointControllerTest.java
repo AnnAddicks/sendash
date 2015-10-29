@@ -1,12 +1,8 @@
 package com.addicks.sendash.admin.api.rest.test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -39,11 +35,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.addicks.sendash.admin.Application;
-import com.addicks.sendash.admin.api.rest.ClientController;
+import com.addicks.sendash.admin.api.rest.PendingEndpointController;
 import com.addicks.sendash.admin.api.rest.UserController;
-import com.addicks.sendash.admin.domain.Client;
+import com.addicks.sendash.admin.domain.PendingEndpoint;
 import com.addicks.sendash.admin.domain.User;
-import com.addicks.sendash.admin.service.IClientService;
+import com.addicks.sendash.admin.service.IPendingEndpointService;
 import com.addicks.sendash.admin.test.JsonUtility;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -58,8 +54,8 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
     TransactionalTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
     DbUnitTestExecutionListener.class, FlywayTestExecutionListener.class })
 @FlywayTest
-public class ClientControllerTest extends ControllerTest {
-  private static final Logger log = LoggerFactory.getLogger(ClientControllerTest.class);
+public class PendingEndpointControllerTest extends ControllerTest {
+  private static final Logger log = LoggerFactory.getLogger(PendingEndpointControllerTest.class);
 
   @InjectMocks
   private UserController controller;
@@ -68,74 +64,70 @@ public class ClientControllerTest extends ControllerTest {
   private WebApplicationContext context;
 
   @Autowired
-  private IClientService clientService;
+  private IPendingEndpointService pendingEndpointService;
 
   private MockMvc mvc;
 
-  private byte[] clientJson;
+  private byte[] pendingEndpointJson;
 
   @Before
   public void initTests() throws JsonParseException, JsonMappingException, IOException, Exception {
     MockitoAnnotations.initMocks(this);
     mvc = MockMvcBuilders.webAppContextSetup(context).build();
-    Client client = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_JSON, Client.class);
-    clientJson = toJson(client);
+    PendingEndpoint pendingEndpoint = JsonUtility
+        .loadObjectFromJson(JsonUtility.PENDING_ENPOINT_JSON, PendingEndpoint.class);
+    pendingEndpointJson = toJson(pendingEndpoint);
   }
 
   @Test
-  public void testCreateClient() throws Exception {
-    MvcResult result = mvc
-        .perform(post(ClientController.REQUEST_MAPPING).content(clientJson)
-            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(redirectedUrlPattern(SERVER + ClientController.REQUEST_MAPPING + "/[0-9]+"))
-        .andReturn();
-    long id = getResourceIdFromUrl(result.getResponse().getRedirectedUrl());
-
-    assertNotNull(id);
-    assertThat("id", id, greaterThan(0L));
-  }
-
-  @Test
-  public void testGetAllClients() throws Exception {
-    User user = new User();
-    user.setId(1L);
-
-    MvcResult result = mvc
-        .perform(get(ClientController.REQUEST_MAPPING).contentType(MediaType.APPLICATION_JSON)
-            .principal(getPrincipal()).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk()).andReturn();
-    String clientString = result.getResponse().getContentAsString();
-    log.error("********");
-    log.error("clientString: " + clientString);
-    log.error("********");
-    List<Client> returnedClients = JsonUtility.loadObjectListFromString(clientString, Client.class);
-    Page<Client> savedClients = clientService.findAll(user, 0, 50);
-
-    assertEquals(returnedClients, savedClients.getContent());
-  }
-
-  @Test
-  public void shouldReturnClient() throws Exception {
-    MvcResult result = mvc
-        .perform(get(ClientController.REQUEST_MAPPING + "/1")
-            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk()).andReturn();
-    String clientString = result.getResponse().getContentAsString();
-
-    Client returnedClient = JsonUtility.loadObjectFromString(clientString, Client.class);
-    Client savedClient = clientService.findById(1L);
-    assertEquals(returnedClient, savedClient);
-
-  }
-
-  @Test
-  public void testUpdateClient() {
+  public void testCreatependingEndpoint() {
     fail("Not yet implemented");
   }
 
   @Test
-  public void testDeleteClient() {
+  public void testGetAllPendingEndpoints() throws Exception {
+    User user = new User();
+    user.setId(1L);
+
+    MvcResult result = mvc
+        .perform(
+            get(PendingEndpointController.REQUEST_MAPPING).contentType(MediaType.APPLICATION_JSON)
+                .principal(getPrincipal()).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+    String pendingEndpointString = result.getResponse().getContentAsString();
+
+    List<PendingEndpoint> returnedPendingEndpoint = JsonUtility
+        .loadObjectListFromString(pendingEndpointString, PendingEndpoint.class);
+    Page<PendingEndpoint> savedPendingEndpoints = pendingEndpointService.findAll(user, 0, 50);
+
+    log.error("returnedPendingEndpoint: " + returnedPendingEndpoint);
+    log.error("savedPendingEndpoints: " + savedPendingEndpoints);
+    log.error("findAll:" + pendingEndpointService.findAll(0, 50));
+    assertEquals(returnedPendingEndpoint, savedPendingEndpoints.getContent());
+  }
+
+  @Test
+  public void testGetpendingEndpoint() {
+    fail("Not yet implemented");
+  }
+
+  @Test
+  public void testUpdatependingEndpoint() {
+    fail("Not yet implemented");
+  }
+
+  @Test
+  public void testDeletePendingEndpoint() {
+    fail("Not yet implemented");
+  }
+
+  @Test
+  public void testApprovePendingEndpoint() {
+    fail("Not yet implemented");
+  }
+
+  @Test
+  public void testRejectPendingEndpoint() {
     fail("Not yet implemented");
   }
 

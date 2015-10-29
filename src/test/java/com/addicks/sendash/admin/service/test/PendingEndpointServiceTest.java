@@ -46,7 +46,7 @@ public class PendingEndpointServiceTest {
 
   @Test
   public void testApprove() throws JsonParseException, JsonMappingException, IOException {
-    Page<PendingEndpoint> pendingEndpoints = service.getAll(0, 100);
+    Page<PendingEndpoint> pendingEndpoints = service.findAll(0, 100);
 
     Collection<Long> ids = new ArrayList<>();
     for (PendingEndpoint endpoint : pendingEndpoints.getContent()) {
@@ -55,7 +55,7 @@ public class PendingEndpointServiceTest {
 
     service.approve(ids);
 
-    pendingEndpoints = service.getAll(0, 100);
+    pendingEndpoints = service.findAll(0, 100);
     assertThat(pendingEndpoints.getContent(), empty());
   }
 

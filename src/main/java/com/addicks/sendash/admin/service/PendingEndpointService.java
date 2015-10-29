@@ -16,6 +16,7 @@ import com.addicks.sendash.admin.dao.jpa.RejectedEndpointRepository;
 import com.addicks.sendash.admin.domain.Endpoint;
 import com.addicks.sendash.admin.domain.PendingEndpoint;
 import com.addicks.sendash.admin.domain.RejectedEndpoint;
+import com.addicks.sendash.admin.domain.User;
 
 @Service
 public class PendingEndpointService implements IPendingEndpointService {
@@ -36,8 +37,13 @@ public class PendingEndpointService implements IPendingEndpointService {
   }
 
   @Override
-  public Page<PendingEndpoint> getAll(Integer page, Integer size) {
+  public Page<PendingEndpoint> findAll(Integer page, Integer size) {
     return pendingEndpointRepository.findAll(new PageRequest(page, size));
+  }
+
+  @Override
+  public Page<PendingEndpoint> findAll(User user, Integer page, Integer size) {
+    return pendingEndpointRepository.findAll(user.getId(), new PageRequest(page, size));
   }
 
   @Override
