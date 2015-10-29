@@ -1,11 +1,14 @@
 package com.addicks.sendash.admin.api.rest.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.flywaydb.test.annotation.FlywayTest;
@@ -38,6 +41,7 @@ import com.addicks.sendash.admin.Application;
 import com.addicks.sendash.admin.api.rest.PendingEndpointController;
 import com.addicks.sendash.admin.api.rest.UserController;
 import com.addicks.sendash.admin.domain.PendingEndpoint;
+import com.addicks.sendash.admin.domain.PendingEndpointReviewRequest;
 import com.addicks.sendash.admin.domain.User;
 import com.addicks.sendash.admin.service.IPendingEndpointService;
 import com.addicks.sendash.admin.test.JsonUtility;
@@ -79,7 +83,7 @@ public class PendingEndpointControllerTest extends ControllerTest {
     pendingEndpointJson = toJson(pendingEndpoint);
   }
 
-  @Test
+  // @Test
   public void testCreatependingEndpoint() {
     fail("Not yet implemented");
   }
@@ -106,29 +110,107 @@ public class PendingEndpointControllerTest extends ControllerTest {
     assertEquals(returnedPendingEndpoint, savedPendingEndpoints.getContent());
   }
 
+  @FlywayTest
   @Test
-  public void testGetpendingEndpoint() {
-    fail("Not yet implemented");
+  public void shouldRetrievePendingEndpoint() throws Exception {
+    MvcResult result = mvc
+        .perform(get(PendingEndpointController.REQUEST_MAPPING + "/1")
+            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+    String pendingEndpointString = result.getResponse().getContentAsString();
+
+    PendingEndpoint returnedPendingEndpoint = JsonUtility
+        .loadObjectFromString(pendingEndpointString, PendingEndpoint.class);
+    PendingEndpoint savedPendingEndpoint = pendingEndpointService.findById(1L);
+    assertEquals(returnedPendingEndpoint, savedPendingEndpoint);
   }
 
-  @Test
+  // @Test
   public void testUpdatependingEndpoint() {
     fail("Not yet implemented");
   }
 
-  @Test
+  // @Test
   public void testDeletePendingEndpoint() {
     fail("Not yet implemented");
   }
 
   @Test
-  public void testApprovePendingEndpoint() {
-    fail("Not yet implemented");
+  @FlywayTest
+  public void shouldRetrieveApprovePendingEndpoint() throws Exception {
+
+    // Get all pending endpoints
+    MvcResult result = mvc
+        .perform(
+            get(PendingEndpointController.REQUEST_MAPPING).contentType(MediaType.APPLICATION_JSON)
+                .principal(getPrincipal()).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+    String pendingEndpointString = result.getResponse().getContentAsString();
+
+    List<PendingEndpoint> returnedPendingEndpoints = JsonUtility
+        .loadObjectListFromString(pendingEndpointString, PendingEndpoint.class);
+
+    // Approve all endpoints
+    List<Long> ids = new ArrayList<Long>();
+    returnedPendingEndpoints.forEach(endpoint -> ids.add(endpoint.getId()));
+    PendingEndpointReviewRequest request = new PendingEndpointReviewRequest(ids);
+    mvc.perform(post(PendingEndpointController.REQUEST_MAPPING + "/approve")
+        .contentType(MediaType.APPLICATION_JSON).content(toJson(request)).principal(getPrincipal())
+        .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+
+    // Make sure there are no pending endpoints
+    result = mvc
+        .perform(
+            get(PendingEndpointController.REQUEST_MAPPING).contentType(MediaType.APPLICATION_JSON)
+                .principal(getPrincipal()).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+    pendingEndpointString = result.getResponse().getContentAsString();
+
+    returnedPendingEndpoints = JsonUtility.loadObjectListFromString(pendingEndpointString,
+        PendingEndpoint.class);
+
+    assertTrue(returnedPendingEndpoints.isEmpty());
   }
 
   @Test
-  public void testRejectPendingEndpoint() {
-    fail("Not yet implemented");
+  @FlywayTest
+  public void testRejectPendingEndpoint() throws Exception {
+    // Get all pending endpoints
+    MvcResult result = mvc
+        .perform(
+            get(PendingEndpointController.REQUEST_MAPPING).contentType(MediaType.APPLICATION_JSON)
+                .principal(getPrincipal()).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+    String pendingEndpointString = result.getResponse().getContentAsString();
+
+    List<PendingEndpoint> returnedPendingEndpoints = JsonUtility
+        .loadObjectListFromString(pendingEndpointString, PendingEndpoint.class);
+
+    // Reject all Endpoints
+    List<Long> ids = new ArrayList<Long>();
+    returnedPendingEndpoints.forEach(endpoint -> ids.add(endpoint.getId()));
+    PendingEndpointReviewRequest request = new PendingEndpointReviewRequest(ids);
+    mvc.perform(post(PendingEndpointController.REQUEST_MAPPING + "/reject")
+        .contentType(MediaType.APPLICATION_JSON).content(toJson(request)).principal(getPrincipal())
+        .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+
+    // Make sure there are no pending endpoints
+    result = mvc
+        .perform(
+            get(PendingEndpointController.REQUEST_MAPPING).contentType(MediaType.APPLICATION_JSON)
+                .principal(getPrincipal()).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+    pendingEndpointString = result.getResponse().getContentAsString();
+
+    returnedPendingEndpoints = JsonUtility.loadObjectListFromString(pendingEndpointString,
+        PendingEndpoint.class);
+
+    assertTrue(returnedPendingEndpoints.isEmpty());
+
+    // Make sure there are no pending endpoints in the database
+    Page<PendingEndpoint> savedPendingEndpoints = pendingEndpointService.findAll(0, 100);
+    assertEquals(returnedPendingEndpoints, savedPendingEndpoints.getContent());
+
   }
 
 }

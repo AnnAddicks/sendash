@@ -1,13 +1,24 @@
 package com.addicks.sendash.admin.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PendingEndpointReviewRequest {
 
   private List<Long> ids;
 
   public PendingEndpointReviewRequest() {
+    ids = new ArrayList<>();
+  }
 
+  public PendingEndpointReviewRequest(List<Long> ids) {
+    this.ids = ids;
   }
 
   public List<Long> getIds() {
