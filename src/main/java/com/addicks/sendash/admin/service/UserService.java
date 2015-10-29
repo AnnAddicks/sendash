@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import com.addicks.sendash.admin.dao.jpa.UserRepository;
@@ -26,9 +27,15 @@ public class UserService implements IUserService {
     return userRepository.save(user);
   }
 
+  @Secured({ "ROLE_SUPER" })
   @Override
-  public Page<User> getAll(Integer page, Integer size) {
+  public Page<User> findAll(Integer page, Integer size) {
     return userRepository.findAll(new PageRequest(page, size));
+  }
+
+  @Override
+  public Page<User> findAll(User user, Integer page, Integer size) {
+    return userRepository.findAll(user.getId(), new PageRequest(page, size));
   }
 
   @Override
