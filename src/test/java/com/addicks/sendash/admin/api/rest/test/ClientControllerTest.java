@@ -2,11 +2,14 @@ package com.addicks.sendash.admin.api.rest.test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -61,6 +64,9 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 public class ClientControllerTest extends ControllerTest {
   private static final Logger log = LoggerFactory.getLogger(ClientControllerTest.class);
 
+  private static final String RESOURCE_LOCATION_PATTERN = "http://localhost"
+      + ClientController.REQUEST_MAPPING + "/[0-9]+";
+
   @InjectMocks
   private UserController controller;
 
@@ -83,7 +89,7 @@ public class ClientControllerTest extends ControllerTest {
   }
 
   @Test
-  public void testCreateClient() throws Exception {
+  public void shouldCreateClient() throws Exception {
     MvcResult result = mvc
         .perform(post(ClientController.REQUEST_MAPPING).content(clientJson)
             .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -128,13 +134,66 @@ public class ClientControllerTest extends ControllerTest {
   }
 
   @Test
-  public void testUpdateClient() {
-    fail("Not yet implemented");
+  @FlywayTest
+  public void shouldCreateRetrieveAndUpdateClient() throws Exception {
+    Client newClient = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_JSON, Client.class);
+    byte[] newClientJson = toJson(newClient);
+
+    // Create
+    MvcResult result = mvc
+        .perform(post(ClientController.REQUEST_MAPPING).content(newClientJson)
+            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated()).andExpect(redirectedUrlPattern(RESOURCE_LOCATION_PATTERN))
+        .andReturn();
+    long id = getResourceIdFromUrl(result.getResponse().getRedirectedUrl());
+
+    // Retrieve
+    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.id", is((int) id)))
+        .andExpect(jsonPath("$.name", is(newClient.getName())));
+
+    newClient.setId(id);
+    newClient.setName("Anna Banana");
+    newClientJson = toJson(newClient);
+
+    // Update
+    result = mvc
+        .perform(put(ClientController.REQUEST_MAPPING + "/" + id).content(newClientJson)
+            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent()).andReturn();
+
+    // Verify Update
+    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.id", is((int) id)))
+        .andExpect(jsonPath("$.name", is(newClient.getName())));
   }
 
   @Test
-  public void testDeleteClient() {
-    fail("Not yet implemented");
+  @FlywayTest
+  public void shouldCreateRetrieveDeleteClient() throws Exception {
+    Client newClient = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_JSON, Client.class);
+    byte[] newClientJson = toJson(newClient);
+
+    // Create
+    MvcResult result = mvc
+        .perform(post(ClientController.REQUEST_MAPPING).content(newClientJson)
+            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated()).andExpect(redirectedUrlPattern(RESOURCE_LOCATION_PATTERN))
+        .andReturn();
+    long id = getResourceIdFromUrl(result.getResponse().getRedirectedUrl());
+
+    // Retrieve
+    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.id", is((int) id)))
+        .andExpect(jsonPath("$.name", is(newClient.getName())));
+
+    // Delete
+    mvc.perform(delete(ClientController.REQUEST_MAPPING + "/" + id))
+        .andExpect(status().isNoContent());
+
+    // Expect that we cannot retrieve the deleted id
+    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
   }
 
 }
