@@ -106,9 +106,7 @@ public class ClientControllerTest extends ControllerTest {
             .principal(getPrincipal()).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
     String clientString = result.getResponse().getContentAsString();
-    log.error("********");
-    log.error("clientString: " + clientString);
-    log.error("********");
+
     List<Client> returnedClients = JsonUtility.loadObjectListFromString(clientString, Client.class);
     Page<Client> savedClients = clientService.findAll(user, 0, 50);
 

@@ -11,6 +11,6 @@ import com.addicks.sendash.admin.domain.PendingEndpoint;
 public interface PendingEndpointRepository
     extends PagingAndSortingRepository<PendingEndpoint, Long> {
 
-  @Query("from PendingEndpoint p inner join p.client.users user where user.id = :id")
+  @Query("Select p from PendingEndpoint p inner join p.client.users user where user.id = :id")
   Page<PendingEndpoint> findAll(@Param("id") Long userId, Pageable page);
 }

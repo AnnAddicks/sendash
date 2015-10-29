@@ -18,6 +18,6 @@ public interface EndpointRepository extends PagingAndSortingRepository<Endpoint,
 
   Endpoint findByIdAndApiKey(Long id, String apiKey);
 
-  @Query("from Endpoint e inner join e.client.users user where user.id = :id")
+  @Query("Select e from Endpoint e inner join e.client.users user where user.id = :id")
   Page<Endpoint> findAll(@Param("id") Long userId, Pageable page);
 }

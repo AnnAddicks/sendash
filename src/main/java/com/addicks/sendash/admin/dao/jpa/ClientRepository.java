@@ -10,6 +10,6 @@ import com.addicks.sendash.admin.domain.Client;
 
 public interface ClientRepository extends PagingAndSortingRepository<Client, Long> {
 
-  @Query("from Client client inner join client.users user where user.id = :id")
+  @Query("Select c from Client c inner join c.users user where user.id = :id")
   Page<Client> findAll(@Param("id") Long id, Pageable page);
 }
