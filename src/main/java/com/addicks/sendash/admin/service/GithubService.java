@@ -22,6 +22,7 @@ import com.addicks.sendash.admin.domain.Script;
 @Service
 public class GithubService {
 
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(GithubService.class);
 
   @Autowired

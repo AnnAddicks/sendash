@@ -3,6 +3,7 @@ package com.addicks.sendash.admin.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import com.addicks.sendash.admin.dao.jpa.EndpointRepository;
@@ -36,6 +37,7 @@ public class EndpointService implements IEndpointService {
     return endpointRepository.save(object);
   }
 
+  @Secured({ "ROLE_SUPER" })
   @Override
   public Page<Endpoint> findAll(Integer page, Integer size) {
     return endpointRepository.findAll(new PageRequest(page, size));
