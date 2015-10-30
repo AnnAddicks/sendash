@@ -93,7 +93,8 @@ public class ClientControllerTest extends ControllerTest {
   public void shouldCreateClient() throws Exception {
     MvcResult result = mvc
         .perform(post(ClientController.REQUEST_MAPPING).content(clientJson)
-            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+            .contentType(MediaType.APPLICATION_JSON).principal(getPrincipal())
+            .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
         .andExpect(redirectedUrlPattern(SERVER + ClientController.REQUEST_MAPPING + "/[0-9]+"))
         .andReturn();
@@ -143,14 +144,16 @@ public class ClientControllerTest extends ControllerTest {
     // Create
     MvcResult result = mvc
         .perform(post(ClientController.REQUEST_MAPPING).content(newClientJson)
-            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
+            .principal(getPrincipal()))
         .andExpect(status().isCreated()).andExpect(redirectedUrlPattern(RESOURCE_LOCATION_PATTERN))
         .andReturn();
     long id = getResourceIdFromUrl(result.getResponse().getRedirectedUrl());
 
     // Retrieve
-    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk()).andExpect(jsonPath("$.id", is((int) id)))
+    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON)
+        .principal(getPrincipal())).andExpect(status().isOk())
+        .andExpect(jsonPath("$.id", is((int) id)))
         .andExpect(jsonPath("$.name", is(newClient.getName())));
 
     newClient.setId(id);
@@ -158,14 +161,14 @@ public class ClientControllerTest extends ControllerTest {
     newClientJson = toJson(newClient);
 
     // Update
-    result = mvc
-        .perform(put(ClientController.REQUEST_MAPPING + "/" + id).content(newClientJson)
-            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNoContent()).andReturn();
+    result = mvc.perform(put(ClientController.REQUEST_MAPPING + "/" + id).content(newClientJson)
+        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
+        .principal(getPrincipal())).andExpect(status().isNoContent()).andReturn();
 
     // Verify Update
-    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk()).andExpect(jsonPath("$.id", is((int) id)))
+    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON)
+        .principal(getPrincipal())).andExpect(status().isOk())
+        .andExpect(jsonPath("$.id", is((int) id)))
         .andExpect(jsonPath("$.name", is(newClient.getName())));
   }
 
@@ -178,23 +181,25 @@ public class ClientControllerTest extends ControllerTest {
     // Create
     MvcResult result = mvc
         .perform(post(ClientController.REQUEST_MAPPING).content(newClientJson)
-            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
+            .principal(getPrincipal()))
         .andExpect(status().isCreated()).andExpect(redirectedUrlPattern(RESOURCE_LOCATION_PATTERN))
         .andReturn();
     long id = getResourceIdFromUrl(result.getResponse().getRedirectedUrl());
 
     // Retrieve
-    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk()).andExpect(jsonPath("$.id", is((int) id)))
+    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON)
+        .principal(getPrincipal())).andExpect(status().isOk())
+        .andExpect(jsonPath("$.id", is((int) id)))
         .andExpect(jsonPath("$.name", is(newClient.getName())));
 
     // Delete
-    mvc.perform(delete(ClientController.REQUEST_MAPPING + "/" + id))
+    mvc.perform(delete(ClientController.REQUEST_MAPPING + "/" + id).principal(getPrincipal()))
         .andExpect(status().isNoContent());
 
     // Expect that we cannot retrieve the deleted id
-    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNotFound());
+    mvc.perform(get(ClientController.REQUEST_MAPPING + "/" + id).accept(MediaType.APPLICATION_JSON)
+        .principal(getPrincipal())).andExpect(status().isNotFound());
   }
 
 }
