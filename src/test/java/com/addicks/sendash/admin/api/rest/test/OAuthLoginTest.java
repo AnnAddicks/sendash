@@ -1,9 +1,11 @@
 package com.addicks.sendash.admin.api.rest.test;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -14,6 +16,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
@@ -30,7 +34,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.addicks.sendash.admin.Application;
-import com.addicks.sendash.admin.test.JsonUtility;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
@@ -45,6 +48,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
     DbUnitTestExecutionListener.class, FlywayTestExecutionListener.class })
 @FlywayTest
 public class OAuthLoginTest extends ControllerTest {
+  private static final Logger log = LoggerFactory.getLogger(OAuthLoginTest.class);
 
   @Autowired
   private WebApplicationContext context;
@@ -63,19 +67,27 @@ public class OAuthLoginTest extends ControllerTest {
 
   @Test
   public void shouldLogin() throws Exception {
-    final byte[] loginJson = JsonUtility.readJsonFromFile(JsonUtility.LOGIN_JSON);
+    mvc.perform(post("/oauth/token")
+        .header("Authorization", "Basic c2VuZGFzaFdlYkFwcDpHb0dvVkNIZWNrUHJvQXBw")
+        .param("grant_type", "password").param("username", username).param("password", password)
+        .param("scope", "read write").param("client_id", "sendashWebApp")
+        .param("client_secret", "GoGoVCHeckProApp").contentType("application/x-www-form-urlencoded")
+        .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        .andExpect(jsonPath("$.access_token", notNullValue()))
+        .andExpect(jsonPath("$.token_type", is("bearer")))
+        .andExpect(jsonPath("$.refresh_token", notNullValue()))
+        .andExpect(jsonPath("$.expires_in", notNullValue()))
+        .andExpect(jsonPath("$.scope", is("read write")));
 
-    mvc.perform(post("/oauth/token").with(httpBasic(username, password))
-        .contentType("application/x-www-form-urlencoded").accept(MediaType.APPLICATION_JSON)
-        .content(
-            "username=test%40test.com&password=password&grant_type=password&scope=read+write&client_id=sendashWebApp&client_secret=GoGoVCHeckProApp"))
-        .andExpect(status().isOk()).andExpect(authenticated().withUsername(username));
   }
 
   @Test
   public void shouldNotLogin() throws Exception {
-    mvc.perform(post("/oauth/token").with(httpBasic("t@test.com", "password")))
-        .andExpect(status().isUnauthorized());
+    mvc.perform(post("/oauth/token").with(httpBasic("t@test.com", "password"))
+        .param("grant_type", "password").param("username", "t@test.com").param("password", password)
+        .param("scope", "read write").param("client_id", "sendashWebApp")
+        .param("client_secret", "GoGoVCHeckProApp")
+        .contentType("application/x-www-form-urlencoded")).andExpect(status().isUnauthorized());
   }
 
 }

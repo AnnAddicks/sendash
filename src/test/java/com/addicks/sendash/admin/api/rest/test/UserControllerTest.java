@@ -54,6 +54,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
     DbUnitTestExecutionListener.class, FlywayTestExecutionListener.class })
 @FlywayTest
 public class UserControllerTest extends ControllerTest {
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(UserControllerTest.class);
 
   @InjectMocks
