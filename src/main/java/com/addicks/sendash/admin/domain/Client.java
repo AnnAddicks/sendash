@@ -1,8 +1,10 @@
 package com.addicks.sendash.admin.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,12 +25,13 @@ public class Client implements Serializable {
 
   private String name;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinTable(name = "USER_CLIENT", joinColumns = {
       @JoinColumn(name = "CLIENT_ID") }, inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
   private List<User> users;
 
   public Client() {
+    users = new ArrayList<>();
   }
 
   public Long getId() {
@@ -53,6 +56,10 @@ public class Client implements Serializable {
 
   public void setUsers(List<User> users) {
     this.users = users;
+  }
+
+  public void addUser(Long id, String email) {
+    users.add(new User(id, email));
   }
 
   @Override

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.addicks.sendash.admin.domain.Client;
+import com.addicks.sendash.admin.domain.User;
 import com.addicks.sendash.admin.exception.DataFormatException;
 import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepositoryUserDetails;
 import com.addicks.sendash.admin.service.IClientService;
@@ -43,7 +44,10 @@ public class ClientController extends AbstractRestHandler {
   @ResponseStatus(HttpStatus.CREATED)
   @ApiOperation(value = "Create a client resource.", notes = "Returns the URL of the new resource in the Location header.")
   public void createClient(@RequestBody Client client, HttpServletRequest request,
-      HttpServletResponse response) {
+      HttpServletResponse response, OAuth2Authentication oauthUser) {
+
+    User user = (User) oauthUser.getDetails();
+    client.addUser(user.getId(), user.getEmail());
     Client createdClient = clientService.create(client);
     response.setHeader("Location",
         request.getRequestURL().append("/").append(createdClient.getId()).toString());

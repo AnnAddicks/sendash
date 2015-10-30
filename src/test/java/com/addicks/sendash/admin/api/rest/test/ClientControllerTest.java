@@ -62,6 +62,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
     DbUnitTestExecutionListener.class, FlywayTestExecutionListener.class })
 @FlywayTest
 public class ClientControllerTest extends ControllerTest {
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(ClientControllerTest.class);
 
   private static final String RESOURCE_LOCATION_PATTERN = "http://localhost"

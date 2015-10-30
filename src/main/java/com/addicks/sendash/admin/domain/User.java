@@ -69,6 +69,12 @@ public class User implements Serializable {
     this.clients = user.getClients();
   }
 
+  public User(Long id, String email) {
+    super();
+    this.id = id;
+    this.email = email;
+  }
+
   public Long getId() {
     return id;
   }
@@ -76,14 +82,6 @@ public class User implements Serializable {
   public void setId(Long id) {
     this.id = id;
   }
-
-  // public UUID getUuid() {
-  // return uuid;
-  // }
-  //
-  // public void setUuid(UUID uuid) {
-  // this.uuid = uuid;
-  // }
 
   public String getEmail() {
     return email;
