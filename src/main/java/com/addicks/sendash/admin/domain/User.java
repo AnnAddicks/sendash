@@ -75,6 +75,11 @@ public class User implements Serializable {
     this.email = email;
   }
 
+  public User(Long userId) {
+    super();
+    this.id = userId;
+  }
+
   public Long getId() {
     return id;
   }
@@ -129,6 +134,14 @@ public class User implements Serializable {
 
   public void setClients(List<Client> clients) {
     this.clients = clients;
+  }
+
+  public Client getClientById(Long clientId) {
+    for (Client client : clients) {
+      if (client.getId().equals(clientId))
+        return client;
+    }
+    return new Client();
   }
 
   @Override
