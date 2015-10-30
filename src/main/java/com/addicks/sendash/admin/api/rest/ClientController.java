@@ -59,9 +59,9 @@ public class ClientController extends AbstractRestHandler {
   @ApiOperation(value = "Get a paginated list of all clients.", notes = "The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
   public @ResponseBody List<Client> getAllCLients(
       @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "_page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
-      @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
-      @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,
-      @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
+      @ApiParam(value = "The page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
+      @ApiParam(value = "The sorting direction", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,
+      @ApiParam(value = "The sorting field", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
       HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
 
     Page<Client> clientPage = clientService.findAll((UserRepositoryUserDetails) user.getPrincipal(),
