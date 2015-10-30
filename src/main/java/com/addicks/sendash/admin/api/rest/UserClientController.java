@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.addicks.sendash.admin.api.rest.test.ClientControllerTest;
 import com.addicks.sendash.admin.domain.Client;
 import com.addicks.sendash.admin.domain.User;
 import com.addicks.sendash.admin.service.IClientService;
@@ -38,7 +37,7 @@ public class UserClientController extends AbstractRestHandler {
   public static final String REQUEST_MAPPING = "/api/admin/user-client";
 
   @SuppressWarnings("unused")
-  private static final Logger log = LoggerFactory.getLogger(ClientControllerTest.class);
+  private static final Logger log = LoggerFactory.getLogger(UserClientController.class);
 
   @Autowired
   private IClientService clientService;
@@ -98,6 +97,8 @@ public class UserClientController extends AbstractRestHandler {
     response.addHeader("X-Total-Count", "" + client.getUsers().size());
     return client.getUsers();
   }
+
+  // TODO methods: addUserToClient, addClientToUser
 
   private List<Client> limitClientsWhoAreNotAssociatedWithRequester(OAuth2Authentication user,
       Page<Client> clientPage) {
