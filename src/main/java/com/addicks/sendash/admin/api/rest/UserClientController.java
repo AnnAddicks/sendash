@@ -70,9 +70,10 @@ public class UserClientController extends AbstractRestHandler {
       @ApiParam(value = "The page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
       @ApiParam(value = "The sorting direction", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,
       @ApiParam(value = "The sorting field", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
-      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
+      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication oauthUser) {
 
-    Set<Client> clients = ((User) user.getDetails()).getClients();
+    User user = getUserFromAuthentication(oauthUser);
+    Set<Client> clients = user.getClients();
     Set<User> users = new HashSet<User>();
 
     clients.forEach(client -> users.addAll(client.getUsers()));
@@ -91,18 +92,21 @@ public class UserClientController extends AbstractRestHandler {
       @ApiParam(value = "The page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
       @ApiParam(value = "The sorting direction", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,
       @ApiParam(value = "The sorting field", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
-      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
+      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication oauthUser) {
 
-    Client client = ((User) user.getDetails()).getClientById(clientId);
+    User user = getUserFromAuthentication(oauthUser);
+    Client client = user.getClientById(clientId);
     response.addHeader("X-Total-Count", "" + client.getUsers().size());
     return client.getUsers();
   }
 
   // TODO methods: addUserToClient, addClientToUser
 
-  private Set<Client> limitClientsWhoAreNotAssociatedWithRequester(OAuth2Authentication user,
+  private Set<Client> limitClientsWhoAreNotAssociatedWithRequester(OAuth2Authentication oauthUser,
       Page<Client> clientPage) {
-    Set<Client> clients = ((User) user.getDetails()).getClients();
+
+    User user = getUserFromAuthentication(oauthUser);
+    Set<Client> clients = user.getClients();
 
     List<Client> requestedClients = clientPage.getContent();
     requestedClients.forEach(client -> {

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.addicks.sendash.admin.domain.Client;
 import com.addicks.sendash.admin.domain.User;
 import com.addicks.sendash.admin.exception.DataFormatException;
-import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepositoryUserDetails;
 import com.addicks.sendash.admin.service.IClientService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -62,10 +61,10 @@ public class ClientController extends AbstractRestHandler {
       @ApiParam(value = "The page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
       @ApiParam(value = "The sorting direction", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,
       @ApiParam(value = "The sorting field", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
-      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
+      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication oauthUser) {
 
-    Page<Client> clientPage = clientService.findAll((UserRepositoryUserDetails) user.getPrincipal(),
-        page, size);
+    User user = getUserFromAuthentication(oauthUser);
+    Page<Client> clientPage = clientService.findAll(user, page, size);
     response.addHeader("X-Total-Count", "" + clientPage.getNumberOfElements());
     return clientPage.getContent();
   }

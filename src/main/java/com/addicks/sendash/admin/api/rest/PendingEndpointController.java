@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.addicks.sendash.admin.domain.PendingEndpoint;
 import com.addicks.sendash.admin.domain.PendingEndpointReviewRequest;
+import com.addicks.sendash.admin.domain.User;
 import com.addicks.sendash.admin.exception.DataFormatException;
-import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepositoryUserDetails;
 import com.addicks.sendash.admin.service.IPendingEndpointService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -62,10 +62,10 @@ public class PendingEndpointController extends AbstractRestHandler {
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
-      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
+      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication oauthUser) {
 
-    Page<PendingEndpoint> pendingEndpointPage = pendingEndpointService
-        .findAll((UserRepositoryUserDetails) user.getPrincipal(), page, size);
+    User user = getUserFromAuthentication(oauthUser);
+    Page<PendingEndpoint> pendingEndpointPage = pendingEndpointService.findAll(user, page, size);
     response.addHeader("X-Total-Count", "" + pendingEndpointPage.getNumberOfElements());
     return pendingEndpointPage.getContent();
   }

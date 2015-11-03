@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.addicks.sendash.admin.domain.Endpoint;
+import com.addicks.sendash.admin.domain.User;
 import com.addicks.sendash.admin.exception.DataFormatException;
-import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepositoryUserDetails;
 import com.addicks.sendash.admin.service.IEndpointService;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -56,10 +56,10 @@ public class EndpointController extends AbstractRestHandler {
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,
       @ApiParam(value = "Tha page size", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
-      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
+      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication oauthUser) {
 
-    Page<Endpoint> endpointPage = endpointService
-        .findAll((UserRepositoryUserDetails) user.getPrincipal(), page, size);
+    User user = getUserFromAuthentication(oauthUser);
+    Page<Endpoint> endpointPage = endpointService.findAll(user, page, size);
     response.addHeader("X-Total-Count", "" + endpointPage.getNumberOfElements());
     return endpointPage.getContent();
   }
