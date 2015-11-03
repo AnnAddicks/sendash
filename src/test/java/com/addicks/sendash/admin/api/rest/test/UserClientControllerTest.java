@@ -1,6 +1,7 @@
 package com.addicks.sendash.admin.api.rest.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,7 +36,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.addicks.sendash.admin.Application;
 import com.addicks.sendash.admin.api.rest.UserClientController;
 import com.addicks.sendash.admin.domain.User;
-import com.addicks.sendash.admin.service.CustomUserDetailsService;
+import com.addicks.sendash.admin.service.IUserService;
 import com.addicks.sendash.admin.test.JsonUtility;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -61,7 +62,7 @@ public class UserClientControllerTest extends ControllerTest {
   private WebApplicationContext context;
 
   @Autowired
-  private CustomUserDetailsService userService;
+  private IUserService userService;
 
   private MockMvc mvc;
 
@@ -74,15 +75,16 @@ public class UserClientControllerTest extends ControllerTest {
   @Test
   public void shouldReturnOneUser() throws Exception {
     MvcResult result = mvc
-        .perform(get(UserClientController.REQUEST_MAPPING + "/get-user/for-user/1")
+        .perform(get(UserClientController.REQUEST_MAPPING + "/get-user/for-client/1")
             .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
             .principal(getPrincipal()))
         .andExpect(status().isOk()).andReturn();
     String userString = result.getResponse().getContentAsString();
 
     List<User> returnedUsers = JsonUtility.loadObjectListFromString(userString, User.class);
-    User savedUser = (User) userService.loadUserByUsername("test@test.com");
-    assertEquals(returnedUsers, savedUser.getAllUsersFromClients());
+
+    assertNotNull(returnedUsers);
+    assertTrue(returnedUsers.size() == 1);
   }
 
 }

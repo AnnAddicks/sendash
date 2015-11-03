@@ -1,5 +1,7 @@
 package com.addicks.sendash.admin.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +17,9 @@ public class ClientService implements IClientService {
 
   @Autowired
   private ClientRepository clientRepository;
+
+  @Autowired
+  private IUserService userService;
 
   @Override
   public Client save(Client object) {
@@ -45,6 +50,14 @@ public class ClientService implements IClientService {
   @Override
   public Client create(Client object) {
     return clientRepository.save(object);
+  }
+
+  @Override
+  public Client create(User user, Client client, Collection<Long> userIds) {
+    Client savedClient = this.create(client);
+    userService.saveClientToUsers(user, client, userIds);
+
+    return savedClient;
   }
 
   @Override

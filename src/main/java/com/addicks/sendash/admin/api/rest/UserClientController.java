@@ -1,6 +1,5 @@
 package com.addicks.sendash.admin.api.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -63,30 +62,11 @@ public class UserClientController extends AbstractRestHandler {
     return clients;
   }
 
-  @RequestMapping(value = "/get-user/for-user/{id}", method = RequestMethod.GET, produces = {
-      "application/json", "application/xml" })
-  @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Get a paginated list of all users available to a user based on the clients the user has.", notes = "The users are found by checking all clients the requesting users has access to and then finding all the users for that client.  The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
-  public @ResponseBody List<User> getAllUsers(
-      @ApiParam(value = "The user to use to find clients", required = true) @PathVariable("id") Long userId,
-      @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "_page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
-      @ApiParam(value = "The page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
-      @ApiParam(value = "The sorting direction", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,
-      @ApiParam(value = "The sorting field", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
-      HttpServletRequest request, HttpServletResponse response, OAuth2Authentication oauthUser) {
-
-    User user = getUserFromAuthentication(oauthUser);
-    Set<User> users = userService.getUsersAssociatedWithUser(user);
-
-    response.addHeader("X-Total-Count", "" + users.size());
-    return new ArrayList<User>(users);
-  }
-
   @RequestMapping(value = "/get-user/for-client/{id}", method = RequestMethod.GET, produces = {
       "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a paginated list of all users available to a specific client.", notes = "The user requesting the list must have access to the client.  The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
-  public @ResponseBody Set<User> getAllUsersForClient(
+  public @ResponseBody List<User> getAllUsersForClient(
       @ApiParam(value = "The user to use to find clients", required = true) @PathVariable("id") Long clientId,
       @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "_page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
       @ApiParam(value = "The page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
@@ -95,9 +75,9 @@ public class UserClientController extends AbstractRestHandler {
       HttpServletRequest request, HttpServletResponse response, OAuth2Authentication oauthUser) {
 
     User user = getUserFromAuthentication(oauthUser);
-    Client client = user.getClientById(clientId);
-    response.addHeader("X-Total-Count", "" + client.getUsers().size());
-    return client.getUsers();
+    Page<User> users = userService.findByClientId(user, clientId, page, size);
+    response.addHeader("X-Total-Count", "" + users.getSize());
+    return users.getContent();
   }
 
   // TODO methods: addUserToClient, addClientToUser

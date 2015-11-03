@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -42,7 +42,6 @@ public class User implements Serializable {
   private String lastName;
 
   @JsonIgnore
-  @JsonProperty(value = "password")
   private String password;
 
   @ManyToMany(fetch = FetchType.EAGER)
@@ -51,7 +50,9 @@ public class User implements Serializable {
   private Set<Role> roles;
 
   @JsonIgnore
-  @ManyToMany(mappedBy = "users")
+  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @JoinTable(name = "USER_CLIENT", joinColumns = {
+      @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "CLIENT_ID") })
   private Set<Client> clients;
 
   public User() {
@@ -112,10 +113,12 @@ public class User implements Serializable {
     this.lastName = lastName;
   }
 
+  @JsonIgnore
   public String getPassword() {
     return password;
   }
 
+  @JsonProperty(value = "password")
   public void setPassword(String password) {
     this.password = password;
   }
@@ -150,10 +153,8 @@ public class User implements Serializable {
     return ids;
   }
 
-  public List<User> getAllUsersFromClients() {
-    Set<User> users = new HashSet<>();
-    clients.forEach(client -> client.getUsers().forEach(user -> users.add(user)));
-    return new ArrayList<User>(users);
+  public void addClient(Client client) {
+    this.clients.add(client);
   }
 
   @Override

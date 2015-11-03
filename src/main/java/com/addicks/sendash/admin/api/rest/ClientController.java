@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.addicks.sendash.admin.domain.Client;
 import com.addicks.sendash.admin.domain.User;
+import com.addicks.sendash.admin.domain.json.ClientUI;
 import com.addicks.sendash.admin.exception.DataFormatException;
 import com.addicks.sendash.admin.service.IClientService;
 import com.wordnik.swagger.annotations.Api;
@@ -42,12 +43,13 @@ public class ClientController extends AbstractRestHandler {
       "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.CREATED)
   @ApiOperation(value = "Create a client resource.", notes = "Returns the URL of the new resource in the Location header.")
-  public void createClient(@RequestBody Client client, HttpServletRequest request,
+  public void createClient(@RequestBody ClientUI client, HttpServletRequest request,
       HttpServletResponse response, OAuth2Authentication oauthUser) {
 
     User user = getUserFromAuthentication(oauthUser);
-    client.addUser(user);
-    Client createdClient = clientService.create(client);
+
+    Client createdClient = clientService.create(user, client.getClientData(), client.getUserIds());
+
     response.setHeader("Location",
         request.getRequestURL().append("/").append(createdClient.getId()).toString());
   }

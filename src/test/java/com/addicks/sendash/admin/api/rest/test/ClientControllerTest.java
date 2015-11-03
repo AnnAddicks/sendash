@@ -46,6 +46,7 @@ import com.addicks.sendash.admin.api.rest.ClientController;
 import com.addicks.sendash.admin.api.rest.UserController;
 import com.addicks.sendash.admin.domain.Client;
 import com.addicks.sendash.admin.domain.User;
+import com.addicks.sendash.admin.domain.json.ClientUI;
 import com.addicks.sendash.admin.service.IClientService;
 import com.addicks.sendash.admin.test.JsonUtility;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -81,10 +82,15 @@ public class ClientControllerTest extends ControllerTest {
 
   private byte[] clientJson;
 
+  private byte[] clientUIJson;
+
   @Before
   public void initTests() throws JsonParseException, JsonMappingException, IOException, Exception {
     MockitoAnnotations.initMocks(this);
     mvc = MockMvcBuilders.webAppContextSetup(context).build();
+    ClientUI clientUI = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_UI_JSON, ClientUI.class);
+    clientUIJson = toJson(clientUI);
+
     Client client = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_JSON, Client.class);
     clientJson = toJson(client);
   }
@@ -93,7 +99,7 @@ public class ClientControllerTest extends ControllerTest {
   public void shouldCreateClient() throws Exception {
 
     MvcResult result = mvc
-        .perform(post(ClientController.REQUEST_MAPPING).content(clientJson)
+        .perform(post(ClientController.REQUEST_MAPPING).content(clientUIJson)
             .contentType(MediaType.APPLICATION_JSON).principal(getPrincipal())
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
@@ -139,12 +145,12 @@ public class ClientControllerTest extends ControllerTest {
   @Test
   @FlywayTest
   public void shouldCreateRetrieveAndUpdateClient() throws Exception {
-    Client newClient = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_JSON, Client.class);
+    Client newClient = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_UI_JSON, Client.class);
     byte[] newClientJson = toJson(newClient);
 
     // Create
     MvcResult result = mvc
-        .perform(post(ClientController.REQUEST_MAPPING).content(newClientJson)
+        .perform(post(ClientController.REQUEST_MAPPING).content(clientUIJson)
             .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
             .principal(getPrincipal()))
         .andExpect(status().isCreated()).andExpect(redirectedUrlPattern(RESOURCE_LOCATION_PATTERN))
