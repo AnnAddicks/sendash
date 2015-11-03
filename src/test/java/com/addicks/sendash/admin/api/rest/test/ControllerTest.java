@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.TestingAuthenticationToken;
@@ -21,7 +22,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.addicks.sendash.admin.Application;
-import com.addicks.sendash.admin.api.rest.GithubHookController;
+import com.addicks.sendash.admin.dao.jpa.UserRepository;
 import com.addicks.sendash.admin.domain.User;
 import com.addicks.sendash.admin.service.CustomUserDetailsService.UserRepositoryUserDetails;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -37,7 +38,10 @@ public abstract class ControllerTest {
 
   protected static String SERVER = "http://localhost";
 
-  private static final Logger log = LoggerFactory.getLogger(GithubHookController.class);
+  private static final Logger log = LoggerFactory.getLogger(ControllerTest.class);
+
+  @Autowired
+  private UserRepository userRepository;
 
   // match redirect header URL (aka Location header)
   protected static ResultMatcher redirectedUrlPattern(final String expectedUrlPattern) {
@@ -75,9 +79,7 @@ public abstract class ControllerTest {
   }
 
   protected Principal getPrincipal() {
-    User user = new User();
-    user.setId(1L);
-
+    User user = userRepository.findByEmail("test@test.com");
     TestUserDetails userDetails = new TestUserDetails(user);
 
     TestingAuthenticationToken token = new TestingAuthenticationToken(userDetails, null);

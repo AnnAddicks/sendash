@@ -46,7 +46,7 @@ public class UserClientController extends AbstractRestHandler {
       "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a paginated list of all clients available to a user.", notes = "The user requesting another user's clients must also be associated with thier clients.  If one or more is missing, the user requesting the list is not allowed to view them.  The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
-  public @ResponseBody List<Client> getAllClients(
+  public @ResponseBody Set<Client> getAllClients(
       @ApiParam(value = "The user to use to find clients", required = true) @PathVariable("id") Long userId,
       @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "_page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
       @ApiParam(value = "The page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
@@ -55,7 +55,7 @@ public class UserClientController extends AbstractRestHandler {
       HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
 
     Page<Client> clientPage = clientService.findAll(new User(userId), page, size);
-    List<Client> clients = limitClientsWhoAreNotAssociatedWithRequester(user, clientPage);
+    Set<Client> clients = limitClientsWhoAreNotAssociatedWithRequester(user, clientPage);
     response.addHeader("X-Total-Count", "" + clients.size());
     return clients;
   }
@@ -72,7 +72,7 @@ public class UserClientController extends AbstractRestHandler {
       @ApiParam(value = "The sorting field", required = true) @RequestParam(value = "_sortField", required = true, defaultValue = "email") String sortField,
       HttpServletRequest request, HttpServletResponse response, OAuth2Authentication user) {
 
-    List<Client> clients = ((User) user.getDetails()).getClients();
+    Set<Client> clients = ((User) user.getDetails()).getClients();
     Set<User> users = new HashSet<User>();
 
     clients.forEach(client -> users.addAll(client.getUsers()));
@@ -85,7 +85,7 @@ public class UserClientController extends AbstractRestHandler {
       "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a paginated list of all users available to a specific client.", notes = "The user requesting the list must have access to the client.  The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
-  public @ResponseBody List<User> getAllUsersForClient(
+  public @ResponseBody Set<User> getAllUsersForClient(
       @ApiParam(value = "The user to use to find clients", required = true) @PathVariable("id") Long clientId,
       @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "_page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
       @ApiParam(value = "The page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
@@ -100,9 +100,9 @@ public class UserClientController extends AbstractRestHandler {
 
   // TODO methods: addUserToClient, addClientToUser
 
-  private List<Client> limitClientsWhoAreNotAssociatedWithRequester(OAuth2Authentication user,
+  private Set<Client> limitClientsWhoAreNotAssociatedWithRequester(OAuth2Authentication user,
       Page<Client> clientPage) {
-    List<Client> clients = ((User) user.getDetails()).getClients();
+    Set<Client> clients = ((User) user.getDetails()).getClients();
 
     List<Client> requestedClients = clientPage.getContent();
     requestedClients.forEach(client -> {

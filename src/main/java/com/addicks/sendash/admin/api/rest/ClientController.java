@@ -46,8 +46,8 @@ public class ClientController extends AbstractRestHandler {
   public void createClient(@RequestBody Client client, HttpServletRequest request,
       HttpServletResponse response, OAuth2Authentication oauthUser) {
 
-    User user = (User) oauthUser.getDetails();
-    client.addUser(user.getId(), user.getEmail());
+    User user = getUserFromAuthentication(oauthUser);
+    client.addUser(user);
     Client createdClient = clientService.create(client);
     response.setHeader("Location",
         request.getRequestURL().append("/").append(createdClient.getId()).toString());
@@ -57,7 +57,7 @@ public class ClientController extends AbstractRestHandler {
       "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get a paginated list of all clients.", notes = "The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
-  public @ResponseBody List<Client> getAllCLients(
+  public @ResponseBody List<Client> getAllClients(
       @ApiParam(value = "The page number (zero-based)", required = true) @RequestParam(value = "_page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
       @ApiParam(value = "The page size", required = true) @RequestParam(value = "_perPage", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
       @ApiParam(value = "The sorting direction", required = true) @RequestParam(value = "_sortDir", required = true, defaultValue = DEFAULT_SORT) String sortDir,

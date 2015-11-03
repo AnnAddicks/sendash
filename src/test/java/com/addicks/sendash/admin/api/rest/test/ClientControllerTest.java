@@ -91,6 +91,7 @@ public class ClientControllerTest extends ControllerTest {
 
   @Test
   public void shouldCreateClient() throws Exception {
+
     MvcResult result = mvc
         .perform(post(ClientController.REQUEST_MAPPING).content(clientJson)
             .contentType(MediaType.APPLICATION_JSON).principal(getPrincipal())

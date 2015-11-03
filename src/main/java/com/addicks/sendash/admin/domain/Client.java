@@ -1,8 +1,8 @@
 package com.addicks.sendash.admin.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,13 +25,13 @@ public class Client implements Serializable {
 
   private String name;
 
-  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   @JoinTable(name = "USER_CLIENT", joinColumns = {
       @JoinColumn(name = "CLIENT_ID") }, inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
-  private List<User> users;
+  private Set<User> users;
 
   public Client() {
-    users = new ArrayList<>();
+    users = new HashSet<>();
   }
 
   public Long getId() {
@@ -50,16 +50,17 @@ public class Client implements Serializable {
     this.name = name;
   }
 
-  public List<User> getUsers() {
+  public Set<User> getUsers() {
     return users;
   }
 
-  public void setUsers(List<User> users) {
+  public void setUsers(Set<User> users) {
     this.users = users;
   }
 
-  public void addUser(Long id, String email) {
-    users.add(new User(id, email));
+  public void addUser(User user) {
+    users.add(user);
+
   }
 
   @Override

@@ -2,8 +2,8 @@ package com.addicks.sendash.admin.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -47,20 +47,19 @@ public class User implements Serializable {
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "USER_ROLE", joinColumns = {
       @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
-  private Set<Role> roles = new HashSet<Role>();
+  private Set<Role> roles;
 
   @JsonIgnore
   @ManyToMany(mappedBy = "users")
-  private List<Client> clients;
+  private Set<Client> clients;
 
   public User() {
     roles = new HashSet<>();
-    clients = new ArrayList<>();
+    clients = new HashSet<>();
   }
 
   public User(User user) {
     this.id = user.getId();
-    // this.uuid = user.getUuid();
     this.email = user.getEmail();
     this.firstName = user.getFirstName();
     this.lastName = user.getLastName();
@@ -128,11 +127,11 @@ public class User implements Serializable {
     this.roles = roles;
   }
 
-  public List<Client> getClients() {
+  public Set<Client> getClients() {
     return clients;
   }
 
-  public void setClients(List<Client> clients) {
+  public void setClients(Set<Client> clients) {
     this.clients = clients;
   }
 
@@ -142,6 +141,12 @@ public class User implements Serializable {
         return client;
     }
     return new Client();
+  }
+
+  public Collection<Long> getClientIds() {
+    Collection<Long> ids = new ArrayList<>();
+    clients.forEach(client -> ids.add(client.getId()));
+    return ids;
   }
 
   @Override

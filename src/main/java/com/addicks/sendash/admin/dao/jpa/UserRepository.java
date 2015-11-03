@@ -10,7 +10,8 @@ import com.addicks.sendash.admin.domain.User;
 
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
-  User findByEmail(String email);
+  @Query("Select u from User u INNER JOIN FETCH u.clients where u.email= :email")
+  User findByEmail(@Param("email") String email);
 
   @Query("Select u from User u inner join u.clients c where c.id = :id")
   Page<User> findAll(@Param("id") Long id, Pageable page);

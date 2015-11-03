@@ -7,12 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
 import com.addicks.sendash.admin.domain.RestErrorInfo;
+import com.addicks.sendash.admin.domain.User;
 import com.addicks.sendash.admin.exception.DataFormatException;
 import com.addicks.sendash.admin.exception.ResourceNotFoundException;
 
@@ -64,6 +66,10 @@ public abstract class AbstractRestHandler implements ApplicationEventPublisherAw
       throw new ResourceNotFoundException("resource not found");
     }
     return resource;
+  }
+
+  protected User getUserFromAuthentication(OAuth2Authentication oauthUser) {
+    return (User) oauthUser.getPrincipal();
   }
 
 }
