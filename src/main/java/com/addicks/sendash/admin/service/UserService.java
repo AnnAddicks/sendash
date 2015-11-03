@@ -71,6 +71,8 @@ public class UserService implements IUserService {
 
   @Override
   public void saveClientToUsers(User user, Client client, Collection<Long> userIds) {
+    log.error("User ids: " + userIds);
+    log.error("User id: " + user.getId());
     if (userIds.contains(user.getId())) {
       Collection<User> users = this.findByUserId(userIds);
 
@@ -79,7 +81,9 @@ public class UserService implements IUserService {
         this.save(userToSave);
       }
     }
-    throw new ResourceNotFoundException("The users are not associated with this user.");
+    else {
+      throw new ResourceNotFoundException("The users are not associated with this user.");
+    }
 
   }
 

@@ -80,8 +80,6 @@ public class ClientControllerTest extends ControllerTest {
 
   private MockMvc mvc;
 
-  private byte[] clientJson;
-
   private byte[] clientUIJson;
 
   @Before
@@ -90,9 +88,6 @@ public class ClientControllerTest extends ControllerTest {
     mvc = MockMvcBuilders.webAppContextSetup(context).build();
     ClientUI clientUI = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_UI_JSON, ClientUI.class);
     clientUIJson = toJson(clientUI);
-
-    Client client = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_JSON, Client.class);
-    clientJson = toJson(client);
   }
 
   @Test
