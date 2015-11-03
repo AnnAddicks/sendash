@@ -1,5 +1,9 @@
 package com.addicks.sendash.admin.service;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.hibernate.LazyInitializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.addicks.sendash.admin.dao.jpa.UserRepository;
+import com.addicks.sendash.admin.domain.Client;
 import com.addicks.sendash.admin.domain.User;
 
 @Service
@@ -55,6 +60,21 @@ public class UserService implements IUserService {
   @Override
   public void update(User object) {
     userRepository.save(object);
+  }
+
+  @Override
+  public Set<User> getUsersAssociatedWithUser(User user) {
+    Set<Client> clients = user.getClients();
+    final Set<User> users = new HashSet<User>();
+
+    // Check if the users are already attached
+    try {
+      clients.forEach(client -> users.addAll(client.getUsers()));
+    }
+    catch (LazyInitializationException e) {
+      users.addAll(this.findAll(user, 0, 1000).getContent());
+    }
+    return users;
   }
 
 }

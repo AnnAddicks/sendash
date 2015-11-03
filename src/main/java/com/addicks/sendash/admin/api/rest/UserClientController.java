@@ -1,7 +1,6 @@
 package com.addicks.sendash.admin.api.rest;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.addicks.sendash.admin.domain.Client;
 import com.addicks.sendash.admin.domain.User;
 import com.addicks.sendash.admin.service.IClientService;
+import com.addicks.sendash.admin.service.IUserService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
 @RestController
-@RequestMapping(value = ClientController.REQUEST_MAPPING)
+@RequestMapping(value = UserClientController.REQUEST_MAPPING)
 @Api(value = "user-client", description = "CRUD client management.")
 public class UserClientController extends AbstractRestHandler {
 
@@ -41,6 +41,9 @@ public class UserClientController extends AbstractRestHandler {
 
   @Autowired
   private IClientService clientService;
+
+  @Autowired
+  private IUserService userService;
 
   @RequestMapping(value = "/get-client/for-user/{id}", method = RequestMethod.GET, produces = {
       "application/json", "application/xml" })
@@ -73,10 +76,7 @@ public class UserClientController extends AbstractRestHandler {
       HttpServletRequest request, HttpServletResponse response, OAuth2Authentication oauthUser) {
 
     User user = getUserFromAuthentication(oauthUser);
-    Set<Client> clients = user.getClients();
-    Set<User> users = new HashSet<User>();
-
-    clients.forEach(client -> users.addAll(client.getUsers()));
+    Set<User> users = userService.getUsersAssociatedWithUser(user);
 
     response.addHeader("X-Total-Count", "" + users.size());
     return new ArrayList<User>(users);

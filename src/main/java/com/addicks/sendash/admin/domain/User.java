@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -147,6 +148,12 @@ public class User implements Serializable {
     Collection<Long> ids = new ArrayList<>();
     clients.forEach(client -> ids.add(client.getId()));
     return ids;
+  }
+
+  public List<User> getAllUsersFromClients() {
+    Set<User> users = new HashSet<>();
+    clients.forEach(client -> client.getUsers().forEach(user -> users.add(user)));
+    return new ArrayList<User>(users);
   }
 
   @Override
