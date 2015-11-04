@@ -20,7 +20,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -49,7 +48,6 @@ public class User implements Serializable {
       @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
   private Set<Role> roles;
 
-  @JsonIgnore
   @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   @JoinTable(name = "USER_CLIENT", joinColumns = {
       @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "CLIENT_ID") })
