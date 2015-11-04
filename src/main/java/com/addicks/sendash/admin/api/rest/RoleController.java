@@ -31,10 +31,11 @@ public class RoleController extends AbstractRestHandler {
 
   private Collection<Role> roles;
 
-  @Autowired
   private IRoleService roleService;
 
-  public RoleController() {
+  @Autowired
+  public RoleController(IRoleService roleService) {
+    this.roleService = roleService;
     roles = roleService.findAll();
   }
 
@@ -57,7 +58,7 @@ public class RoleController extends AbstractRestHandler {
   @RequestMapping(value = "/update", method = RequestMethod.GET, produces = { "application/json",
       "application/xml" })
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @ApiOperation(value = "Update the list of all roles.", notes = "This action is limited to super users only.")
+  @ApiOperation(value = "Update the list of all roles.", notes = "This action is limited to specific users.")
   public @ResponseBody void updateAllRoles() {
     roles = roleService.findAll();
 
