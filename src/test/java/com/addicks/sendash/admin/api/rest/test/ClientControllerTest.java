@@ -140,7 +140,8 @@ public class ClientControllerTest extends ControllerTest {
   @Test
   @FlywayTest
   public void shouldCreateRetrieveAndUpdateClient() throws Exception {
-    Client newClient = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_UI_JSON, Client.class);
+    Client newClient = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_UI_JSON, ClientUI.class)
+        .getClientData();
     byte[] newClientJson = toJson(newClient);
 
     // Create
@@ -177,15 +178,17 @@ public class ClientControllerTest extends ControllerTest {
   @Test
   @FlywayTest
   public void shouldCreateRetrieveDeleteClient() throws Exception {
-    Client newClient = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_JSON, Client.class);
-    byte[] newClientJson = toJson(newClient);
+    ClientUI newClientUI = JsonUtility.loadObjectFromJson(JsonUtility.CLIENT_UI_JSON,
+        ClientUI.class);
+    Client newClient = newClientUI.getClientData();
 
     // Create
     MvcResult result = mvc
-        .perform(post(ClientController.REQUEST_MAPPING).content(newClientJson)
-            .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
-            .principal(getPrincipal()))
-        .andExpect(status().isCreated()).andExpect(redirectedUrlPattern(RESOURCE_LOCATION_PATTERN))
+        .perform(post(ClientController.REQUEST_MAPPING).content(clientUIJson)
+            .contentType(MediaType.APPLICATION_JSON).principal(getPrincipal())
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated())
+        .andExpect(redirectedUrlPattern(SERVER + ClientController.REQUEST_MAPPING + "/[0-9]+"))
         .andReturn();
     long id = getResourceIdFromUrl(result.getResponse().getRedirectedUrl());
 

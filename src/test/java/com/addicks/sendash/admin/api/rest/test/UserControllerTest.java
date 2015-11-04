@@ -74,8 +74,8 @@ public class UserControllerTest extends ControllerTest {
   public void initTests() throws JsonParseException, JsonMappingException, IOException, Exception {
     MockitoAnnotations.initMocks(this);
     mvc = MockMvcBuilders.webAppContextSetup(context).build();
-    User user = JsonUtility.loadObjectFromJson(JsonUtility.USER_JSON, User.class);
-    userJson = toJson(user);
+    // Skip serialization step to maintain password
+    userJson = JsonUtility.loadByteArrayFromJsonFile(JsonUtility.USER_JSON);
   }
 
   @Test
@@ -91,7 +91,6 @@ public class UserControllerTest extends ControllerTest {
 
     assertNotNull(id);
     assertThat("id", id, greaterThan(0L));
-
   }
 
   @Test
@@ -103,7 +102,7 @@ public class UserControllerTest extends ControllerTest {
 
     User returnedUser = JsonUtility.loadObjectFromString(userString, User.class);
     User savedUser = userService.findById(1L);
-    assertEquals(returnedUser, savedUser);
 
+    assertEquals(returnedUser, savedUser);
   }
 }

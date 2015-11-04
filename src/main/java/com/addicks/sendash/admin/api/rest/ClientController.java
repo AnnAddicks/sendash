@@ -89,11 +89,11 @@ public class ClientController extends AbstractRestHandler {
   @ApiOperation(value = "Update a client.", notes = "Provide a valid client ID in the URL and in the payload. The ID attribute can not be updated.")
   public void updateClient(
       @ApiParam(value = "The ID of the existing client resource.", required = true) @PathVariable("id") Long id,
-      @RequestBody Client client, HttpServletRequest request, HttpServletResponse response) {
+      @RequestBody ClientUI client, HttpServletRequest request, HttpServletResponse response) {
     checkResourceFound(clientService.findById(id));
     if (id != client.getId())
       throw new DataFormatException("ID doesn't match!");
-    clientService.update(client);
+    clientService.update(client.getClientData());
   }
 
   @ApiResponses(value = {

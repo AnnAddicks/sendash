@@ -21,12 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "PERSON")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(value = { "password" }, allowSetters = true)
 public class User implements Serializable {
 
   private static final long serialVersionUID = 5651803198978520716L;
@@ -41,7 +42,6 @@ public class User implements Serializable {
 
   private String lastName;
 
-  @JsonIgnore
   private String password;
 
   @ManyToMany(fetch = FetchType.EAGER)
@@ -113,12 +113,10 @@ public class User implements Serializable {
     this.lastName = lastName;
   }
 
-  @JsonIgnore
   public String getPassword() {
     return password;
   }
 
-  @JsonProperty(value = "password")
   public void setPassword(String password) {
     this.password = password;
   }

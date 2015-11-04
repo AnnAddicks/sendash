@@ -2,6 +2,8 @@ package com.addicks.sendash.admin.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -31,6 +33,13 @@ public class JsonUtility {
 
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(new File(path), clazz);
+  }
+
+  public static byte[] loadByteArrayFromJsonFile(String fileName) throws IOException {
+    ClassLoader classLoader = JsonUtility.class.getClassLoader();
+    File file = new File(classLoader.getResource(fileName).getFile());
+    Path path = file.toPath();
+    return Files.readAllBytes(path);
   }
 
   public static <T> T loadObjectFromString(String json, Class<T> clazz)
