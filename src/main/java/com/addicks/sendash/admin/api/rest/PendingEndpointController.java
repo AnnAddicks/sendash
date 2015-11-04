@@ -35,6 +35,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 @RequestMapping(value = PendingEndpointController.REQUEST_MAPPING)
 @Api(value = "pendingEndpoint", description = "CRUD pending endpoint management.")
 public class PendingEndpointController extends AbstractRestHandler {
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(PendingEndpointController.class);
 
   public static final String REQUEST_MAPPING = "/api/admin/pending-endpoint";

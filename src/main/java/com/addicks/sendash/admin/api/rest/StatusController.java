@@ -31,6 +31,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 public class StatusController extends AbstractRestHandler {
   public static final String REQUEST_MAPPING = "/api/admin/status";
 
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(StatusController.class);
 
   @Autowired

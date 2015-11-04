@@ -15,6 +15,7 @@ import com.wordnik.swagger.annotations.Api;
 @RequestMapping(value = ResourceController.REQUEST_MAPPING)
 @Api(value = "client", description = "CRUD client management.")
 public class ResourceController extends AbstractRestHandler {
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(ResourceController.class);
 
   public static final String REQUEST_MAPPING = "/api/me";

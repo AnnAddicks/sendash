@@ -22,6 +22,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 public class FileController {
   public static final String REQUEST_MAPPING = "/api/file-manager";
 
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(FileController.class);
 
   @Autowired
