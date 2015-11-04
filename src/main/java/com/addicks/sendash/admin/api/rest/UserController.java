@@ -37,6 +37,7 @@ public class UserController extends AbstractRestHandler {
 
   public static final String REQUEST_MAPPING = "/api/admin/user";
 
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
   @Autowired
@@ -54,7 +55,6 @@ public class UserController extends AbstractRestHandler {
   @ApiOperation(value = "Create a user.", notes = "Returns the URL of the new user in the Location header.")
   public void createUser(@RequestBody User user, HttpServletRequest request,
       HttpServletResponse response) {
-    log.error("User from JSON: " + user);
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     User savedUser = userService.save(user);
     response.setHeader("Location",
