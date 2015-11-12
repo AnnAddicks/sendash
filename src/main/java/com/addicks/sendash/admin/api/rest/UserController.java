@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.addicks.sendash.admin.domain.User;
+import com.addicks.sendash.admin.domain.json.UserUI;
 import com.addicks.sendash.admin.exception.DataFormatException;
 import com.addicks.sendash.admin.service.IUserService;
 import com.wordnik.swagger.annotations.Api;
@@ -53,12 +56,19 @@ public class UserController extends AbstractRestHandler {
       "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.CREATED)
   @ApiOperation(value = "Create a user.", notes = "Returns the URL of the new user in the Location header.")
-  public void createUser(@RequestBody User user, HttpServletRequest request,
-      HttpServletResponse response) {
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
-    User savedUser = userService.save(user);
-    response.setHeader("Location",
-        request.getRequestURL().append("/").append(savedUser.getId()).toString());
+  public void createUser(@RequestBody @Valid UserUI userUI, HttpServletRequest request,
+      HttpServletResponse response, BindingResult result) {
+
+    if (result.hasErrors()) {
+
+    }
+    else {
+      User user = userUI.getUser();
+      user.setPassword(passwordEncoder.encode(user.getPassword()));
+      User savedUser = userService.save(user);
+      response.setHeader("Location",
+          request.getRequestURL().append("/").append(savedUser.getId()).toString());
+    }
   }
 
   @RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json",

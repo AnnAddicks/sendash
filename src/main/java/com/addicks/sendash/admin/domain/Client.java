@@ -31,6 +31,11 @@ public class Client implements Serializable {
 
   }
 
+  public Client(Long clientId) {
+    super();
+    this.id = clientId;
+  }
+
   public Long getId() {
     return id;
   }

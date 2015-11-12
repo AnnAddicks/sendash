@@ -1,17 +1,37 @@
 package com.addicks.sendash.admin.domain.json;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.addicks.sendash.admin.domain.Client;
+import com.addicks.sendash.admin.domain.Role;
+import com.addicks.sendash.admin.domain.User;
 
 public class UserUI {
 
+  @NotEmpty
+  @Email
   private final String email;
 
+  @NotEmpty
+  @Size(min = 2, max = 255)
   private final String firstName;
 
+  @NotEmpty
+  @Size(min = 2, max = 255)
   private final String lastName;
 
+  @NotEmpty
   private final List<Long> roles;
 
+  @NotEmpty
   private final List<Long> clientIds;
 
   public UserUI(String email, String firstName, String lastName, List<Long> roles,
@@ -36,12 +56,31 @@ public class UserUI {
     return lastName;
   }
 
-  public List<Long> getRoles() {
+  public List<Long> getClientIds() {
+    return clientIds;
+  }
+
+  public User getUser() {
+    User user = new User();
+    user.setFirstName(firstName);
+    user.setLastName(lastName);
+    user.setEmail(email);
+    user.setRoles(getRoles());
+    user.setPassword(UUID.randomUUID().toString());
+    user.setClients(getClients());
+    return user;
+  }
+
+  private Set<Role> getRoles() {
+    Set<Role> roles = new HashSet<>();
+    roles.forEach(role -> roles.add(new Role(role.getId())));
     return roles;
   }
 
-  public List<Long> getClientIds() {
-    return clientIds;
+  private Set<Client> getClients() {
+    Set<Client> clients = new HashSet<>();
+    clientIds.forEach(clientId -> clients.add(new Client(clientId)));
+    return clients;
   }
 
   @Override
