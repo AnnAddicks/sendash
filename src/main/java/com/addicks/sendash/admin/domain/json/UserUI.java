@@ -1,5 +1,6 @@
 package com.addicks.sendash.admin.domain.json;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,23 +19,28 @@ public class UserUI {
 
   @NotEmpty
   @Email
-  private final String email;
+  private String email;
 
   @NotEmpty
   @Size(min = 2, max = 255)
-  private final String firstName;
+  private String firstName;
 
   @NotEmpty
   @Size(min = 2, max = 255)
-  private final String lastName;
+  private String lastName;
 
-  private final String password;
-
-  @NotEmpty
-  private final List<Long> roles;
+  private String password;
 
   @NotEmpty
-  private final List<Long> clientIds;
+  private List<Long> roles;
+
+  @NotEmpty
+  private List<Long> clientIds;
+
+  public UserUI() {
+    roles = new ArrayList<>();
+    clientIds = new ArrayList<>();
+  }
 
   public UserUI(String email, String firstName, String lastName, String password, List<Long> roles,
       List<Long> clientIds) {
@@ -51,20 +57,44 @@ public class UserUI {
     return email;
   }
 
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
   public String getFirstName() {
     return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
   }
 
   public String getLastName() {
     return lastName;
   }
 
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
   public String getPassword() {
     return password;
   }
 
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
   public List<Long> getClientIds() {
     return clientIds;
+  }
+
+  public void setClientIds(List<Long> clientIds) {
+    this.clientIds = clientIds;
+  }
+
+  public void setRoles(List<Long> roles) {
+    this.roles = roles;
   }
 
   public User getUser() {
