@@ -28,18 +28,21 @@ public class UserUI {
   @Size(min = 2, max = 255)
   private final String lastName;
 
+  private final String password;
+
   @NotEmpty
   private final List<Long> roles;
 
   @NotEmpty
   private final List<Long> clientIds;
 
-  public UserUI(String email, String firstName, String lastName, List<Long> roles,
+  public UserUI(String email, String firstName, String lastName, String password, List<Long> roles,
       List<Long> clientIds) {
     super();
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.password = password;
     this.roles = roles;
     this.clientIds = clientIds;
   }
@@ -56,6 +59,10 @@ public class UserUI {
     return lastName;
   }
 
+  public String getPassword() {
+    return password;
+  }
+
   public List<Long> getClientIds() {
     return clientIds;
   }
@@ -66,9 +73,19 @@ public class UserUI {
     user.setLastName(lastName);
     user.setEmail(email);
     user.setRoles(getRoles());
-    user.setPassword(UUID.randomUUID().toString());
     user.setClients(getClients());
+    user.setPassword(getPassword(user));
+
     return user;
+  }
+
+  private String getPassword(User user) {
+    if (password == null || password.isEmpty()) {
+      return UUID.randomUUID().toString();
+    }
+
+    return password;
+
   }
 
   private Set<Role> getRoles() {
