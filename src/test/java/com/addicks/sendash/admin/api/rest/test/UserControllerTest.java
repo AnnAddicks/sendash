@@ -80,8 +80,10 @@ public class UserControllerTest extends ControllerTest {
 
   @Test
   public void shouldCreateUser() throws Exception {
+    byte[] userUiJson = JsonUtility.loadByteArrayFromJsonFile(JsonUtility.USER_UI_JSON);
+
     MvcResult result = mvc
-        .perform(post(UserController.REQUEST_MAPPING).content(userJson)
+        .perform(post(UserController.REQUEST_MAPPING).content(userUiJson)
             .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
             .principal(getPrincipal()))
         .andExpect(status().isCreated())

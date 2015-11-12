@@ -1,6 +1,7 @@
 package com.addicks.sendash.admin.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 
@@ -13,4 +14,6 @@ public interface IUserService extends ICrudService<User> {
 
   void saveClientToUsers(User user, Client client, Collection<Long> userIds);
 
+  User populateAndSaveUser(User userPerformingAction, User newUser, List<Long> customerIds,
+      List<Long> rolesIds);
 }

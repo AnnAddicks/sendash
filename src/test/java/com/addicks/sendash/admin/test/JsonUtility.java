@@ -15,6 +15,8 @@ public class JsonUtility {
 
   public static final String USER_JSON = "json/user.json";
 
+  public static final String USER_UI_JSON = "json/userUI.json";
+
   public static final String PENDING_ENPOINT_JSON = "json/pendingEndpoint.json";
 
   public static final String CLIENT_JSON = "json/client.json";

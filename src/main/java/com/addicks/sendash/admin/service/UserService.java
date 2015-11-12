@@ -1,6 +1,7 @@
 package com.addicks.sendash.admin.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,12 @@ public class UserService implements IUserService {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private IRoleService roleService;
+
+  @Autowired
+  private IClientService clientService;
 
   @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(UserService.class);
@@ -88,5 +95,14 @@ public class UserService implements IUserService {
 
   private Collection<User> findByUserId(Collection<Long> userIds) {
     return userRepository.findByUserIds(userIds);
+  }
+
+  @Override
+  public User populateAndSaveUser(User userPerformingAction, User newUser, List<Long> clientIds,
+      List<Long> roleIds) {
+
+    newUser.setRoles(roleService.findByIds(roleIds));
+    newUser.setClients(clientService.findByIds(clientIds));
+    return this.save(newUser);
   }
 }

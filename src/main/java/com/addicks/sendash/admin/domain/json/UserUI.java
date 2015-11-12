@@ -1,9 +1,7 @@
 package com.addicks.sendash.admin.domain.json;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.validation.constraints.Size;
@@ -11,8 +9,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.addicks.sendash.admin.domain.Client;
-import com.addicks.sendash.admin.domain.Role;
 import com.addicks.sendash.admin.domain.User;
 
 public class UserUI {
@@ -102,11 +98,13 @@ public class UserUI {
     user.setFirstName(firstName);
     user.setLastName(lastName);
     user.setEmail(email);
-    user.setRoles(getRoles());
-    user.setClients(getClients());
     user.setPassword(getPassword(user));
 
     return user;
+  }
+
+  public List<Long> getRoles() {
+    return roles;
   }
 
   private String getPassword(User user) {
@@ -116,18 +114,6 @@ public class UserUI {
 
     return password;
 
-  }
-
-  private Set<Role> getRoles() {
-    Set<Role> roles = new HashSet<>();
-    roles.forEach(role -> roles.add(new Role(role.getId())));
-    return roles;
-  }
-
-  private Set<Client> getClients() {
-    Set<Client> clients = new HashSet<>();
-    clientIds.forEach(clientId -> clients.add(new Client(clientId)));
-    return clients;
   }
 
   @Override

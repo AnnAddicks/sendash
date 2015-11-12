@@ -57,15 +57,18 @@ public class UserController extends AbstractRestHandler {
   @ResponseStatus(HttpStatus.CREATED)
   @ApiOperation(value = "Create a user.", notes = "Returns the URL of the new user in the Location header.")
   public void createUser(@RequestBody @Valid UserUI userUI, HttpServletRequest request,
-      HttpServletResponse response, BindingResult result) {
+      HttpServletResponse response, OAuth2Authentication oauthUser, BindingResult result) {
 
     if (result.hasErrors()) {
-
+      log.error("Validation Error: " + result.getAllErrors());
     }
     else {
+      User creator = getUserFromAuthentication(oauthUser);
       User user = userUI.getUser();
       user.setPassword(passwordEncoder.encode(user.getPassword()));
-      User savedUser = userService.save(user);
+
+      User savedUser = userService.populateAndSaveUser(creator, user, userUI.getClientIds(),
+          userUI.getRoles());
       response.setHeader("Location",
           request.getRequestURL().append("/").append(savedUser.getId()).toString());
     }

@@ -1,12 +1,16 @@
 package com.addicks.sendash.admin.service;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.addicks.sendash.admin.dao.jpa.ClientRepository;
 import com.addicks.sendash.admin.domain.Client;
@@ -63,6 +67,15 @@ public class ClientService implements IClientService {
   @Override
   public void update(Client object) {
     clientRepository.save(object);
+  }
+
+  @Override
+  public Set<Client> findByIds(List<Long> clientIds) {
+    if (CollectionUtils.isEmpty(clientIds)) {
+      return Collections.emptySet();
+    }
+
+    return clientRepository.findByIds(clientIds);
   }
 
 }
