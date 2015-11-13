@@ -68,7 +68,7 @@ public class UserController extends AbstractRestHandler {
       user.setPassword(passwordEncoder.encode(user.getPassword()));
 
       User savedUser = userService.populateAndSaveUser(creator, user, userUI.getClientIds(),
-          userUI.getRoles());
+          userUI.getRole());
       response.setHeader("Location",
           request.getRequestURL().append("/").append(savedUser.getId()).toString());
     }

@@ -14,4 +14,7 @@ public interface RoleRepository extends PagingAndSortingRepository<Role, Long> {
   @Query("from Role r where r.id in (:ids)")
   Set<Role> findByIds(@Param("ids") List<Long> roleIds);
 
+  @Query("from Role r where r.id = :id or r.name='ROLE_USER'")
+  Set<Role> findByIdsIncluedUser(@Param("id") Long roleId);
+
 }

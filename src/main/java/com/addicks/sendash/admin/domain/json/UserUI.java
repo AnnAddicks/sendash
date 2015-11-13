@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -27,18 +28,18 @@ public class UserUI {
 
   private String password;
 
-  @NotEmpty
-  private List<Long> roles;
+  @NotNull
+  private Long roles;
 
   @NotEmpty
   private List<Long> clientIds;
 
   public UserUI() {
-    roles = new ArrayList<>();
+
     clientIds = new ArrayList<>();
   }
 
-  public UserUI(String email, String firstName, String lastName, String password, List<Long> roles,
+  public UserUI(String email, String firstName, String lastName, String password, Long roles,
       List<Long> clientIds) {
     super();
     this.email = email;
@@ -89,7 +90,7 @@ public class UserUI {
     this.clientIds = clientIds;
   }
 
-  public void setRoles(List<Long> roles) {
+  public void setRoles(Long roles) {
     this.roles = roles;
   }
 
@@ -103,7 +104,7 @@ public class UserUI {
     return user;
   }
 
-  public List<Long> getRoles() {
+  public Long getRole() {
     return roles;
   }
 

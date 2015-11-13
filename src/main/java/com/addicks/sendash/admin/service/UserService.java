@@ -99,9 +99,9 @@ public class UserService implements IUserService {
 
   @Override
   public User populateAndSaveUser(User userPerformingAction, User newUser, List<Long> clientIds,
-      List<Long> roleIds) {
+      Long roleId) {
 
-    newUser.setRoles(roleService.findByIds(roleIds));
+    newUser.setRoles(roleService.findById(roleId));
     newUser.setClients(clientService.findByIds(clientIds));
     return this.save(newUser);
   }

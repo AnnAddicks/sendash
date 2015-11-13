@@ -15,5 +15,5 @@ public interface IUserService extends ICrudService<User> {
   void saveClientToUsers(User user, Client client, Collection<Long> userIds);
 
   User populateAndSaveUser(User userPerformingAction, User newUser, List<Long> customerIds,
-      List<Long> rolesIds);
+      Long rolesId);
 }
