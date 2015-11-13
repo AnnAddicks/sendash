@@ -105,4 +105,12 @@ public class UserService implements IUserService {
     newUser.setClients(clientService.findByIds(clientIds));
     return this.save(newUser);
   }
+
+  @Override
+  public void update(User editingUser, User editedUser, List<Long> clientIds, Long role) {
+    editedUser.setRoles(roleService.findById(role));
+    editedUser.setClients(clientService.findByIds(clientIds));
+
+    this.update(editedUser);
+  }
 }

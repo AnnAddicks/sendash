@@ -14,6 +14,8 @@ import com.addicks.sendash.admin.domain.User;
 
 public class UserUI {
 
+  private Long id;
+
   @NotEmpty
   @Email
   private String email;
@@ -48,6 +50,14 @@ public class UserUI {
     this.password = password;
     this.roles = roles;
     this.clientIds = clientIds;
+  }
+
+  public Long getId() {
+    return id;
+  }
+  
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getEmail() {

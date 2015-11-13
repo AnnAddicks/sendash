@@ -109,11 +109,15 @@ public class UserController extends AbstractRestHandler {
   @ApiOperation(value = "Update a user.", notes = "Provide a valid user ID in the URL and in the payload. The ID attribute can not be updated.")
   public void updateUser(
       @ApiParam(value = "The ID of the existing user resource.", required = true) @PathVariable("id") Long id,
-      @RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+      @RequestBody @Valid UserUI userUI, HttpServletRequest request, HttpServletResponse response,
+      OAuth2Authentication oauthUser, BindingResult result) {
     checkResourceFound(userService.findById(id));
-    if (id != user.getId())
+
+    User editingUser = getUserFromAuthentication(oauthUser);
+    User editedUser = userUI.getUser();
+    if (id != userUI.getId())
       throw new DataFormatException("ID doesn't match!");
-    userService.update(user);
+    userService.update(editingUser, editedUser, userUI.getClientIds(), userUI.getRole());
   }
 
   @ApiResponses(value = {
