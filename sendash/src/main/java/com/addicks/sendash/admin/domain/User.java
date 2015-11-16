@@ -3,6 +3,7 @@ package com.addicks.sendash.admin.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,6 +43,8 @@ public class User implements Serializable {
   private String lastName;
 
   private String password;
+
+  private Date lastLogedIn;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "USER_ROLE", joinColumns = {
@@ -153,6 +156,14 @@ public class User implements Serializable {
     this.clients.add(client);
   }
 
+  public Date getLastLogedIn() {
+    return lastLogedIn;
+  }
+
+  public void setLastLogedIn(Date lastLogedIn) {
+    this.lastLogedIn = lastLogedIn;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -182,7 +193,8 @@ public class User implements Serializable {
   @Override
   public String toString() {
     return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName="
-        + lastName + ", password=" + password + ", roles=" + roles + ", clients=" + clients + "]";
+        + lastName + ", password=" + password + ", lastLogedIn=" + lastLogedIn + ", roles=" + roles
+        + ", clients=" + clients + "]";
   }
 
 }
