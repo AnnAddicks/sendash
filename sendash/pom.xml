@@ -123,6 +123,11 @@
 			<version>0.9.1</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- MQ -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
 		<!-- integration with Swagger API doc generation http://goo.gl/J5FQDM -->
 		<dependency>
 			<groupId>com.mangofactory</groupId>
