@@ -35,11 +35,9 @@ public class Application {
 
   @RabbitHandler
   public void process(@Payload String message) {
-    System.out.println(new Date() + ": " + message);
     String[] userFields = message.split(",");
-    log.error("userFields: " + userFields);
     newUserMailer.welcomeNewUser(userFields[0], userFields[1]);
-    log.error("Just welcomed our new user!");
+    
   }
 
   public static void main(String[] args) throws Exception {

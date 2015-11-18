@@ -34,8 +34,7 @@ public class NewUserMailer implements INewUserMailer {
 
   @Override
   public void welcomeNewUser(String email, String uuidURI) {
-    log.error("**********************");
-    log.error("Welcome " + email);
+
     Map<String, String> data = new HashMap<>();
     data.put("email", email);
     data.put("uri", CONFIRM_URI + uuidURI);
@@ -44,14 +43,12 @@ public class NewUserMailer implements INewUserMailer {
       Template template = configuration.getTemplate(WELCOME_TEMPLATE);
       String emailText = FreeMarkerTemplateUtils.processTemplateIntoString(template, data);
 
-      log.error("emailText");
       SimpleMailMessage mailMessage = new SimpleMailMessage();
       mailMessage.setTo(email);
       mailMessage.setSubject("Welcome to Sendash!");
       mailMessage.setText(emailText);
 
       javaMailService.send(mailMessage);
-      log.error("**********************");
     }
     catch (MailException | IOException | TemplateException e) {
       log.error("Failed to send an email.", e);
