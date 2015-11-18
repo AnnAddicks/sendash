@@ -31,6 +31,7 @@ import com.addicks.sendash.admin.test.ZipCompare;
 
 public class FileControllerTest extends ControllerTest {
 
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(GithubHookController.class);
 
   @InjectMocks
