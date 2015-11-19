@@ -1,0 +1,17 @@
+spring:
+  profiles.active: dev
+---
+spring:
+  profiles: dev
+
+  
+logging:
+  path: /var/log
+  file: sendash.log
+  
+  
+---
+spring:
+  profiles: production
+  
+  
