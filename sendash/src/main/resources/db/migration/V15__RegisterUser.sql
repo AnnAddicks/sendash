@@ -1,0 +1,8 @@
+CREATE table USER_REGISTRATION(
+    USER_ID BIGINT NOT Null,
+    UUID varchar(255) NOT NULL,
+    needs_password bit NOT NULL,
+    PRIMARY KEY(USER_ID),
+    FOREIGN KEY (USER_ID)
+        REFERENCES PERSON(ID),
+) ENGINE=InnoDB;

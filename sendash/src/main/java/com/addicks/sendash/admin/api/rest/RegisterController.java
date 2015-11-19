@@ -40,7 +40,7 @@ public class RegisterController {
   @RequestMapping(value = "", method = RequestMethod.POST, consumes = { "application/json",
       "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.CREATED)
-  @ApiOperation(value = "Register a user.", notes = "Returns the URL of the new user in the Location header.")
+  @ApiOperation(value = "Register a user they create themselves.", notes = "Returns the URL of the new user in the Location header.")
   public void requestToBeRegistered(@RequestBody @Valid UserUI userUI, HttpServletRequest request,
       HttpServletResponse response, BindingResult result) {
 
@@ -62,7 +62,8 @@ public class RegisterController {
       "application/json", "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Confirms the user's email.", notes = "")
-  public void confirmEmai(@PathVariable("uuid") String usersUUID) {
+  public void confirmEmail(@PathVariable("uuid") String usersUUID) {
+
     registrationService.confirmUser(usersUUID);
   }
 
