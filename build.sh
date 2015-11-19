@@ -15,7 +15,7 @@ rabbitmq-server -detached
 #Email Queue
 cd registerUserQ/
 mvn clean install
-java -jar ./target/sendEmailQueue-0.1.0.jar > /var/log/sendash_email &
+java -jar ./target/sendEmailQueue-0.1.0.jar > /var/log/sendash/sendash_email.log &
 cd ..
 
 #Sendash API
@@ -26,3 +26,7 @@ cd ..
 
 #=========================================
 #Run external integration tests
+cd sendash
+mvn test -Dspring.profiles.active=MicroserviceIntegrationTests
+cd ..
+
