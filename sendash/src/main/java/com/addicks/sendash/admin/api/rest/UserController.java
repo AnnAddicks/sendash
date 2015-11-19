@@ -40,7 +40,6 @@ public class UserController extends AbstractRestHandler {
 
   public static final String REQUEST_MAPPING = "/api/admin/user";
 
-  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
   @Autowired
