@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 @Api(value = "register", description = "CRUD pending endpoint management.")
 public class RegisterController {
 
-  public static final String REQUEST_MAPPING = "/register";
+  public static final String REQUEST_MAPPING = "/api/register";
 
   private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -61,10 +62,10 @@ public class RegisterController {
   @RequestMapping(value = "/user/{uuid}", method = RequestMethod.GET, consumes = {
       "application/json", "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Confirms the user's email.", notes = "")
-  public void confirmEmail(@PathVariable("uuid") String usersUUID) {
+  @ApiOperation(value = "Confirms the user's email.", notes = "Returns true if a password needs to be set.")
+  public @ResponseBody boolean confirmEmail(@PathVariable("uuid") String usersUUID) {
 
-    registrationService.confirmUser(usersUUID);
+    return registrationService.confirmUser(usersUUID);
   }
 
 }

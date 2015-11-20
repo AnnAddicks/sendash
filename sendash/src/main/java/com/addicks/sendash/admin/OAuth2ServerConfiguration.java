@@ -40,6 +40,7 @@ public class OAuth2ServerConfiguration {
     @Override
     public void configure(HttpSecurity http) throws Exception {
       http.authorizeRequests().antMatchers("/github").permitAll().and().authorizeRequests()
+          .antMatchers("/api/register").permitAll().and().authorizeRequests()
           .antMatchers("/api/admin").hasRole("ADMIN");
     }
 
