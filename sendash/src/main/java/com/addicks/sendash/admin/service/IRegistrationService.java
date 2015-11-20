@@ -11,7 +11,7 @@ public interface IRegistrationService {
   User registerUser(User user, Long role);
 
   /**
-   * Create the RegisteredUser domain object that is wating on an email
+   * Create the RegisteredUser domain object that is waiting on an email
    * confirmation.
    * 
    * @param user
@@ -22,7 +22,8 @@ public interface IRegistrationService {
   void registerUser(User user, boolean needsPassword);
 
   /**
-   * UUID from the user's email. Throws an exception if the uuid is invalid.
+   * UUID from the user's email. Throws a ResourceNotFoundException exception if
+   * the uuid is invalid.
    * 
    * @param usersUUID
    *          uuid from email

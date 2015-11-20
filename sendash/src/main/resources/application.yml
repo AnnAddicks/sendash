@@ -54,7 +54,7 @@ git:
   
 # LOGGING
 logging:
-  path: /var/log
+  path: /var/log/sendash
   file: sendash.log
   level.org.hibernate.SQL: WARN
   org.springframework.security: DEBUG

@@ -1,20 +1,28 @@
 package com.addicks.sendash.admin.domain;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
 public class UserRegistration {
 
-  @Id
   private Long userId;
 
+  @Id
   private String uuid;
 
   private boolean needsPassword;
 
   public UserRegistration() {
 
+  }
+
+  public UserRegistration(User user, boolean needsPassword) {
+    this.userId = user.getId();
+    this.needsPassword = needsPassword;
+    this.uuid = UUID.randomUUID().toString();
   }
 
   public Long getUserId() {

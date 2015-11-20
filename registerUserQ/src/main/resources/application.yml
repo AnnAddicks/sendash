@@ -6,8 +6,8 @@ spring:
 
   
 logging:
-  path: /var/log
-  file: sendash.log
+  path: /var/log/sendash
+  file: sendashEmailer.log
   
   
 ---
