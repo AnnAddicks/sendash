@@ -2,7 +2,6 @@ package com.addicks.sendash.admin.service;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.UUID;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class RegistrationService implements IRegistrationService {
     registrationRepository.save(userRegistration);
 
     // Queue up user for an email.
-    rabbitTemplate.convertAndSend(userQueue, "ann.addicks@gmail.com," + UUID.randomUUID());
+    rabbitTemplate.convertAndSend(userQueue, user.getEmail() + "," + userRegistration.getUuid());
   }
 
   @Override
