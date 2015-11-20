@@ -52,7 +52,7 @@ public class RegisterController {
       User user = userUI.getUser();
       user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-      User savedUser = registrationService.registerUser(user, userUI.getRole());
+      User savedUser = registrationService.registerUser(user);
       response.setHeader("Location",
           request.getRequestURL().append("/").append(savedUser.getId()).toString());
     }

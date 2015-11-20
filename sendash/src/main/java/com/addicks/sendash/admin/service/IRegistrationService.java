@@ -8,11 +8,12 @@ public interface IRegistrationService {
    * Create a user that was registered by themselves. This gives them admin
    * privileges to create clients, endpoints, new users, etc.
    */
-  User registerUser(User user, Long role);
+  User registerUser(User user);
 
   /**
    * Create the RegisteredUser domain object that is waiting on an email
-   * confirmation.
+   * confirmation. <b>This is the one and only method that queues for new user
+   * emails!</b>
    * 
    * @param user
    *          User created

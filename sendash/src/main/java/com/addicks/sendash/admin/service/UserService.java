@@ -29,6 +29,9 @@ public class UserService implements IUserService {
   @Autowired
   private IClientService clientService;
 
+  @Autowired
+  private IRegistrationService registrationService;
+
   @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
@@ -62,6 +65,7 @@ public class UserService implements IUserService {
   @Override
   public User create(User object) {
     return userRepository.save(object);
+
   }
 
   @Override
@@ -103,7 +107,11 @@ public class UserService implements IUserService {
 
     newUser.setRoles(roleService.findById(roleId));
     newUser.setClients(clientService.findByIds(clientIds));
-    return this.save(newUser);
+    User savedUser = this.create(newUser);
+
+    // Register user, create email, make the user input a new password.
+    registrationService.registerUser(savedUser, true);
+    return savedUser;
   }
 
   @Override
