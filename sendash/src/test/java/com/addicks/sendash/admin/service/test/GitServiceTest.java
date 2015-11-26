@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -24,7 +23,6 @@ import com.addicks.sendash.admin.service.GitService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = Application.class)
-@ActiveProfiles("test")
 @Profile("test")
 public class GitServiceTest {
 
@@ -34,13 +32,14 @@ public class GitServiceTest {
   @Autowired
   private RepositoryProperties properties;
 
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(GitService.class);
 
   @Test
   public void shouldCreateLocalRepo() throws IOException {
     File gitDirectory = new File(properties.getLocalRepo());
     deleteDirectory(gitDirectory);
-    // FileUtils.delete(gitDirectory);
+
     gitService.updateLocalRepository();
 
     assertNotNull(gitDirectory);

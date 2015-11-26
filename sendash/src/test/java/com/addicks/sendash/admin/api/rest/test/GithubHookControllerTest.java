@@ -12,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -30,7 +29,6 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
  * Created by ann on 5/27/15.
  */
 @Profile("test")
-@ActiveProfiles("test")
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
     TransactionalTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
     SqlScriptsTestExecutionListener.class, DbUnitTestExecutionListener.class,

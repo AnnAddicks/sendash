@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -26,12 +25,12 @@ import com.addicks.sendash.admin.domain.properties.RepositoryProperties;
 import com.addicks.sendash.admin.service.FileService;
 
 @Profile("test")
-@ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @SpringApplicationConfiguration(classes = Application.class)
 public class FileServiceTest {
 
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(FileServiceTest.class);
 
   @Autowired

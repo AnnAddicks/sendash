@@ -21,12 +21,18 @@ cd ..
 #Sendash API
 cd sendash
 mvn clean install $MVN_STRING -Dspring.profiles.active=test || { echo "Maven build unsuccessful for Sendash API"; exit 1; }
+
+#Deploy to tomcat
 cp ./target/sendash-0.1.0.war $CATALINA_HOME/webapps/sendash.war
 cd ..
 
 #=========================================
 #Run external integration tests
 cd sendash
-mvn test -Dspring.profiles.active=MicroserviceIntegrationTests || { echo "Maven build unsuccessful for External Integration Tests"; exit 1; }
+
+echo "************************"
+echo "USER QUEUE $USER_CREATE_QUEUE"
+echo "************************"
+mvn clean test  -Dtest=com.addicks.sendash.admin.test.TestQ -Dspring.profiles.active=MicroserviceIntegrationTests || { echo "Maven build unsuccessful for External Integration Tests"; exit 1; }
 cd ..
 

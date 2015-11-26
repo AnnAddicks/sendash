@@ -99,7 +99,27 @@ flyway:
   url: jdbc:h2:mem:sendash;DB_CLOSE_DELAY=-1;
   appUser:  sa
   schemas: PUBLIC
+  
+---
+spring:
+  profiles: MicroserviceIntegrationTests
+
+spring.jpa:
+    hibernate.ddl-auto: validate
+    show-sql: true
+
+spring.datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:sendash;DB_CLOSE_DELAY=-1;
+    schemas: PUBLIC
+
+flyway:
+  driver:  org.h2.Driver
+  url: jdbc:h2:mem:sendash;DB_CLOSE_DELAY=-1;
+  appUser:  sa
+  schemas: PUBLIC  
 
 
-
+server:
+  port: 8181
 
