@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.addicks</groupId>
+	
 	<artifactId>sendash</artifactId>
 	<version>0.1.0</version>
 	<packaging>war</packaging>
 	<description>Super Awesome way to manage health checks for VMWare, Palo Alto, network config, etc. and display captured data over time</description>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.0.BUILD-SNAPSHOT</version>
+		<groupId>com.addicks</groupId>
+		<artifactId>sendash-parent</artifactId>
+		<version>0.1</version>
 	</parent>
 
 	<properties>
