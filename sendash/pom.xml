@@ -8,7 +8,8 @@
 	<version>0.1.0</version>
 	<packaging>war</packaging>
 	<description>Super Awesome way to manage health checks for VMWare, Palo Alto, network config, etc. and display captured data over time</description>
-
+	<name>sendash</name>
+	
 	<parent>
 		<groupId>com.addicks</groupId>
 		<artifactId>sendash-parent</artifactId>
@@ -24,29 +25,8 @@
 			<id>jgit-repository</id>
 			<url>https://repo.eclipse.org/content/groups/releases/</url>
 		</repository>
-		<repository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>repo.spring.io.milestone</id>
-			<name>Spring Framework Maven Milestone Repository</name>
-			<url>https://repo.spring.io/libs-milestone</url>
-		</repository>
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-milestones</id>
-			<url>http://repo.spring.io/milestone</url>
-		</pluginRepository>
-	</pluginRepositories>
+	
 
 	<dependencies>
 		<dependency>

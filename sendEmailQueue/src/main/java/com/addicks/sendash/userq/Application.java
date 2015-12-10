@@ -1,7 +1,5 @@
 package com.addicks.sendash.userq;
 
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Queue;
@@ -26,6 +24,7 @@ public class Application {
   @Autowired
   private INewUserMailer newUserMailer;
 
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(Application.class);
 
   @Bean
@@ -37,7 +36,7 @@ public class Application {
   public void process(@Payload String message) {
     String[] userFields = message.split(",");
     newUserMailer.welcomeNewUser(userFields[0], userFields[1]);
-    
+
   }
 
   public static void main(String[] args) throws Exception {

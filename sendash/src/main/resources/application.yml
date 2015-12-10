@@ -47,8 +47,8 @@ info:
     version: ${project.version}
 
 git:
-  localRepo: '/home/tomcat7/powershell-status-scripts/'
-  zipOfRep: '/home/tomcat7/sendash.zip'
+  localRepo: '~/powershell-status-scripts/'
+  zipOfRep: '~/sendash.zip'
   remoteRepo: 'https://github.com/brianaddicks/SendashScripts.git'
 
   

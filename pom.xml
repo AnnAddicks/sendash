@@ -7,7 +7,7 @@
     <groupId>com.addicks</groupId>
     <artifactId>sendash-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.1</version>
+    <version>0.1.0</version>
     <name>Sendash Parent</name>
    
     <parent>
@@ -20,11 +20,32 @@
         <module>sendash</module>
         <module>sendEmailQueue</module>
     </modules>
+    
+    <repositories>
+		<repository>
+			<id>spring-snapshots</id>
+			<url>http://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-releases</id>
+			<name>Spring Releases</name>
+			<url>https://repo.spring.io/libs-release</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<url>http://repo.spring.io/snapshot</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<url>http://repo.spring.io/milestone</url>
+		</pluginRepository>
+	</pluginRepositories>
 
-    <build>
-    </build>
-
-    <dependencies>
-    </dependencies>
+    
 </project>
 
