@@ -46,6 +46,19 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-    
+    <dependencies>
+        <dependency>
+	    <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+	</dependency>
+        <!-- spring-test, hamcrest, ... -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+    </dependencies>    
 </project>
 

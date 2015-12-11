@@ -20,10 +20,8 @@ import freemarker.template.TemplateException;
 @Service
 public class NewUserMailer implements INewUserMailer {
 
-  @Autowired
   private JavaMailSender javaMailService;
 
-  @Autowired
   private Configuration configuration;
 
   private static final Logger log = LoggerFactory.getLogger(NewUserMailer.class);
@@ -31,6 +29,12 @@ public class NewUserMailer implements INewUserMailer {
   private static final String CONFIRM_URI = "www.sendash.com/register/user/";
 
   private static final String WELCOME_TEMPLATE = "Registration.ftl";
+
+  @Autowired
+  public NewUserMailer(JavaMailSender javaMailService, Configuration configuration) {
+    this.javaMailService = javaMailService;
+    this.configuration = configuration;
+  }
 
   @Override
   public void welcomeNewUser(String email, String uuidURI) {
