@@ -28,7 +28,7 @@ public class TestQ {
   private String userQueue;
 
   public void send() {
-    this.rabbitTemplate.convertAndSend(userQueue, "test@test.com," + UUID.randomUUID());
+    this.rabbitTemplate.convertAndSend(userQueue, "ann.addicks@gmail.com," + UUID.randomUUID());
   }
 
   @Test

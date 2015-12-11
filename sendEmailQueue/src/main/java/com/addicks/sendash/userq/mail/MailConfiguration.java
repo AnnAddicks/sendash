@@ -19,12 +19,20 @@ public class MailConfiguration {
   @Value("${email.port}")
   private Integer port;
 
+  @Value("${email.user}")
+  private String username;
+
+  @Value("${email.pass}")
+  private String pass;
+
   @Bean
   public JavaMailSender javaMailService() {
     JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 
     javaMailSender.setHost(host);
     javaMailSender.setPort(port);
+    javaMailSender.setUsername(username);
+    javaMailSender.setPassword(pass);
 
     javaMailSender.setJavaMailProperties(getMailProperties());
 
@@ -34,7 +42,7 @@ public class MailConfiguration {
   private Properties getMailProperties() {
     Properties properties = new Properties();
     properties.setProperty("mail.transport.protocol", "smtp");
-    properties.setProperty("mail.smtp.auth", "false");
+    properties.setProperty("mail.smtp.auth", "true");
     properties.setProperty("mail.smtp.starttls.enable", "false");
     properties.setProperty("mail.debug", "true");
     return properties;
