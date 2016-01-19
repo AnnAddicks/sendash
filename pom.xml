@@ -45,7 +45,7 @@
 			<url>http://repo.spring.io/milestone</url>
 		</pluginRepository>
 	</pluginRepositories>
-
+<dependencyManagement>
     <dependencies>
         <dependency>
 	    <groupId>junit</groupId>
@@ -59,6 +59,7 @@
 		<artifactId>spring-boot-starter-test</artifactId>
 		<scope>test</scope>
 	</dependency>
-    </dependencies>    
+    </dependencies>
+</dependencyManagement>    
 </project>
 
