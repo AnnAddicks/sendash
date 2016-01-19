@@ -34,6 +34,6 @@ cd ..
 #Run external integration tests
 cd sendash
 
-mvn clean test  -Dtest=com.addicks.sendash.admin.test.TestQ -Dspring.profiles.active=MicroserviceIntegrationTests || { echo "Maven build unsuccessful for External Integration Tests"; exit 1; }
+mvn clean test -DfailIfNoTests=false -Dtest=com.addicks.sendash.admin.test.TestQ -Dspring.profiles.active=MicroserviceIntegrationTests || { echo "Maven build unsuccessful for External Integration Tests"; exit 1; }
 cd ..
 
