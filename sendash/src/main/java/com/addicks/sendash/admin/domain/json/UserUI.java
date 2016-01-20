@@ -33,7 +33,6 @@ public class UserUI {
   @NotNull
   private Long roles;
 
-  @NotEmpty
   private List<Long> clientIds;
 
   public UserUI() {
@@ -55,7 +54,7 @@ public class UserUI {
   public Long getId() {
     return id;
   }
-  
+
   public void setId(Long id) {
     this.id = id;
   }
