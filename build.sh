@@ -3,6 +3,10 @@
 source ./environmentSetup.sh
 export USER_CREATE_QUEUE="userCreateQueue"
 
+#========================================
+#Shutdown tomcat
+$CATALINA_HOME/bin/shutdown.sh
+
 #=========================================
 #Start external apps
 #start rabbitmq
@@ -11,29 +15,38 @@ rabbitmq-server -detached
 
 #=========================================
 #Build & Run each Microservice
+SKIP_TEST=false
+if [[ $@ == *skip* ]]
+  then 
+    $MVN_STRING="$MVN_STRING -Dmaven.test.skip=true"
+    $SKIP_TEST=true
+fi
 
 #Build via parent
 mvn clean install $MVN_STRING -Dspring.profiles.active=test || { echo "Maven build unsuccessful for Sendash project"; exit 1; }
 
 #Email Queue
-cd registerUserQ/
+cd sendEmailQueue/
 java -jar ./target/sendEmailQueue-0.1.0.jar > /var/log/sendash/sendash_email.log &
 cd ..
 
-#Sendash API
-cd sendash
-
-#Deploy to tomcat
-rm -rf /var/lib/tomcat7/webapps/sendash*
-rm -rf /var/lib/tomcat7/work/Catalina/localhost/sendash
-cp ./target/sendash-0.1.0.war $CATALINA_HOME/webapps/sendash.war
-service tomcat7 restart
-cd ..
 
 #=========================================
 #Run external integration tests
 cd sendash
 
-mvn clean test -DfailIfNoTests=false -Dtest=com.addicks.sendash.admin.test.TestQ -Dspring.profiles.active=MicroserviceIntegrationTests || { echo "Maven build unsuccessful for External Integration Tests"; exit 1; }
+if $SKIP_TEST==false 
+then
+  mvn test -DfailIfNoTests=false -Dtest=com.addicks.sendash.admin.test.TestQ -Dspring.profiles.active=MicroserviceIntegrationTests || { echo "Maven build unsuccessful for External Integration Tests"; exit 1; }
+  cd ..
+fi
+#=========================================
+#Deploy to tomcat
+cd sendash
+rm -rf $CATALINA_HOME/webapps/sendash*
+rm -rf $CATALINA_HOME/work/Catalina/localhost/sendash
+cp ./target/sendash-0.1.0.war $CATALINA_HOME/webapps/sendash.war
+$CATALINA_HOME/bin/startup.sh
 cd ..
+
 
