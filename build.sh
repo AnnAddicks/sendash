@@ -18,7 +18,7 @@ rabbitmq-server -detached
 SKIP_TEST=false
 if [[ $@ == *skip* ]]
   then 
-    $MVN_STRING="$MVN_STRING -Dmaven.test.skip=true"
+    $MVN_STRING="-Dmaven.test.skip=true"
     $SKIP_TEST=true
 fi
 
