@@ -45,7 +45,7 @@ fi
 cd sendashApi
 rm -rf $CATALINA_HOME/webapps/sendash*
 rm -rf $CATALINA_HOME/work/Catalina/localhost/sendash
-cp ./target/sendash-0.1.0.war $CATALINA_HOME/webapps/sendash.war
+cp ./target/sendashApi-0.1.0.war $CATALINA_HOME/webapps/sendash.war
 $CATALINA_HOME/bin/startup.sh
 cd ..
 
