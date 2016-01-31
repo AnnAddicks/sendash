@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 
-	<artifactId>sendash</artifactId>
+	<artifactId>sendashApi</artifactId>
 	<version>0.1.0</version>
 	<packaging>war</packaging>
 	<description>Super Awesome way to manage health checks for VMWare, Palo Alto, network config, etc. and display captured data over time</description>
-	<name>sendash</name>
+	<name>sendashApi</name>
 
 	<parent>
 		<groupId>com.addicks</groupId>
@@ -159,7 +159,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>

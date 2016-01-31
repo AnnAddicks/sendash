@@ -33,7 +33,7 @@ cd ..
 
 #=========================================
 #Run external integration tests
-cd sendash
+cd sendashApi
 
 if $SKIP_TEST==false 
 then
@@ -42,7 +42,7 @@ then
 fi
 #=========================================
 #Deploy to tomcat
-cd sendash
+cd sendashApi
 rm -rf $CATALINA_HOME/webapps/sendash*
 rm -rf $CATALINA_HOME/work/Catalina/localhost/sendash
 cp ./target/sendash-0.1.0.war $CATALINA_HOME/webapps/sendash.war
