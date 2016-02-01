@@ -13,7 +13,7 @@
         return service;
 
         function Create(user) {
-            return $http.post($rootScope.globals.sendashBaseURI + 'api/users', user).then(handleSuccess, handleError('Error creating user'));
+            return $http.post($rootScope.globals.sendashBaseURI + 'api/register', user).then(handleSuccess, handleError('Error creating user'));
         }
 
         // private functions

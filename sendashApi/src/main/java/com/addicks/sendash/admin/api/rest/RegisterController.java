@@ -40,7 +40,7 @@ public class RegisterController {
 
   @RequestMapping(value = "", method = RequestMethod.POST, consumes = { "application/json",
       "application/xml" }, produces = { "application/json", "application/xml" })
-  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Register a user they create themselves.", notes = "Returns the URL of the new user in the Location header.")
   public void requestToBeRegistered(@RequestBody @Valid UserUI userUI, HttpServletRequest request,
       HttpServletResponse response, BindingResult result) {
