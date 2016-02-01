@@ -11,19 +11,19 @@
         $routeProvider
             .when('/', {
                 controller: 'HomeController',
-                templateUrl: 'home/home.view.html',
+                templateUrl: 'home.view.html',
                 controllerAs: 'vm'
             })
 
             .when('/login', {
                 controller: 'LoginController',
-                templateUrl: 'login/login.view.html',
+                templateUrl: 'login.view.html',
                 controllerAs: 'vm'
             })
 
             .when('/register', {
                 controller: 'RegisterController',
-                templateUrl: 'register/register.view.html',
+                templateUrl: 'register.view.html',
                 controllerAs: 'vm'
             })
 
@@ -33,7 +33,9 @@
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];
     function run($rootScope, $location, $cookieStore, $http) {
         // keep user logged in after page refresh
-        $rootScope.globals = $cookieStore.get('globals') || {};
+    	//const sendash = 'https://sendash.com/';
+    	const sendash = 'http://localhost:8191/sendash/api/admin/';
+        $rootScope.globals = $cookieStore.get('globals') || {sendashBaseURI: sendash};
         if ($rootScope.globals.currentUser) {
             $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
         }
