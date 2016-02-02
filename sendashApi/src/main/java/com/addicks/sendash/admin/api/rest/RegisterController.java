@@ -27,10 +27,11 @@ import com.wordnik.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(value = RegisterController.REQUEST_MAPPING)
 @Api(value = "register", description = "CRUD pending endpoint management.")
-public class RegisterController {
+public class RegisterController extends AbstractRestHandler {
 
   public static final String REQUEST_MAPPING = "/api/register";
 
+  @SuppressWarnings("unused")
   private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
   private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -42,21 +43,15 @@ public class RegisterController {
       "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Register a user they create themselves.", notes = "Returns the URL of the new user in the Location header.")
-  public void requestToBeRegistered(@RequestBody @Valid UserUI userUI, HttpServletRequest request,
+  public User requestToBeRegistered(@RequestBody @Valid UserUI userUI, HttpServletRequest request,
       HttpServletResponse response, BindingResult result) {
 
-    if (result.hasErrors()) {
-      log.error("Validation Error: " + result.getAllErrors());
-    }
-    else {
+    User user = userUI.getUser();
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-      User user = userUI.getUser();
-      user.setPassword(passwordEncoder.encode(user.getPassword()));
+    User savedUser = registrationService.registerUser(user);
+    return savedUser;
 
-      User savedUser = registrationService.registerUser(user);
-      response.setHeader("Location",
-          request.getRequestURL().append("/").append(savedUser.getId()).toString());
-    }
   }
 
   @RequestMapping(value = "/user/{uuid}", method = RequestMethod.GET, consumes = {

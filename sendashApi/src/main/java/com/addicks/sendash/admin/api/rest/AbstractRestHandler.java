@@ -1,13 +1,20 @@
 package com.addicks.sendash.admin.api.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -53,6 +60,25 @@ public abstract class AbstractRestHandler implements ApplicationEventPublisherAw
     log.info("ResourceNotFoundException handler:" + ex.getMessage());
 
     return new RestErrorInfo(ex, "Sorry I couldn't find it.");
+  }
+
+  @ExceptionHandler
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  RestErrorInfo handleException(MethodArgumentNotValidException ex) {
+    List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+    List<ObjectError> globalErrors = ex.getBindingResult().getGlobalErrors();
+    List<String> errors = new ArrayList<>(fieldErrors.size() + globalErrors.size());
+    String error;
+    for (FieldError fieldError : fieldErrors) {
+      error = fieldError.getField() + ", " + fieldError.getDefaultMessage();
+      errors.add(error);
+    }
+    for (ObjectError objectError : globalErrors) {
+      error = objectError.getObjectName() + ", " + objectError.getDefaultMessage();
+      errors.add(error);
+    }
+    return new RestErrorInfo(ex, StringUtils.join(errors, ","));
   }
 
   @Override
