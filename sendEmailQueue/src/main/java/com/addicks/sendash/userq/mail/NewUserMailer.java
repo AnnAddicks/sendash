@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
@@ -24,6 +23,8 @@ public class NewUserMailer implements INewUserMailer {
 
   private Configuration configuration;
 
+  private IMailService mailService;
+
   private static final Logger log = LoggerFactory.getLogger(NewUserMailer.class);
 
   private static final String CONFIRM_URI = "www.sendash.com/register/user/";
@@ -31,9 +32,11 @@ public class NewUserMailer implements INewUserMailer {
   private static final String WELCOME_TEMPLATE = "Registration.ftl";
 
   @Autowired
-  public NewUserMailer(JavaMailSender javaMailService, Configuration configuration) {
-    this.javaMailService = javaMailService;
+  public NewUserMailer(MailConfiguration mailConfiguration, Configuration configuration,
+      IMailService mailService) {
+    this.javaMailService = mailConfiguration.javaMailService();
     this.configuration = configuration;
+    this.mailService = mailService;
   }
 
   @Override
@@ -42,17 +45,21 @@ public class NewUserMailer implements INewUserMailer {
     Map<String, String> data = new HashMap<>();
     data.put("email", email);
     data.put("uri", CONFIRM_URI + uuidURI);
-
+    String subject = "Welcome to Sendash!";
     try {
       Template template = configuration.getTemplate(WELCOME_TEMPLATE);
       String emailText = FreeMarkerTemplateUtils.processTemplateIntoString(template, data);
+      mailService.sendEmail(email, subject, emailText, false, true);
+      /*
+       * SimpleMailMessage mailMessage = new SimpleMailMessage();
+       * mailMessage.setFrom("support@sendash.com");
+       * mailMessage.setReplyTo("support@sendash.com");
+       * mailMessage.setTo(email); mailMessage.setSubject("Welcome to Sendash!"
+       * ); mailMessage.setText(emailText);
+       * 
+       * javaMailService.send(mailMessage);
+       */
 
-      SimpleMailMessage mailMessage = new SimpleMailMessage();
-      mailMessage.setTo(email);
-      mailMessage.setSubject("Welcome to Sendash!");
-      mailMessage.setText(emailText);
-
-      javaMailService.send(mailMessage);
     }
     catch (MailException | IOException | TemplateException e) {
       log.error("Failed to send an email.", e);

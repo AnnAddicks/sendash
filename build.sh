@@ -23,7 +23,7 @@ if [[ $@ == *skip* ]]
 fi
 
 #Build via parent
-mvn clean install $MVN_STRING -Dspring.profiles.active=test || { echo "Maven build unsuccessful for Sendash project"; exit 1; }
+mvn clean install -e  $MVN_STRING -Dspring.profiles.active=test || { echo "Maven build unsuccessful for Sendash project"; exit 1; }
 
 #Email Queue
 cd sendEmailQueue/

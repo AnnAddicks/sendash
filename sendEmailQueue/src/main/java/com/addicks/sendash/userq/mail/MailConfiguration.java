@@ -33,7 +33,6 @@ public class MailConfiguration {
     javaMailSender.setPort(port);
     javaMailSender.setUsername(username);
     javaMailSender.setPassword(pass);
-
     javaMailSender.setJavaMailProperties(getMailProperties());
 
     return javaMailSender;
@@ -45,6 +44,7 @@ public class MailConfiguration {
     properties.setProperty("mail.smtp.auth", "true");
     properties.setProperty("mail.smtp.starttls.enable", "false");
     properties.setProperty("mail.debug", "true");
+
     return properties;
   }
 }

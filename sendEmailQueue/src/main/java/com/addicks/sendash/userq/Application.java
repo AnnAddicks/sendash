@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -19,6 +20,7 @@ import com.addicks.sendash.userq.mail.MailConfiguration;
 @SpringBootApplication
 @RabbitListener(queues = "userCreateQueue")
 @Import(MailConfiguration.class)
+@ComponentScan(basePackages = "com.addicks.sendash.userq.mail")
 @EnableScheduling
 public class Application {
   @Autowired
