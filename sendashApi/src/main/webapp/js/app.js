@@ -33,8 +33,8 @@
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];
     function run($rootScope, $location, $cookieStore, $http) {
         // keep user logged in after page refresh
-    	//const sendash = 'https://sendash.com/';
-    	const sendash = 'http://localhost:8181/sendash/';
+    	const sendash = 'https://sendash.com/';
+    	//const sendash = 'http://localhost:8181/sendash/';
         $rootScope.globals = $cookieStore.get('globals') || {sendashBaseURI: sendash};
         if ($rootScope.globals.currentUser) {
             $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
