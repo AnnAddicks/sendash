@@ -14,4 +14,7 @@ logging:
 spring:
   profiles: production
   
+server:
+  port: 11000
+  
   
