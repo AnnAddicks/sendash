@@ -9,7 +9,8 @@ logging:
   path: /var/log/sendash
   file: sendashEmailer.log
   
-  
+server:
+  port: 11000
 ---
 spring:
   profiles: production
