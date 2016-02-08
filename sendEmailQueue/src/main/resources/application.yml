@@ -10,12 +10,12 @@ logging:
   file: sendashEmailer.log
   
 server:
-  port: 11000
+  port: 8090
 ---
 spring:
   profiles: production
   
 server:
-  port: 11000
+  port: 8090
   
   
