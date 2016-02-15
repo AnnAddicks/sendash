@@ -49,17 +49,7 @@ public class NewUserMailer implements INewUserMailer {
     try {
       Template template = configuration.getTemplate(WELCOME_TEMPLATE);
       String emailText = FreeMarkerTemplateUtils.processTemplateIntoString(template, data);
-      mailService.sendEmail(email, subject, emailText, false, true);
-      /*
-       * SimpleMailMessage mailMessage = new SimpleMailMessage();
-       * mailMessage.setFrom("support@sendash.com");
-       * mailMessage.setReplyTo("support@sendash.com");
-       * mailMessage.setTo(email); mailMessage.setSubject("Welcome to Sendash!"
-       * ); mailMessage.setText(emailText);
-       * 
-       * javaMailService.send(mailMessage);
-       */
-
+      mailService.sendEmail(email, subject, emailText, true, true);
     }
     catch (MailException | IOException | TemplateException e) {
       log.error("Failed to send an email.", e);
