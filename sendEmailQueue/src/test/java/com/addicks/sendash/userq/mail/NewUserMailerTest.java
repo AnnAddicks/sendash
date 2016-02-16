@@ -42,7 +42,7 @@ public class NewUserMailerTest {
   @Test
   public void testWelcomeNewUser() {
 
-    newUserMailer = new NewUserMailer(mailConf, configuration, mailService);
+    newUserMailer = new NewUserMailer(configuration, mailService);
     String email = "test@test.com";
     String uuid = UUID.randomUUID().toString();
 
