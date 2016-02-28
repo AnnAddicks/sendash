@@ -32,7 +32,7 @@ public class RegisterController extends AbstractRestHandler {
   public static final String REQUEST_MAPPING = "/api/register";
 
   @SuppressWarnings("unused")
-  private static final Logger log = LoggerFactory.getLogger(UserController.class);
+  private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
 
   private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

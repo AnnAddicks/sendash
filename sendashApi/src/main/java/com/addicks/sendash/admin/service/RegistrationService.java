@@ -3,6 +3,8 @@ package com.addicks.sendash.admin.service;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,7 @@ import com.addicks.sendash.admin.exception.ResourceNotFoundException;
 
 @Service
 public class RegistrationService implements IRegistrationService {
+  private static final Logger log = LoggerFactory.getLogger(RegistrationService.class);
 
   @Autowired
   private RegistrationRepository registrationRepository;
@@ -62,11 +65,12 @@ public class RegistrationService implements IRegistrationService {
   @Override
   public boolean confirmUser(String usersUUID) {
     UserRegistration userRegistration = registrationRepository.findOne(usersUUID);
-
+    log.error("User Registration: " + userRegistration);
     if (userRegistration == null) {
       throw new ResourceNotFoundException("resource not found");
     }
 
+    registrationRepository.delete(userRegistration);
     return userRegistration.needsPassword();
   }
 
