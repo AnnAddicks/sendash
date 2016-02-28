@@ -59,7 +59,9 @@ public class RegisterController extends AbstractRestHandler {
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Confirms the user's email.", notes = "Returns true if a password needs to be set.")
   public @ResponseBody boolean confirmEmail(@PathVariable("uuid") String usersUUID) {
-
+    log.error("*************");
+    log.error("UUID: " + usersUUID);
+    log.error("*************");
     return registrationService.confirmUser(usersUUID);
   }
 

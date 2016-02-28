@@ -65,7 +65,9 @@ public class RegistrationService implements IRegistrationService {
   @Override
   public boolean confirmUser(String usersUUID) {
     UserRegistration userRegistration = registrationRepository.findOne(usersUUID);
+    log.error("*************");
     log.error("User Registration: " + userRegistration);
+    log.error("*************");
     if (userRegistration == null) {
       throw new ResourceNotFoundException("resource not found");
     }
