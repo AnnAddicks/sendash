@@ -1,5 +1,8 @@
 package com.addicks.sendash.admin.api.rest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -58,11 +61,13 @@ public class RegisterController extends AbstractRestHandler {
       "application/json", "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Confirms the user's email.", notes = "Returns true if a password needs to be set.")
-  public @ResponseBody boolean confirmEmail(@PathVariable("uuid") String usersUUID) {
+  public @ResponseBody Map<String, String> confirmEmail(@PathVariable("uuid") String usersUUID) {
     log.error("*************");
     log.error("UUID: " + usersUUID);
     log.error("*************");
-    return registrationService.confirmUser(usersUUID);
+    Map<String, String> returnMap = new HashMap<>();
+    returnMap.put("needsPassword", "" + registrationService.confirmUser(usersUUID));
+    return returnMap;
   }
 
 }
