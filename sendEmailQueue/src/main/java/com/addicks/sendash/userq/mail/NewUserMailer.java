@@ -24,7 +24,7 @@ public class NewUserMailer implements INewUserMailer {
 
   private static final Logger log = LoggerFactory.getLogger(NewUserMailer.class);
 
-  private static final String CONFIRM_URI = "www.sendash.com/api/register/user/";
+  private static final String CONFIRM_URI = "www.sendash.com/app.html#/confirm/";
 
   private static final String WELCOME_TEMPLATE = "Registration.ftl";
 

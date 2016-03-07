@@ -5,14 +5,15 @@
         .module('app')
         .controller('RegisterConfirmationController', RegisterController);
 
-    RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
-    function RegisterController(UserService, $location, $rootScope, FlashService) {
+    RegisterController.$inject = ['UserService', '$routeParams', '$location', '$rootScope', 'FlashService'];
+    function RegisterController(UserService, $routeParams, $location, $rootScope, FlashService) {
         var vm = this;
+        var uuid = $routeParams.uuid;
 
         vm.confirm = confirm;
 
         function confirm() {
-        	UserService.Create(vm.uuid)
+        	UserService.Create(uuid)
             .then(function (response) {
                 if (response.success) {
                 	//TODO need to test if we need a password
