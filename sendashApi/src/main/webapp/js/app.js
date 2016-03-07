@@ -26,6 +26,12 @@
                 templateUrl: 'register.view.html',
                 controllerAs: 'vm'
             })
+            
+            .when('/confirm/:uuid', {
+                controller: 'RegisterConfirmationController',
+                templateUrl: 'confirmRegister.view.html',
+                controllerAs: 'vm'
+            })
 
             .otherwise({ redirectTo: '/login' });
     }
