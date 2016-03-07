@@ -13,7 +13,7 @@
         vm.confirm = confirm;
 
         function confirm() {
-        	UserService.Create(uuid)
+        	UserService.Confirm(uuid)
             .then(function (response) {
                 if (response.success) {
                 	//TODO need to test if we need a password
