@@ -11,7 +11,7 @@
         var uuid = $routeParams.uuid;
 
         vm.confirm = confirm;
-
+        console.log("HEY!  INSIDE RegisterConfirmationController!!");
         function confirm() {
         	UserService.Confirm(uuid)
             .then(function (response) {
