@@ -3,10 +3,10 @@
 
     angular
         .module('app')
-        .controller('RegisterConfirmationController', RegisterController);
+        .controller('RegisterConfirmationController', RegisterConfirmationController);
 
-    RegisterController.$inject = ['UserService', '$routeParams', '$location', '$rootScope', 'FlashService'];
-    function RegisterController(UserService, $routeParams, $location, $rootScope, FlashService) {
+    RegisterConfirmationController.$inject = ['UserService', '$routeParams', '$location', '$rootScope', 'FlashService'];
+    function RegisterConfirmationController(UserService, $routeParams, $location, $rootScope, FlashService) {
         var vm = this;
         var uuid = $routeParams.uuid;
 
