@@ -49,10 +49,12 @@
 
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             // redirect to login page if not logged in and trying to access a restricted page
-            var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/confirm']) === -1;
+        	console.log("PATH : " + $location.path());
+        	var path = $location.path().split("/")[1]; //don't worry about path names after the top level.
+            var restrictedPage = $.inArray(path, ['login', 'register', 'confirm']) === -1;
             var loggedIn = $rootScope.globals.currentUser;
             if (restrictedPage && !loggedIn) {
-                //$location.path('/login');
+                $location.path('/login');
             }
         });
     }
