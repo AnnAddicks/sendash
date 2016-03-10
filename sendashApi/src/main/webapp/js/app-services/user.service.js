@@ -18,7 +18,7 @@
         }
         
         function Confirm(uuid) {
-            return $http.post($rootScope.globals.sendashBaseURI + 'api/register/user/', uuid).then(handleSuccess, handleError('Error confirming user'));
+            return $http.post($rootScope.globals.sendashBaseURI + 'api/register/user/' + uuid).then(handleSuccess, handleError('Error confirming user'));
         }
 
         // private functions

@@ -57,14 +57,12 @@ public class RegisterController extends AbstractRestHandler {
 
   }
 
-  @RequestMapping(value = "/user/{uuid}", method = RequestMethod.GET, consumes = {
+  @RequestMapping(value = "/user/{uuid}", method = RequestMethod.POST, consumes = {
       "application/json", "application/xml" }, produces = { "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Confirms the user's email.", notes = "Returns true if a password needs to be set.")
   public @ResponseBody Map<String, String> confirmEmail(@PathVariable("uuid") String usersUUID) {
-    log.error("*************");
-    log.error("UUID: " + usersUUID);
-    log.error("*************");
+
     Map<String, String> returnMap = new HashMap<>();
     returnMap.put("needsPassword", "" + registrationService.confirmUser(usersUUID));
     return returnMap;
