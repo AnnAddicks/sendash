@@ -57,8 +57,8 @@ public class RegisterController extends AbstractRestHandler {
 
   }
 
-  @RequestMapping(value = "/user/{uuid}", method = RequestMethod.POST, consumes = {
-      "application/json", "application/xml" }, produces = { "application/json", "application/xml" })
+  @RequestMapping(value = "/user/{uuid}", method = RequestMethod.POST, produces = {
+      "application/json", "application/xml" })
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Confirms the user's email.", notes = "Returns true if a password needs to be set.")
   public @ResponseBody Map<String, String> confirmEmail(@PathVariable("uuid") String usersUUID) {
