@@ -31,7 +31,12 @@
                 templateUrl: 'register.view.html',
                 controllerAs: 'vm'
             })
-            
+            .when('/registerPassword', {
+                controller: 'RegisterPasswordController',
+                templateUrl: 'registerPassword.view.html',
+                controllerAs: 'vm'
+            })
+           
             
 
             .otherwise({ redirectTo: '/login' });

@@ -13,9 +13,16 @@
     	UserService.Confirm(uuid)
         .then(function (response) {
             if (response.success) {
-            	//TODO need to test if we need a password
-                FlashService.Success('Email Confirmed', true);
-                $location.path('/login');
+            	FlashService.Success('Email Confirmed', true);
+            	
+            	if(response.needsPassword) {
+            		 $location.path('/registerPassword');
+            	}
+            	else {
+            		 $location.path('/login');
+            	}
+                
+               
             } else {
                 FlashService.Error(response.message);
                 vm.dataLoading = false;

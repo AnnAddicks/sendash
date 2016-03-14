@@ -22,9 +22,9 @@
         }
 
         // private functions
-
         function handleSuccess(res) {
-            return {success: true};
+        	res.success = true;
+            return res;
         }
 
         function handleError(error) {
