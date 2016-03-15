@@ -10,6 +10,7 @@
         var service = {};
         service.Create = Create;
         service.Confirm = Confirm;
+        service.RegisterPassword = RegisterPassword;
 
         return service;
 
@@ -19,6 +20,10 @@
         
         function Confirm(uuid) {
             return $http.post($rootScope.globals.sendashBaseURI + 'api/register/user/' + uuid).then(handleSuccess, handleError('Error confirming user'));
+        }
+        
+        function RegisterPassword(userId, password) {
+            return $http.post($rootScope.globals.sendashBaseURI + 'api/register/password/' + userId, password).then(handleSuccess, handleError('Error creating user'));
         }
 
         // private functions

@@ -31,13 +31,11 @@
                 templateUrl: 'register.view.html',
                 controllerAs: 'vm'
             })
-            .when('/registerPassword', {
+            .when('/registerPassword/:id', {
                 controller: 'RegisterPasswordController',
                 templateUrl: 'registerPassword.view.html',
                 controllerAs: 'vm'
             })
-           
-            
 
             .otherwise({ redirectTo: '/login' });
     }
@@ -56,7 +54,7 @@
             // redirect to login page if not logged in and trying to access a restricted page
         	
         	var path = $location.path().split("/")[1]; //don't worry about path names after the top level.
-            var restrictedPage = $.inArray(path, ['login', 'register', 'confirm']) === -1;
+            var restrictedPage = $.inArray(path, ['login', 'register', 'confirm', 'registerPassword']) === -1;
             var loggedIn = $rootScope.globals.currentUser;
             if (restrictedPage && !loggedIn) {
                 $location.path('/login');

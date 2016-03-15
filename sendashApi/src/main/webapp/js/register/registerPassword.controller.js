@@ -3,7 +3,7 @@
 
     angular
         .module('app')
-        .controller('RegisterPasswordController', RegisterController);
+        .controller('RegisterPasswordController', RegisterPasswordController);
 
     RegisterPasswordController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
     function RegisterPasswordController(UserService, $location, $rootScope, FlashService) {
